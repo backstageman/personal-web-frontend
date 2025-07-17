@@ -40,3 +40,21 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# 忽略私钥
+deploy_key
+deploy_key.pub
+authorized_keys
+default
+
+# 不使用 docker 部署前端
+Dockerfile
+docker-compose.yml
+docker/*
+
+# 构建产物
+dist/
+
+# IDE 和日志
+.vscode/
+*.log
