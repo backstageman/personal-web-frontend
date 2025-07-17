@@ -41,11 +41,13 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# 忽略私钥
+# 忽略私钥&配置文件
 deploy_key
 deploy_key.pub
 authorized_keys
 default
+default-from-server
+angular-site
 
 # 不使用 docker 部署前端
 Dockerfile
