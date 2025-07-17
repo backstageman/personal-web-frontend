@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # 👈 加上这个才能手动触发
 
 jobs:
   build-and-deploy:
