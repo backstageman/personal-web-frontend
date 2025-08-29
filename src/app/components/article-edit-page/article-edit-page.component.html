@@ -1,0 +1,12 @@
+<ng-container *ngIf="article$ | async as article; else loading">
+  <app-article-form2
+    mode="edit"
+    [article]="article"
+    (submitForm)="onUpdate($event)"
+    (cancel)="goBack()"
+  ></app-article-form2>
+</ng-container>
+
+<ng-template #loading>
+  <mat-progress-spinner></mat-progress-spinner>
+</ng-template>

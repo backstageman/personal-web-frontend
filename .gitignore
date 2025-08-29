@@ -60,3 +60,6 @@ dist/
 # IDE 和日志
 .vscode/
 *.log
+
+# document
+nest*.md

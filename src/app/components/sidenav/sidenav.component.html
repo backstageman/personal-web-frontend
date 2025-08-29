@@ -1,0 +1,18 @@
+<aside class="sidenav">
+  <h2 class="tittle">
+    <span class="title-special">CMS</span>&nbsp;
+    <span>Dashboard</span>
+  </h2>
+  <ul class="nav-container">
+    <li
+      class="nav-item-container"
+      *ngFor="let item of sideNavItems"
+      [class.active]="isActive(item.path)"
+      (click)="selectItem(item)"
+      [routerLink]="item.path"
+    >
+      <app-icon className="icon-normal" [name]="item.icon"></app-icon>
+      <span class="nav-title">{{ item.label }}</span>
+    </li>
+  </ul>
+</aside>

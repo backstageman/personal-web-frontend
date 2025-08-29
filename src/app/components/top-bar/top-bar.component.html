@@ -1,0 +1,43 @@
+<header class="top-bar">
+  <div class="left">
+    <!-- 导航图标区域 -->
+    <div class="icon-menu">
+      <app-icon name="caidan"></app-icon>
+    </div>
+    <!-- 搜索区域 -->
+    <div class="search">
+      <app-icon name="sousuo" class="in-search"></app-icon>
+      <input type="text" placeholder="Search" name="search" />
+    </div>
+  </div>
+
+  <div class="right">
+    <!-- 消息通知区域 -->
+    <div class="messages">
+      <!-- <div class="ring">通知logo</div> -->
+      <app-icon name="lingdang" class="bell"></app-icon>
+      <div class="number">{{ 6 }}</div>
+    </div>
+    <!-- 语言切换区域, 国际化内容暂时先不做 -->
+    <div class="language">
+      <div class="flag"></div>
+      <div>
+        <app-icon name="down"></app-icon>
+      </div>
+    </div>
+    <!-- 用户信息区域 -->
+    <div class="user-info">
+      <div>xxxx&#64;gmail.com</div>
+    </div>
+    <!-- 下拉按钮区域, 暂时不做 -->
+    <div class="other-operator">
+      <app-icon></app-icon>
+    </div>
+    <!-- 下拉图标弹出的用户信息内容 -->
+    <div class="sign-out">
+      <button mat-flat-button color="primary" (click)="signOut()">
+        Sign Out
+      </button>
+    </div>
+  </div>
+</header>

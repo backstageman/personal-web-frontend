@@ -1,0 +1,57 @@
+<div class="article-form">
+  <button mat-stroked-button color="primary" (click)="onCancel()">返回</button>
+  <h2>
+    {{
+      mode === "create" ? "新建文章" : mode === "edit" ? "编辑文章" : "查看文章"
+    }}
+  </h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- ID (仅编辑/查看时显示) -->
+    <mat-form-field appearance="fill" *ngIf="mode !== 'create'">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="id" readonly />
+    </mat-form-field>
+
+    <!-- 标题 -->
+    <mat-form-field appearance="fill">
+      <mat-label>标题</mat-label>
+      <input matInput formControlName="title" />
+    </mat-form-field>
+
+    <!-- 内容 -->
+    <mat-form-field appearance="fill">
+      <mat-label>内容</mat-label>
+      <textarea matInput formControlName="content" rows="8"></textarea>
+    </mat-form-field>
+
+    <!-- slug -->
+    <mat-form-field appearance="fill">
+      <mat-label>Slug</mat-label>
+      <input matInput formControlName="slug" />
+    </mat-form-field>
+
+    <!-- 封面图 -->
+    <mat-form-field appearance="fill">
+      <mat-label>封面图 URL</mat-label>
+      <input matInput formControlName="coverImage" />
+    </mat-form-field>
+
+    <!-- 标签 -->
+    <mat-form-field appearance="fill">
+      <mat-label>标签 (逗号分隔)</mat-label>
+      <input matInput formControlName="tags" />
+    </mat-form-field>
+
+    <!-- 是否发布 -->
+    <mat-checkbox formControlName="isPublished">是否发布</mat-checkbox>
+
+    <!-- 操作按钮 -->
+    <div class="actions" *ngIf="mode !== 'view'">
+      <button mat-raised-button color="primary" type="submit">确定</button>
+      <button mat-stroked-button type="button" (click)="onCancel()">
+        取消
+      </button>
+    </div>
+  </form>
+</div>

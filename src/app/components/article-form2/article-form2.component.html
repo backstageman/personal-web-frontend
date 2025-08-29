@@ -1,0 +1,156 @@
+<!-- article-form-page.component.html -->
+<div class="page">
+  <!-- 头部 -->
+  <mat-toolbar class="toolbar" color="default">
+    <button mat-stroked-button class="back" (click)="onCancel()">
+      <mat-icon>arrow_back</mat-icon>
+      返回
+    </button>
+    <span class="title">
+      {{
+        mode === "create"
+          ? "新建文章"
+          : mode === "edit"
+          ? "编辑文章"
+          : "查看文章"
+      }}
+    </span>
+  </mat-toolbar>
+
+  <!-- 中部表单 -->
+  <div class="content" [class.readonly]="mode === 'view'">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
+      <!-- id（只读显示） -->
+      <mat-form-field appearance="outline" *ngIf="mode !== 'create'">
+        <mat-label>ID</mat-label>
+        <input matInput formControlName="id" readonly />
+      </mat-form-field>
+
+      <!-- 标题 -->
+      <mat-form-field appearance="outline" class="span-2">
+        <mat-label>标题</mat-label>
+        <input matInput formControlName="title" required />
+        <mat-error *ngIf="form.value.title.touched && form.value.title.invalid"
+          >请输入标题</mat-error
+        >
+      </mat-form-field>
+
+      <!-- slug -->
+      <mat-form-field appearance="outline" class="span-2">
+        <mat-label>Slug（SEO URL）</mat-label>
+        <input
+          matInput
+          formControlName="slug"
+          placeholder="例如 my-first-blog"
+        />
+      </mat-form-field>
+
+      <!-- 内容 -->
+      <!-- <mat-form-field appearance="outline" class="span-2">
+        <mat-label>内容</mat-label>
+        <textarea id="markdown-editor"></textarea>
+      </mat-form-field> -->
+      <div class="span-2 markdown-editor">
+        <h3>Markdown 编辑器</h3>
+        <app-easy-mde-wrapper formControlName="content"></app-easy-mde-wrapper>
+      </div>
+      <!-- 内容预览 -->
+      <div class="span-2 markdown-preview">
+        <h3>内容预览</h3>
+        <!--   <markdown
+          [data]="form.get('content')?.value || 'please enter some content '"
+        ></markdown> -->
+        <textarea value="mock article data"></textarea>
+      </div>
+
+      <!-- 封面图 URL + 预览 -->
+      <div class="cover-row span-2">
+        <mat-form-field appearance="outline" class="cover-input">
+          <mat-label>封面图 URL</mat-label>
+          <input
+            matInput
+            formControlName="coverImage"
+            placeholder="http://..."
+          />
+        </mat-form-field>
+        <div class="cover-preview" *ngIf="form.value.coverImage as url">
+          <img
+            #imgRef
+            [src]="url"
+            alt="cover"
+            (error)="imgRef.style.display = 'none'"
+          />
+        </div>
+      </div>
+
+      <!-- 标签 chips -->
+      <div class="chips-row span-2">
+        <mat-form-field appearance="outline" class="span">
+          <mat-label>Tags (逗号分隔)</mat-label>
+
+          <!--   <mat-chip
+            *ngFor="let t of form.value.tags || []"
+            (removed)="removeTag(t)"
+          >
+            {{ t }}
+            <button matChipRemove *ngIf="mode !== 'view'">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip> -->
+          <!--   <input
+            *ngIf="mode !== 'view'"
+            placeholder="回车添加标签"
+            (keydown.enter)="$event.preventDefault(); addTagFromInput(tagInput)"
+            #tagInput
+            (blur)="addTagFromInput(tagInput)"
+          /> -->
+          <!--   <mat-chip-set>
+            <input matInput formControlName="tags" />
+          </mat-chip-set> -->
+          <input matInput formControlName="tags" />
+        </mat-form-field>
+      </div>
+
+      <!-- 发布状态 -->
+      <mat-slide-toggle color="primary" formControlName="isPublished">
+        是否发布
+      </mat-slide-toggle>
+
+      <!-- 只读信息 -->
+      <mat-form-field appearance="outline" *ngIf="mode !== 'create'">
+        <mat-label>阅读次数</mat-label>
+        <input matInput formControlName="viewCount" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="mode !== 'create'">
+        <mat-label>创建时间</mat-label>
+        <input
+          matInput
+          [value]="form.value.createdAt | date : 'yyyy-MM-dd HH:mm'"
+          disabled
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="mode !== 'create'">
+        <mat-label>更新时间</mat-label>
+        <input
+          matInput
+          [value]="form.value.updatedAt | date : 'yyyy-MM-dd HH:mm'"
+          disabled
+        />
+      </mat-form-field>
+    </form>
+  </div>
+
+  <!-- 底部操作 -->
+  <div class="footer">
+    <button mat-stroked-button (click)="onCancel()">取消</button>
+    <button
+      *ngIf="mode !== 'view'"
+      color="primary"
+      mat-raised-button
+      (click)="onSubmit()"
+      [disabled]="form.invalid"
+    >
+      确定
+    </button>
+  </div>
+</div>

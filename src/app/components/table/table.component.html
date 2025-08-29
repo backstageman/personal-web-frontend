@@ -1,0 +1,72 @@
+<!-- 下面是组件的初始版本， 先不拆分 -->
+<div class="todos-container">
+  <!-- 筛选区域 -->
+  <form class="filter-form" [formGroup]="filterForm">
+    <mat-form-field appearance="outline">
+      <mat-label>字段1</mat-label>
+      <input matInput formControlName="field1" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>字段2</mat-label>
+      <input matInput formControlName="field2" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>字段3</mat-label>
+      <input matInput formControlName="field3" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>字段4</mat-label>
+      <input matInput formControlName="field4" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>字段5</mat-label>
+      <input matInput formControlName="field5" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>字段6</mat-label>
+      <input matInput formControlName="field6" />
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" (click)="onSearch()">
+        确定
+      </button>
+      <button mat-stroked-button color="warn" (click)="onReset()">重置</button>
+    </div>
+  </form>
+
+  <!-- 操作按钮区域 -->
+  <div class="action-buttons">
+    <mat-checkbox [(ngModel)]="checked">checked</mat-checkbox>
+    <button mat-button>全选</button>
+    <button mat-raised-button color="primary">新增</button>
+    <button mat-stroked-button color="accent">编辑</button>
+    <button mat-flat-button color="warn">删除</button>
+  </div>
+
+  <!-- 数据展示区域 -->
+  <div class="data-table">
+    <mat-table [dataSource]="dataSource">
+      <!-- 示例列 -->
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> 标题 </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.title }} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <mat-paginator
+      [length]="100"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25]"
+    >
+    </mat-paginator>
+  </div>
+</div>

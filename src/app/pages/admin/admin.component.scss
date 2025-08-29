@@ -1,0 +1,41 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  /* height: 100%; */
+  display: flex;
+
+  & .content {
+    width: 100%;
+
+    & .main-container {
+      background-color: #f5f6fa;
+      padding: 16px;
+      height: calc(100vh - 70px);
+
+      .filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+
+        .form-actions {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+      }
+
+      .action-buttons {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .data-table {
+        border: 1px solid #ccc;
+        padding: 8px;
+      }
+    }
+  }
+}

@@ -1,0 +1,243 @@
+<!-- 下面是组件的初始版本， 先不拆分 -->
+<div class="table-search-container">
+  <!-- 筛选区域 -->
+  <form class="filter-form" [formGroup]="filterForm" (ngSubmit)="onSearch()">
+    <div class="grid grid-cols-4 gap-4">
+      <mat-form-field appearance="outline">
+        <mat-label>标题</mat-label>
+        <input matInput formControlName="title" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>内容</mat-label>
+        <input matInput formControlName="content" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Slug</mat-label>
+        <input matInput formControlName="slug" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>标签</mat-label>
+        <input matInput formControlName="tags" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>查看次数</mat-label>
+        <input matInput type="number" formControlName="viewCount" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>是否发布</mat-label>
+        <mat-select formControlName="isPublished">
+          <mat-option [value]="null">全部</mat-option>
+          <mat-option [value]="true">已发布</mat-option>
+          <mat-option [value]="false">未发布</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>作者ID</mat-label>
+        <input matInput type="number" formControlName="authorId" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>创建时间-开始</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          formControlName="createdAtStart"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>创建时间-结束</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="createdAtEnd"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>更新时间-开始</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker3"
+          formControlName="updatedAtStart"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker3"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker3></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>更新时间-结束</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker4"
+          formControlName="updatedAtEnd"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker4"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker4></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions mt-4 flex gap-2">
+      <button mat-flat-button color="primary" type="submit">搜索</button>
+      <button mat-stroked-button color="warn" type="button" (click)="onReset()">
+        重置
+      </button>
+    </div>
+  </form>
+
+  <!-- 操作按钮区域 -->
+  <div class="action-buttons">
+    <button mat-raised-button color="primary" (click)="newArticle()">
+      新建
+    </button>
+    <button mat-stroked-button color="accent" (click)="publishSelected()">
+      发布
+    </button>
+    <button mat-flat-button color="warn" (click)="unpublishSelected()">
+      下架
+    </button>
+    <button mat-flat-button color="warn" (click)="deleteSelected()">
+      删除
+    </button>
+  </div>
+
+  <!-- 数据展示区域 -->
+  <div class="data-table mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" class="full-width-table">
+      <!-- 复选框列 -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let article">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(article) : null"
+            [checked]="selection.isSelected(article)"
+            [aria-label]="checkboxLabel(article)"
+          >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let article"> {{ article.id }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> 标题 </mat-header-cell>
+        <mat-cell *matCellDef="let article"> {{ article.title }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="content">
+        <mat-header-cell *matHeaderCellDef> 正文 </mat-header-cell>
+        <mat-cell *matCellDef="let article"> {{ article.content }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="coverImage">
+        <mat-header-cell *matHeaderCellDef> 封面图 </mat-header-cell>
+        <mat-cell *matCellDef="let article">
+          {{ article.coverImage }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="slug">
+        <mat-header-cell *matHeaderCellDef> slug </mat-header-cell>
+        <mat-cell *matCellDef="let article">
+          {{ article.slug }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tags">
+        <mat-header-cell *matHeaderCellDef> tags </mat-header-cell>
+        <mat-cell *matCellDef="let article">
+          {{ article.tags }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="viewCount">
+        <mat-header-cell *matHeaderCellDef> 观看次数 </mat-header-cell>
+        <mat-cell *matCellDef="let article">
+          {{ article.viewCount }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="isPublished">
+        <mat-header-cell *matHeaderCellDef> 是否发布 </mat-header-cell>
+        <mat-cell *matCellDef="let article">
+          {{ article.isPublished }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef> 创建时间 </mat-header-cell>
+        <mat-cell *matCellDef="let article">
+          {{ article.createdAt | date : "yyyy-MM-dd HH:mm" }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="updatedAt">
+        <mat-header-cell *matHeaderCellDef> 创建时间 </mat-header-cell>
+        <mat-cell *matCellDef="let article">
+          {{ article.updatedAt | date : "yyyy-MM-dd HH:mm" }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-button color="accent" (click)="viewArticle(element.id)">
+            查看
+          </button>
+          <button mat-button color="accent" (click)="editArticle(element.id)">
+            编辑
+          </button>
+          <button mat-button color="warn" (click)="deleteArticle(element.id)">
+            删除
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <mat-paginator
+      [length]="totalArticles"
+      [pageSize]="limit"
+      [pageSizeOptions]="[5, 10, 25]"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

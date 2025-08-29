@@ -1,0 +1,137 @@
+/* article-form-page.component.scss */
+.page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.toolbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  .back {
+    margin-right: 12px;
+  }
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.content {
+  padding: 16px 20px 8px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  .span-2 {
+    grid-column: span 2;
+  }
+  .tall {
+    min-height: 260px;
+  }
+
+  .cover-row {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 12px;
+    align-items: start;
+    .cover-input {
+      width: 100%;
+    }
+    .cover-preview {
+      width: 220px;
+      height: 120px;
+      border: 1px dashed rgba(0, 0, 0, 0.2);
+      display: grid;
+      place-items: center;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+
+  .chips-row {
+    display: grid;
+    gap: 8px;
+  }
+
+  & .markdown-editor {
+    // 设置一个固定高度来确保编辑器有足够的空间
+    height: 3200px;
+    // width: 100%;
+    width: 1200px;
+  }
+
+  & .prose {
+    /* Tailwind Typography equivalent for a clean look */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 700;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+    }
+    h1 {
+      font-size: 2.25rem;
+    }
+    h2 {
+      font-size: 1.875rem;
+    }
+    p {
+      margin-bottom: 1.25em;
+      line-height: 1.75;
+    }
+    a {
+      color: #3b82f6;
+      text-decoration: underline;
+    }
+    ul,
+    ol {
+      margin-top: 0;
+      margin-bottom: 1em;
+      padding-left: 1.5em;
+    }
+    pre {
+      background-color: #f1f5f9; /* Slate 100 */
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+    }
+    code {
+      font-family: monospace;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+    th,
+    td {
+      border: 1px solid #e2e8f0; /* Slate 200 */
+      padding: 0.75em;
+      text-align: left;
+    }
+    blockquote {
+      border-left: 4px solid #94a3b8; /* Slate 400 */
+      padding-left: 1em;
+      color: #64748b; /* Slate 500 */
+      font-style: italic;
+    }
+  }
+}
+
+.footer {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
