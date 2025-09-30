@@ -50,17 +50,21 @@
         <mat-label>内容</mat-label>
         <textarea id="markdown-editor"></textarea>
       </mat-form-field> -->
-      <div class="span-2 markdown-editor">
-        <h3>Markdown 编辑器</h3>
-        <app-easy-mde-wrapper formControlName="content"></app-easy-mde-wrapper>
-      </div>
-      <!-- 内容预览 -->
-      <div class="span-2 markdown-preview">
-        <h3>内容预览</h3>
-        <!--   <markdown
-          [data]="form.get('content')?.value || 'please enter some content '"
-        ></markdown> -->
-        <textarea value="mock article data"></textarea>
+      <div class="span-2 article-content-area">
+        <!-- 文章编辑 -->
+        <div class="markdown-editor">
+          <h3>Markdown编辑区</h3>
+          <textarea formControlName="content" class="edit-area"></textarea>
+          <!-- <app-easy-mde-wrapper formControlName="content"></app-easy-mde-wrapper> -->
+        </div>
+        <!-- 内容预览 -->
+        <div class="markdown-preview">
+          <h3>内容预览</h3>
+          <div class="view-area">
+            <div [innerHtml]="form.get('content')?.value || ''"></div>
+            <!-- <markdown [data]="form.get('content')?.value || ''"></markdown> -->
+          </div>
+        </div>
       </div>
 
       <!-- 封面图 URL + 预览 -->

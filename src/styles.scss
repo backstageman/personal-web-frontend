@@ -1,5 +1,7 @@
 @use "@angular/material" as mat;
-
+// @use "highlight.js/styles/github.css"; // 引入highlight.js的样式
+@import "highlight.js/styles/github.css";
+// 引入定义的变量
 /* 必须有 core styles */
 @include mat.core();
 
@@ -59,11 +61,71 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-html,
-body {
-  height: 100%;
+// 代码片段添加行号
+pre,
+code {
+  border-radius: 8px;
 }
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+pre code.hljs {
+  display: block;
+  counter-reset: line; /* ✅ 初始化计数器 */
+}
+pre code.hljs .code-line {
+  counter-increment: line;
+}
+pre code.hljs .code-line::before {
+  content: counter(line);
+  display: inline-block;
+  width: 1.3em;
+  text-align: right;
+  margin-right: 0.7em;
+  color: #4c4b4b;
+  user-select: none;
+}
+
+// 复制按钮
+.article-card {
+  position: relative;
+
+  .article-content {
+    // 让 code wrapper 相对定位
+    .code-block-wrapper {
+      position: relative;
+      margin: 0 0 1rem 0;
+    }
+
+    .code-block-actions {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      z-index: 20;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .copy-code-btn {
+      padding: 4px 8px;
+      font-size: 12px;
+      line-height: 1;
+      border: none;
+      border-radius: 4px;
+      background: rgba(208, 207, 207, 0.867);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: transform 0.08s ease;
+    }
+
+    .copy-code-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* 保留原来代码块样式的层级展示 */
+    pre {
+      margin: 0; /* 由 wrapper 控制外边距 */
+      overflow: auto;
+      padding: 12px;
+      border-radius: 6px;
+    }
+  }
 }

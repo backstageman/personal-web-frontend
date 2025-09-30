@@ -1,0 +1,181 @@
+@use "variables" as v;
+
+.cv-contianer {
+  max-width: 840px;
+  min-height: 1188px;
+  //   background-color: v.$background-color;
+  //   border: 1px solid red;
+  //   padding: 110px 80px;
+  margin: 50px auto;
+  padding: 40px;
+  background: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+
+  header {
+    display: flex;
+    column-gap: 30px;
+
+    .photo {
+      max-width: 515px;
+      flex: 0 0 35%;
+    }
+
+    .info {
+      flex: 0 0 60%;
+      display: flex;
+      flex-direction: column;
+
+      main {
+        padding-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 38px;
+        color: #157698;
+        font-family: Roboto;
+        line-height: 1.5em;
+        margin: 0 auto;
+      }
+
+      h2 {
+        font-size: 22px;
+        line-height: 1.2em;
+        color: #157698;
+        font-family: Roboto;
+        font-weight: 400;
+      }
+
+      aside {
+        border-top: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        padding: 25px 0;
+        padding-left: 5px;
+
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        p {
+          flex: 0 0 45%;
+          font-size: 14px;
+          line-height: 1.2em;
+          color: #333333;
+        }
+      }
+    }
+  }
+
+  section {
+    padding: 20px 0;
+
+    .experience,
+    .eduction,
+    .skills,
+    .hobbies {
+      padding: 20px 0;
+      border-bottom: 1px solid #cccccc;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-size: 16px;
+        color: #157698;
+        font-weight: bold;
+        line-height: 1.5em;
+      }
+
+      time span {
+        color: #333333;
+        font-weight: normal;
+        font-size: 14px;
+      }
+
+      .dash {
+        display: inline-block;
+        color: #333333;
+        border: 1px solid #333333;
+        background-color: #333333;
+        height: 2px;
+        width: 30px;
+        vertical-align: middle;
+        margin: 0 6px;
+      }
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #157698;
+      font-weight: bold;
+      line-height: 2em;
+    }
+
+    .job-desc,
+    .edu-desc {
+      color: #666666;
+      font-size: 18px;
+      line-height: 1.5em;
+      margin: 20px 0;
+    }
+
+    .skills,
+    .hobbies {
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        li {
+          flex: 0 0 48%;
+          display: flex;
+          align-items: center;
+          column-gap: 30px;
+          font-size: 14px;
+
+          span {
+            flex: 0 0 20%;
+          }
+
+          .progress-container {
+            flex: 0 0 50%;
+          }
+        }
+      }
+    }
+
+    .hobbies ul {
+      padding: 10px 0;
+      flex-wrap: no-wrap;
+      justify-content: space-around;
+
+      li {
+        flex: none;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        p {
+          border: 3px solid #157698;
+          border-radius: 50%;
+          width: 80px;
+          height: 80px;
+          font-size: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        span {
+          text-align: center;
+          font-size: 16px;
+          color: #666666;
+        }
+      }
+    }
+  }
+}

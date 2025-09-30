@@ -5,7 +5,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatFormField, MatInputModule } from '@angular/material/input';
+import {
+  MatFormField,
+  MatInputModule,
+  MatLabel,
+} from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -52,6 +56,7 @@ import { BatchUpdatePayload } from '../../shared/interfaces/api-response.interfa
     MatDatepickerToggle,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatLabel,
   ],
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.scss',
@@ -159,6 +164,10 @@ export class ArticlesComponent implements OnInit {
 
   viewArticle(id: number) {
     this.router.navigate(['/admin/articles/view', id]);
+  }
+
+  viewArticleDetail(id: number): void {
+    this.router.navigate(['/admin/articles/detail', id]);
   }
 
   editArticle(id: number) {

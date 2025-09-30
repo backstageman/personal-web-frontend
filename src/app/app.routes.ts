@@ -13,11 +13,38 @@ import { ArticleForm2Component } from './components/article-form2/article-form2.
 import { ArticleCreatePageComponent } from './components/article-create-page/article-create-page.component';
 import { ArticleViewPageComponent } from './components/article-view-page/article-view-page.component';
 import { ArticleEditPageComponent } from './components/article-edit-page/article-edit-page.component';
+import { ArticleDetailComponent } from './features/articles/article-detail/article-detail.component';
+import { HomeComponent as MainHome } from './features/home/home.component';
+import { BlogComponent } from './features/blog/blog.component';
+import { MainLayoutComponent } from './features/main-layout/main-layout.component';
+import { ResumeComponent } from './features/resume/resume.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: MainHome,
+      },
+      {
+        path: 'blog',
+        component: BlogComponent,
+      },
+      {
+        path: 'blog/:id',
+        component: ArticleDetailComponent,
+      },
+      {
+        path: 'about',
+        component: ResumeComponent,
+      },
+      {
+        path: 'projects',
+        component: TodosComponent,
+      },
+    ],
   },
   {
     path: 'login',
@@ -28,6 +55,7 @@ export const routes: Routes = [
     component: RegisterComponent,
   },
   {
+    // 后台管理系统的页面
     path: 'admin',
     component: AdminComponent,
     children: [
@@ -48,7 +76,27 @@ export const routes: Routes = [
         component: ArticleViewPageComponent,
       },
       {
+        path: 'articles/detail/:id',
+        component: ArticleDetailComponent,
+      },
+      {
+        path: 'dashboard',
+        component: TodosComponent,
+      },
+      {
         path: 'todos',
+        component: TodosComponent,
+      },
+      {
+        path: 'users',
+        component: TodosComponent,
+      },
+      {
+        path: 'roles',
+        component: TodosComponent,
+      },
+      {
+        path: 'permissions',
         component: TodosComponent,
       },
     ],

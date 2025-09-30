@@ -25,33 +25,33 @@ export class SidenavComponent implements OnInit {
     {
       label: 'Dashboard',
       icon: 'yibiaopan',
-      path: 'dashboard',
+      path: '/admin/dashboard',
     },
     {
       label: 'Todos',
       icon: 'todo',
-      active: true,
-      path: 'todos',
+      path: '/admin/todos',
     },
     {
       label: 'Users',
       icon: 'customer',
-      path: 'users',
+      path: '/admin/users',
     },
     {
       label: 'Ariticls',
       icon: 'wenzhang',
+      active: true,
       path: '/admin/articles',
     },
     {
       label: 'Roles',
       icon: 'customer',
-      path: 'roles',
+      path: '/admin/roles',
     },
     {
       label: 'Permissions',
       icon: 'logistics-warehouse',
-      path: 'permissions',
+      path: '/admin/permissions',
     },
   ];
 

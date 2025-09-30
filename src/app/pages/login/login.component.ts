@@ -29,7 +29,7 @@ export class LoginComponent {
             '登录成功,3s后跳转到首页 >',
             JSON.stringify(res, null, 2)
           );
-          setTimeout(() => this.router.navigate(['/']), 3000);
+          setTimeout(() => this.router.navigate(['/', 'admin']), 3000);
         }
       },
       error: (err) => alert(err.error?.message || 'Login failed'),

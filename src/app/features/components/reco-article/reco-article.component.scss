@@ -1,0 +1,52 @@
+@use "variables" as v;
+
+.article-item {
+  //   padding-top: 30px;
+  padding: 20px;
+  width: 300px;
+  height: 425px;
+  //   background-color: antiquewhite;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+
+  .article-info {
+    .img-container {
+      margin-bottom: 15px;
+      img {
+        border-radius: 5px;
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+      //   text-align: center;
+      font-weight: 500;
+      color: v.$black-color;
+    }
+  }
+
+  .author-area {
+    display: flex;
+    gap: 20px;
+
+    .author-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      .author-name {
+        font-size: 16px;
+        color: v.$black-color;
+        font-weight: bold;
+      }
+
+      .article-info {
+        font-size: 14px;
+        color: v.$black-color;
+      }
+    }
+  }
+}

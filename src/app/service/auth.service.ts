@@ -33,11 +33,16 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    /*   const token = localStorage.getItem('token');
-    console.log(token, 'token >>');
-    if (token && token.length < 32) return false;
-    return true; */
-    return true;
+    const token = localStorage.getItem('token');
+    // console.log(token, 'token >>', typeof token, token?.length);
+    let flag = false;
+    if (token) {
+      if (token.length < 32) {
+        return flag;
+      }
+      flag = true;
+    }
+    return flag;
   }
 
   logOut() {

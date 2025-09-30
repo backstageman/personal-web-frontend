@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +15,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArticlesService } from '../../service/articles.service';
 import { Article } from '../../models/article.model';
 import { Subscription } from 'rxjs';
-import { MarkdownComponent } from 'ngx-markdown';
 import { EasyMdeWrapperComponent } from '../easy-mde-wrapper/easy-mde-wrapper.component';
 
 type PageMode = 'create' | 'edit' | 'view';
@@ -41,8 +33,6 @@ type PageMode = 'create' | 'edit' | 'view';
     MatSlideToggleModule,
     MatChipsModule,
     ReactiveFormsModule,
-    MarkdownComponent,
-    EasyMdeWrapperComponent,
   ],
   standalone: true,
   templateUrl: './article-form2.component.html',
@@ -119,7 +109,7 @@ export class ArticleForm2Component implements OnInit {
       viewCount: [this.article?.viewCount ?? 0],
       createdAt: [this.article?.createdAt ?? null],
       updatedAt: [this.article?.updatedAt ?? null],
-      authorId: [this.article?.authorId ?? null],
+      // authorId: [this.article?.authorId ?? null],
     });
 
     this.form.get('viewCount')?.disable();
@@ -274,11 +264,6 @@ export class ArticleForm2Component implements OnInit {
         delete value.isDeleted;
         delete value.viewCount;
       }
-      console.log(
-        this.form.getRawValue(),
-        ' !!! form value on submit:',
-        this.form.value
-      );
       value.tags =
         value.tags && value.tags.length > 0
           ? value.tags.split(',').map((t: string) => t.trim())

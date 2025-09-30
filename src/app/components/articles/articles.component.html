@@ -2,7 +2,7 @@
 <div class="table-search-container">
   <!-- 筛选区域 -->
   <form class="filter-form" [formGroup]="filterForm" (ngSubmit)="onSearch()">
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-4">
       <mat-form-field appearance="outline">
         <mat-label>标题</mat-label>
         <input matInput formControlName="title" />
@@ -31,7 +31,7 @@
       <mat-form-field appearance="outline">
         <mat-label>是否发布</mat-label>
         <mat-select formControlName="isPublished">
-          <mat-option [value]="null">全部</mat-option>
+          <mat-option [value]="">全部</mat-option>
           <mat-option [value]="true">已发布</mat-option>
           <mat-option [value]="false">未发布</mat-option>
         </mat-select>
@@ -99,7 +99,7 @@
       </mat-form-field>
     </div>
 
-    <div class="form-actions mt-4 flex gap-2">
+    <div class="form-actions">
       <button mat-flat-button color="primary" type="submit">搜索</button>
       <button mat-stroked-button color="warn" type="button" (click)="onReset()">
         重置
@@ -124,7 +124,7 @@
   </div>
 
   <!-- 数据展示区域 -->
-  <div class="data-table mat-elevation-z8">
+  <div class="data-table">
     <mat-table [dataSource]="dataSource" class="full-width-table">
       <!-- 复选框列 -->
       <ng-container matColumnDef="select">
@@ -160,7 +160,11 @@
 
       <ng-container matColumnDef="content">
         <mat-header-cell *matHeaderCellDef> 正文 </mat-header-cell>
-        <mat-cell *matCellDef="let article"> {{ article.content }} </mat-cell>
+        <mat-cell *matCellDef="let article">
+          <div class="truncate-text">
+            {{ article.content }}
+          </div>
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="coverImage">
@@ -194,7 +198,12 @@
       <ng-container matColumnDef="isPublished">
         <mat-header-cell *matHeaderCellDef> 是否发布 </mat-header-cell>
         <mat-cell *matCellDef="let article">
-          {{ article.isPublished }}
+          <span
+            [class.text-green]="article.isPublished"
+            [class.text-red]="!article.isPublished"
+          >
+            {{ article.isPublished ? "已发布" : "未发布" }}
+          </span>
         </mat-cell>
       </ng-container>
 
@@ -206,7 +215,7 @@
       </ng-container>
 
       <ng-container matColumnDef="updatedAt">
-        <mat-header-cell *matHeaderCellDef> 创建时间 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> 更新时间 </mat-header-cell>
         <mat-cell *matCellDef="let article">
           {{ article.updatedAt | date : "yyyy-MM-dd HH:mm" }}
         </mat-cell>
@@ -218,6 +227,13 @@
         <mat-cell *matCellDef="let element">
           <button mat-button color="accent" (click)="viewArticle(element.id)">
             查看
+          </button>
+          <button
+            mat-button
+            color="accent"
+            (click)="viewArticleDetail(element.id)"
+          >
+            详情
           </button>
           <button mat-button color="accent" (click)="editArticle(element.id)">
             编辑

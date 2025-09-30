@@ -18,7 +18,7 @@ export interface Article {
   createdAt: Date;
   updatedAt: Date;
   // author?: User; // 这个数据如何在前端的接口定义呢？
-  authorId?: number;
+  // authorId?: number;
   author?: Author;
 }
 

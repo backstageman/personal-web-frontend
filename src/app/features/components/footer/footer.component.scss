@@ -1,0 +1,19 @@
+@use "variables" as v;
+
+.footer {
+  width: 100%;
+  background-color: v.$light-gray;
+  display: flex;
+  justify-content: center;
+
+  .center {
+    width: 1250px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid v.$gray-color;
+    font-size: 14px;
+    color: v.$black-color;
+  }
+}

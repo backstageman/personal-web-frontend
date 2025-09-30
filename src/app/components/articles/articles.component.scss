@@ -1,8 +1,14 @@
 .table-search-container {
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
   & .filter-form {
-    /*  display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px; */
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid black;
+    border-radius: 5px;
 
     & .form-actions {
       display: flex;
@@ -10,9 +16,77 @@
       gap: 8px;
     }
   }
+
+  & .grid {
+    display: grid;
+    gap: 18px; /* 定义栅格间距 */
+    grid-auto-rows: minmax(auto, 1fr); /* 确保行高一致 */
+  }
+
+  & .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr); /* 四列布局 */
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+
   & .action-buttons {
-    padding: 20px 0;
+    padding: 16px;
     display: flex;
     gap: 10px;
+  }
+
+  & .data-table {
+    min-height: 0; /* 关键：防止flex子项溢出导致不收缩 */
+    display: block;
+
+    table {
+      width: 100%;
+    }
+
+    .truncate-text {
+      /* 强制文本不换行 */
+      white-space: nowrap;
+      /* 隐藏溢出部分 */
+      overflow: hidden;
+      /* 显示省略号 */
+      text-overflow: ellipsis;
+      /* 设置一个最大宽度，防止文本无限拉伸 */
+      max-width: 250px; /* 您可以根据需要调整这个值 */
+    }
+
+    .text-green {
+      color: #3ec03e;
+    }
+
+    .text-red {
+      color: #f43232;
+    }
+
+    .mat-column-select {
+      flex: 0 0 70px;
+      width: 70px;
+    }
+
+    .mat-column-id {
+      flex: 0 0 20px;
+      width: 20px;
+    }
+    .mat-column-viewCount,
+    .mat-column-isPublished {
+      flex: 0 0 100px;
+      width: 100px;
+    }
+
+    /*     .mat-column-createdAt,
+    .mat-column-updatedAt {
+      flex: 0 0 160px;
+      width: 160px;
+    }*/
+    .mat-column-actions {
+      flex: 0 0 270px;
+      width: 270px;
+    }
   }
 }

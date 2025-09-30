@@ -32,9 +32,12 @@
             "styles": [
               "node_modules/normalize.css/normalize.css",
               "@angular/material/prebuilt-themes/azure-blue.css",
+              "node_modules/highlight.js/styles/github.css",
               "src/styles.scss"
             ],
-
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
             "scripts": ["src/assets/js/iconfont.js"]
           },
           "configurations": {

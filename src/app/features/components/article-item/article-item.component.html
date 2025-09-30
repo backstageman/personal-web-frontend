@@ -1,0 +1,33 @@
+<div class="aritcle-item-center">
+  <article class="article-item">
+    <a aria-label="" target="_blank"
+      ><img src="assets/images/article-cover-image-default.jpg" alt=""
+    /></a>
+    <div class="article-card-content">
+      <!-- <header [routerLink]="{{`'blog/' + article.id`}}"> -->
+      <header [routerLink]="[article.id]">
+        <h2 class="article-card-title">
+          <a target="_blank">
+            <!-- How WebGL and Three.js Power Interactive Online Stores -->
+            {{ article.title }}
+          </a>
+        </h2>
+      </header>
+      <footer class="article-card-meta">
+        <ul class="author-list">
+          <li>
+            <a href="">
+              <img src="assets/images/default-avatar.png" alt="" />
+            </a>
+            <span>
+              <a class="meta-item" href="meta-item" routerLink="">Ajay Kalal</a>
+              <time class="meta-item" datetime="2022-03-17T21:33:19.000Z"
+                >March 18, 2022</time
+              >
+            </span>
+          </li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</div>

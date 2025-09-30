@@ -1,0 +1,8 @@
+/* app-root 作为网格容器
+  中间的内容区域在垂直方向上拉伸以填满剩余空间
+*/
+.home-container {
+  display: grid;
+  grid-template-rows: auto 0 1fr auto;
+  min-height: 100vh;
+}

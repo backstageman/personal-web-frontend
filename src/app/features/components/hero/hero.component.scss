@@ -1,0 +1,50 @@
+@use "variables" as v;
+
+.hero-contianer {
+  height: 614px;
+  max-height: 814px;
+  background-color: #eff0f3;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  & .center {
+    // width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-content: space-between;
+  }
+
+  & .introduction {
+    width: 665px;
+    color: #2b2c34;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    h2 {
+      line-height: 53px;
+      font-size: 53px;
+    }
+
+    h3 p {
+      font-size: 21px;
+      line-height: 1.5em;
+      color: v.$dark-gray;
+      border-left: 2px solid #2b2c34;
+      padding-left: 15px;
+    }
+  }
+
+  & .hero-image {
+    width: 470px;
+  }
+
+  & .triangle {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 25px;
+  }
+}

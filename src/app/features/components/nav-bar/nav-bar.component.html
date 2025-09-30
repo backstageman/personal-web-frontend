@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="center">
+    <h1 class="navbar-logo" routerLink="/">
+      <a>
+        <span class="name">Charlie's </span>
+        <span class="suffix">Blog</span>
+      </a>
+    </h1>
+    <ul class="navbar__menu">
+      <li
+        *ngFor="let item of menuItems"
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact }"
+      >
+        {{ item.label }}
+      </li>
+    </ul>
+  </div>
+</nav>

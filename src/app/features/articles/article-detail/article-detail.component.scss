@@ -1,0 +1,60 @@
+.preview-container {
+  width: 100%;
+  height: calc(100vh - 70px);
+  min-height: calc(100vh - 70px);
+  overflow-y: auto; // ✅ 内容自然撑开，不在容器上滚动
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; // ✅ 不要拉伸子元素
+  padding: 2rem;
+  background-color: #f9fafb; // 页面背景
+
+  & .preview-card {
+    min-height: calc(100vh - 70px); // ✅ 至少一屏高，允许变高
+    width: 100%;
+    max-width: 800px; // A4 纸接近宽度
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    line-height: 1.75;
+    // overflow-y: visible;
+
+    & .article-title {
+      font-size: 2.3rem;
+      font-weight: bold;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .meta {
+      text-align: right;
+    }
+
+    & .article-meta {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 24px;
+
+      & .meta-item {
+        margin-right: 16px;
+      }
+    }
+
+    .cover-image-contianer {
+      margin-top: 1.3rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .cover-image {
+      width: 100%;
+      max-width: 760px; /* 和文章内容一致 */
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+      margin: 1.5rem auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* 模拟纸张投影 */
+    }
+  }
+}

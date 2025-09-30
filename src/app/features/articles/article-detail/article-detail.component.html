@@ -1,0 +1,26 @@
+<div class="preview-container">
+  <article class="preview-card">
+    <header class="preview-header">
+      <h1 class="article-title">{{ article$?.title || "文章标题" }}</h1>
+      <div class="meta">
+        <div>{{ article$?.author?.email }}</div>
+        <div>{{ article$?.createdAt }}</div>
+      </div>
+    </header>
+    <div class="cover-image-contianer">
+      <img
+        [src]="article$?.coverImage || defaultCover"
+        alt=""
+        class="cover-image"
+        loading="lazy"
+        (error)="onImageError($event)"
+      />
+    </div>
+    <!-- <section class="preview-content" [innerHTML]="article$?.content"></section> -->
+    <!-- <section class="preview-content">
+      <markdown [data]="article$?.content" (ready)="onMdReady()"></markdown>
+    </section> -->
+
+    <app-article-preview [content]="articleMarkdown"> </app-article-preview>
+  </article>
+</div>

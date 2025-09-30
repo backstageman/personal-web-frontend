@@ -1,0 +1,100 @@
+@use "variables" as v;
+
+.aritcle-item-center {
+  max-width: 1440px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding-top: 40px;
+
+  & .article-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0 20px 50px;
+    column-gap: 30px;
+
+    a {
+      display: block;
+      width: 30%;
+      img {
+        width: 100%;
+      }
+    }
+
+    .article-card-content {
+      flex: 0 1 70%;
+      width: 70%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      header {
+        width: 100%;
+        color: v.$black-color;
+        font-size: 22px;
+
+        a {
+          width: 100%;
+          text-decoration: none;
+          color: inherit;
+          cursor: pointer;
+          font-weight: 700;
+        }
+
+        a:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .author-list {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        list-style: none;
+
+        li {
+          display: flex;
+          align-items: center;
+          width: 100%;
+
+          a {
+            display: block;
+            overflow: hidden;
+            width: 34px;
+            height: 34px;
+            border: #fff 2px solid;
+          }
+
+          span {
+            display: flex;
+            flex-wrap: wrap;
+            flex: auto;
+            justify-content: space-between;
+            line-height: 34px;
+
+            a {
+              display: block;
+              width: auto;
+              padding-left: 20px;
+              text-decoration: none;
+              color: v.$black-color;
+              cursor: pointer;
+              font-size: 14px;
+              line-height: 28px;
+              font-weight: 500;
+              letter-spacing: 0.5px;
+              text-transform: uppercase;
+              font-style: normal;
+            }
+
+            a:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}
