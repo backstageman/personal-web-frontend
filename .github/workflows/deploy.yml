@@ -52,7 +52,7 @@ jobs:
       - name: Rsync built files to VPS
         run: |
           rsync -az --delete --rsync-path="mkdir -p ${VPS_TARGET_DIR} && rsync" \
-            ./dist/${PROJECT_NAME}/ \
+            ./dist/${PROJECT_NAME}/browser/ \
             -e "ssh -p ${VPS_PORT:-22}" \
             ${VPS_USER}@${VPS_HOST}:${VPS_TARGET_DIR}/
         env:
