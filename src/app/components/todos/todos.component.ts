@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-todos',
   imports: [],
   templateUrl: './todos.component.html',
-  styleUrl: './todos.component.scss'
+  styleUrl: './todos.component.scss',
 })
-export class TodosComponent {
-
-}
+export class TodosComponent {}

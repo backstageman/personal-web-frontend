@@ -1,23 +1,10 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { authGuard } from './guards/auth.guard';
-import { TableComponent } from './components/table/table.component';
-import { TodosComponent } from './components/todos/todos.component';
 import { ArticlesComponent } from './components/articles/articles.component';
-import { ArticleFormComponent } from './components/article-form/article-form.component';
-import { ArticleForm2Component } from './components/article-form2/article-form2.component';
-import { ArticleCreatePageComponent } from './components/article-create-page/article-create-page.component';
-import { ArticleViewPageComponent } from './components/article-view-page/article-view-page.component';
-import { ArticleEditPageComponent } from './components/article-edit-page/article-edit-page.component';
-import { ArticleDetailComponent } from './features/articles/article-detail/article-detail.component';
 import { HomeComponent as MainHome } from './features/home/home.component';
-import { BlogComponent } from './features/blog/blog.component';
 import { MainLayoutComponent } from './features/main-layout/main-layout.component';
-import { ResumeComponent } from './features/resume/resume.component';
 
 export const routes: Routes = [
   {
@@ -30,29 +17,43 @@ export const routes: Routes = [
       },
       {
         path: 'blog',
-        component: BlogComponent,
+        loadComponent: () =>
+          import('./features/blog/blog.component').then((m) => m.BlogComponent),
       },
       {
         path: 'blog/:id',
-        component: ArticleDetailComponent,
+        loadComponent: () =>
+          import(
+            './features/articles/article-detail/article-detail.component'
+          ).then((m) => m.ArticleDetailComponent),
       },
       {
         path: 'about',
-        component: ResumeComponent,
+        loadComponent: () =>
+          import('./features/resume/resume.component').then(
+            (m) => m.ResumeComponent
+          ),
       },
       {
         path: 'projects',
-        component: TodosComponent,
+        loadComponent: () =>
+          import('./components/todos/todos.component').then(
+            (m) => m.TodosComponent
+          ),
       },
     ],
   },
   {
     path: 'login',
-    component: LoginComponent,
+    loadComponent: () =>
+      import('./pages/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'register',
-    component: RegisterComponent,
+    loadComponent: () =>
+      import('./pages/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
   },
   {
     // 后台管理系统的页面
@@ -65,39 +66,66 @@ export const routes: Routes = [
       },
       {
         path: 'articles/new',
-        component: ArticleCreatePageComponent,
+        loadComponent: () =>
+          import(
+            './components/article-create-page/article-create-page.component'
+          ).then((m) => m.ArticleCreatePageComponent),
       },
       {
         path: 'articles/edit/:id',
-        component: ArticleEditPageComponent,
+        loadComponent: () =>
+          import(
+            './components/article-edit-page/article-edit-page.component'
+          ).then((m) => m.ArticleEditPageComponent),
       },
       {
         path: 'articles/view/:id',
-        component: ArticleViewPageComponent,
+        loadComponent: () =>
+          import(
+            './components/article-view-page/article-view-page.component'
+          ).then((m) => m.ArticleViewPageComponent),
       },
       {
         path: 'articles/detail/:id',
-        component: ArticleDetailComponent,
+        loadComponent: () =>
+          import(
+            './features/articles/article-detail/article-detail.component'
+          ).then((m) => m.ArticleDetailComponent),
       },
       {
         path: 'dashboard',
-        component: TodosComponent,
+        loadComponent: () =>
+          import('./components/todos/todos.component').then(
+            (m) => m.TodosComponent
+          ),
       },
       {
         path: 'todos',
-        component: TodosComponent,
+        loadComponent: () =>
+          import('./components/todos/todos.component').then(
+            (m) => m.TodosComponent
+          ),
       },
       {
         path: 'users',
-        component: TodosComponent,
+        loadComponent: () =>
+          import('./components/todos/todos.component').then(
+            (m) => m.TodosComponent
+          ),
       },
       {
         path: 'roles',
-        component: TodosComponent,
+        loadComponent: () =>
+          import('./components/todos/todos.component').then(
+            (m) => m.TodosComponent
+          ),
       },
       {
         path: 'permissions',
-        component: TodosComponent,
+        loadComponent: () =>
+          import('./components/todos/todos.component').then(
+            (m) => m.TodosComponent
+          ),
       },
     ],
     canActivate: [authGuard],
