@@ -6,12 +6,13 @@ import {
   BatchUpdatePayload,
   BatchUpdateResponse,
 } from '../shared/interfaces/api-response.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticlesService {
-  private apiUrl = 'http://localhost:3000/articles';
+  private apiUrl = `${environment.apiUrl}/articles`;
   private http = inject(HttpClient);
 
   constructor() {}

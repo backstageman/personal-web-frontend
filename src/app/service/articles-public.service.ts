@@ -5,12 +5,13 @@ import {
   ArticlePublic,
   ArticlePublicResponse,
 } from '../models/article-public.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticlesPublicService {
-  private API = 'http://localhost:3000/public/articles';
+  private API = `${environment.apiUrl}/public/articles`;
 
   constructor(private http: HttpClient) {}
 
