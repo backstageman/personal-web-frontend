@@ -10,7 +10,7 @@ import hljs from 'highlight.js';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements AfterViewInit {
-  title = `Charlie's media web`;
+  title = `Charlie's media platform`;
 
   ngAfterViewInit() {
     document.querySelectorAll('pre code').forEach((el) => {
@@ -18,7 +18,6 @@ export class AppComponent implements AfterViewInit {
     });
     const blocks = document.querySelectorAll('pre code');
     if ((window as any).__debugOnce) return;
-    // console.log('code blocks found:', blocks.length);
     (window as any).__debugOnce = true; // 只打印一次
   }
 }

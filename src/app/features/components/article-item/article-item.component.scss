@@ -2,6 +2,7 @@
 
 .aritcle-item-center {
   max-width: 1440px;
+  width: 1440px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,15 +19,15 @@
     a {
       display: block;
       width: 30%;
+      flex-shrink: 0;
       img {
         width: 100%;
       }
     }
 
     .article-card-content {
-      flex: 0 1 70%;
-      width: 70%;
-
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       justify-content: space-around;

@@ -41,6 +41,13 @@ export const routes: Routes = [
             (m) => m.TodosComponent
           ),
       },
+      {
+        path: 'contact',
+        loadComponent: () =>
+          import('./features/contact/contact.component').then(
+            (m) => m.ContactComponent
+          ),
+      },
     ],
   },
   {

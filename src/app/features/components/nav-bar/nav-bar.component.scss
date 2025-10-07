@@ -20,20 +20,18 @@
 
   & .navbar-logo {
     padding-left: 50px;
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    text-decoration: none;
+    color: inherit;
     .name {
-      color: #001858;
+      color: v.$blue-color-dark;
       font-size: 36px;
       line-height: 36px;
       font-weight: 500;
     }
     .suffix {
-      color: blue;
+      color: v.$blue-color-light;
       font-size: 18px;
-      font-weight: 400;
+      font-weight: 500;
     }
   }
 
