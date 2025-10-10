@@ -4,7 +4,7 @@ import {
   ArticlePublic,
   ArticlePublicResponse,
 } from '../../models/article-public.model';
-import { ArticlesPublicService } from '../../service/articles-public.service';
+import { ArticlesPublicService } from '../../services/articles-public.service';
 import { NgFor } from '@angular/common';
 
 @Component({

@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { Router, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin',

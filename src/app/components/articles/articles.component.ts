@@ -19,7 +19,7 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 import { Article } from '../../models/article.model';
-import { ArticlesService } from '../../service/articles.service';
+import { ArticlesService } from '../../services/articles.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatOption } from '@angular/material/autocomplete';
@@ -34,7 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { SnackBarService } from '../../service/snackbar.service';
+import { SnackBarService } from '../../services/snackbar.service';
 import { BatchUpdatePayload } from '../../shared/interfaces/api-response.interface';
 
 @Component({

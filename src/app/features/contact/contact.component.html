@@ -1,1 +1,101 @@
-<p>contact works!</p>
+<section class="contact-section">
+  <h2 class="section-title">CONTACT ME</h2>
+
+  <div class="contact-container">
+    <!-- 左侧表单 -->
+    <div class="form-wrapper">
+      <h3 class="form-title">GET IN TOUCH</h3>
+      <p class="form-description">
+        Feel free to reach out to me anytime. I’m always happy to connect,
+        answer questions, or discuss ideas. You can send me an email, or leave a
+        message using the contact form below.
+      </p>
+
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Your Name</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="Enter your name"
+          />
+          <mat-error
+            *ngIf="
+              contactForm.get('name')?.invalid &&
+              contactForm.get('name')?.touched
+            "
+          >
+            Name is required (min 2 characters)
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            placeholder="Enter your email"
+          />
+          <mat-error
+            *ngIf="
+              contactForm.get('email')?.invalid &&
+              contactForm.get('email')?.touched
+            "
+          >
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Your Message</mat-label>
+          <textarea
+            matInput
+            formControlName="message"
+            rows="5"
+            placeholder="Write your message..."
+          ></textarea>
+          <mat-error
+            *ngIf="
+              contactForm.get('message')?.invalid &&
+              contactForm.get('message')?.touched
+            "
+          >
+            Please write at least 10 characters
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="isSubmitting"
+        >
+          {{ isSubmitting ? "Sending..." : "Submit" }}
+        </button>
+      </form>
+    </div>
+
+    <!-- 右侧联系方式 -->
+    <mat-card class="contact-info">
+      <div class="info-item">
+        <mat-icon color="primary">location_on</mat-icon>
+        <div>
+          <strong>Address:</strong>
+          <p>Shanghai, China</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <mat-icon color="primary">email</mat-icon>
+        <div>
+          <strong>Email:</strong>
+          <p>
+            <a href="mailto:contact@charliesmp.com"
+              >contact&#64;charliesmp.com</a
+            >
+          </p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</section>

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ArticleForm2Component } from '../article-form2/article-form2.component';
 import { Article } from '../../models/article.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticlesService } from '../../service/articles.service';
+import { ArticlesService } from '../../services/articles.service';
 import { map, Observable, switchMap } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';

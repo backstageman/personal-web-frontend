@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reco-article',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './reco-article.component.html',
   styleUrl: './reco-article.component.scss',
 })

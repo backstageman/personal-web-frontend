@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ArticlesService } from '../../service/articles.service';
+import { ArticlesService } from '../../services/articles.service';
 import { Article } from '../../models/article.model';
 import { ArticleForm2Component } from '../article-form2/article-form2.component';
 

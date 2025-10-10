@@ -6,8 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticlesService } from '../../../service/articles.service';
-import { SnackBarService } from '../../../service/snackbar.service';
+import { ArticlesService } from '../../../services/articles.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 import { Article } from '../../../models/article.model';
 import { ArticlePreviewComponent } from '../../components/article-preview/article-preview.component';
 

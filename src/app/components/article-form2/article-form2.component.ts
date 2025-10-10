@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, Location, NgIf } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ArticlesService } from '../../service/articles.service';
+import { ArticlesService } from '../../services/articles.service';
 import { Article } from '../../models/article.model';
 import { Subscription } from 'rxjs';
 import { EasyMdeWrapperComponent } from '../easy-mde-wrapper/easy-mde-wrapper.component';

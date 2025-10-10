@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IconComponent } from '../icon/icon.component';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
