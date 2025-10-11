@@ -64,6 +64,26 @@
           </mat-error>
         </mat-form-field>
 
+        <div style="display: none">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Your address</mat-label>
+            <textarea
+              matInput
+              formControlName="address"
+              rows="5"
+              placeholder="Write your address..."
+              tabindex="-1"
+            ></textarea>
+            <mat-error
+              *ngIf="
+                contactForm.get('address')?.invalid &&
+                contactForm.get('address')?.touched
+              "
+            >
+              address is required (min 5 characters)
+            </mat-error>
+          </mat-form-field>
+        </div>
         <button
           mat-raised-button
           color="primary"
