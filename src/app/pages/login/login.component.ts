@@ -24,15 +24,24 @@ export class LoginComponent {
     const { email, password } = this.form.value;
     this.auth.login(email!, password!).subscribe({
       next: (res) => {
-        if (res.success) {
+        // console.log('res>> login page', res);
+        // return;
+        if (res.accessToken) {
           console.log(
             '登录成功,3s后跳转到首页 >',
             JSON.stringify(res, null, 2)
           );
-          setTimeout(() => this.router.navigate(['/', 'admin']), 3000);
+          setTimeout(
+            () => this.router.navigate(['/', 'admin', 'articles']),
+            3000
+          );
         }
       },
-      error: (err) => alert(err.error?.message || 'Login failed'),
+      error: (err) => {
+        // console.log('error >>> login page', err);
+        return;
+        alert(err.error?.message || 'Login failed');
+      },
     });
   }
 }

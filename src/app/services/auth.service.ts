@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -8,32 +8,55 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService {
   private API = `${environment.apiUrl}/authentication`;
+  private accessToken = ''; // 存内存，不存 localStorage
+  public auth$ = new BehaviorSubject<boolean>(false); // 登录状态 observable
+
   constructor(private http: HttpClient) {}
+
+  setAccessToken(token: string) {
+    this.accessToken = token;
+    this.auth$.next(!!token);
+  }
+
+  getAccessToken() {
+    return this.accessToken;
+  }
 
   login(email: string, password: string) {
     return this.http
-      .post(`${this.API}/sign-in`, {
-        email,
-        password,
-      })
+      .post(
+        `${this.API}/sign-in`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      )
       .pipe(
         tap((res: any) => {
-          console.log('res >>>', res);
-          localStorage.setItem('token', res.token);
+          // console.log('res >>>', res);
+          // localStorage.setItem('token', res.accessToken);
+          this.setAccessToken(res.accessToken);
+          // return res;
         })
       );
   }
 
   register(email: string, password: string) {
-    return this.http
+    return this.http.post(`${this.API}/sign-up`, {
+      email,
+      password,
+    });
+
+    /*  return this.http
       .post(`${this.API}/sign-up`, {
         email,
         password,
       })
-      .pipe(tap((res: any) => res));
+      .pipe(tap((res: any) => res)); */
   }
 
-  isAuthenticated(): boolean {
+  /*   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     // console.log(token, 'token >>', typeof token, token?.length);
     let flag = false;
@@ -44,13 +67,38 @@ export class AuthService {
       flag = true;
     }
     return flag;
+  } */
+
+  refresh() {
+    return this.http
+      .post(`${this.API}/refresh-tokens`, {}, { withCredentials: true })
+      .pipe(
+        tap((res: any) => {
+          this.setAccessToken(res.accessToken);
+          // console.log('refresh res >>>', res);
+          // return res;
+        })
+      );
   }
 
   logOut() {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
+    return this.http
+      .post(`${this.API}/sign-out`, {}, { withCredentials: true })
+      .pipe(
+        tap((res: any) => {
+          this.setAccessToken('');
+          // return res;
+        })
+      );
   }
 
-  getToken(): string | null {
+  /*   getToken(): string | null {
     return localStorage.getItem('token');
+  } */
+
+  // 判断是否登录
+  isLoggedIn(): boolean {
+    return !!this.accessToken;
   }
 }

@@ -37,7 +37,7 @@ export class AdminComponent {
   private authService = inject(AuthService);
 
   constructor(private fb: FormBuilder) {
-    const flag = this.authService.isAuthenticated();
+    /*  const flag = this.authService.isLoggedIn();
     console.log('flag  login>>>', flag);
     if (flag) {
       this.route.navigate(['admin/articles']);
@@ -46,6 +46,6 @@ export class AdminComponent {
       setTimeout(() => {
         this.route.navigate(['login']);
       }, 3000);
-    }
+    } */
   }
 }
