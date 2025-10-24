@@ -24,7 +24,7 @@ export class LoginComponent {
     const { email, password } = this.form.value;
     this.auth.login(email!, password!).subscribe({
       next: (res) => {
-        // console.log('res>> login page', res);
+        console.log('res>> login page', res);
         // return;
         if (res.accessToken) {
           console.log(
@@ -38,7 +38,7 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        // console.log('error >>> login page', err);
+        console.log('error >>> login page', err);
         return;
         alert(err.error?.message || 'Login failed');
       },
