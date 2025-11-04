@@ -7,17 +7,19 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private API = `${environment.apiUrl}/authentication`;
+  private readonly API = `${environment.apiUrl}/authentication`;
   private accessToken = ''; // 存内存，不存 localStorage
   public auth$ = new BehaviorSubject<boolean>(false); // 登录状态 observable
 
   constructor(private http: HttpClient) {}
 
+  /** 设置内存中的 access token */
   setAccessToken(token: string) {
     this.accessToken = token;
     this.auth$.next(!!token);
   }
 
+  /** 获取当前 access token */
   getAccessToken() {
     return this.accessToken;
   }
@@ -92,10 +94,6 @@ export class AuthService {
         })
       );
   }
-
-  /*   getToken(): string | null {
-    return localStorage.getItem('token');
-  } */
 
   // 判断是否登录
   isLoggedIn(): boolean {

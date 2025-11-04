@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AdminComponent } from './pages/admin/admin.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { authGuard } from './guards/auth.guard';
+import { authGuard } from './core/auth/auth.guard';
 import { ArticlesComponent } from './components/articles/articles.component';
 import { HomeComponent as MainHome } from './features/home/home.component';
 import { MainLayoutComponent } from './features/main-layout/main-layout.component';
@@ -53,7 +53,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./pages/login/login.component').then((m) => m.LoginComponent),
+      import('./features/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'register',

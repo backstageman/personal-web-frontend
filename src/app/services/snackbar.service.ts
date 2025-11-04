@@ -22,7 +22,7 @@ export class SnackBarService {
       horizontalPosition: position.horizontal,
       verticalPosition: position.vertical,
     };
-    this.snackBar.open(message, '关闭', config);
+    this.snackBar.open(message, 'close', config);
   }
 
   showError(
@@ -35,13 +35,13 @@ export class SnackBarService {
       horizontalPosition: position.horizontal,
       verticalPosition: position.vertical,
     };
-    this.snackBar.open(message, '关闭', config);
+    this.snackBar.open(message, 'close', config);
   }
 
   showInfo(
     message: string,
     duration: number = 3000,
-    action: string = '关闭',
+    action: string = 'close',
     position: SnackbarPosition = { horizontal: 'center', vertical: 'top' }
   ): void {
     const config: MatSnackBarConfig = {

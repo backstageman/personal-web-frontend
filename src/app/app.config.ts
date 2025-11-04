@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { provideLoadingBarInterceptor } from '@ngx-loading-bar/http-client';
 import { provideLoadingBarRouter } from '@ngx-loading-bar/router';
-import { authInterceptor } from './interceptor/auth.interceptor';
+import { authInterceptor } from './core/auth/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
