@@ -2,7 +2,15 @@
   中间的内容区域在垂直方向上拉伸以填满剩余空间
 */
 .home-container {
-  display: grid;
+  /*   display: grid;
   grid-template-rows: auto 0 1fr auto;
+  min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+
+  .content-container {
+    flex: 1;
+    overflow-y: auto;
+  }
 }

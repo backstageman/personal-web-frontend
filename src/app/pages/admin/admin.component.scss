@@ -6,12 +6,21 @@
   display: flex;
 
   & .content {
-    width: calc(100vw - 240px);
+    max-width: calc(100vw - 240px);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .top-bar-container {
+      height: 70px;
+      flex-shrink: 0;
+    }
 
     & .main-container {
+      flex: 1;
+      overflow-y: auto;
       background-color: #f5f6fa;
-      max-height: calc(100vh - 70px);
-      overflow: hidden;
+      min-height: calc(100vh - 70px);
 
       .filter-form {
         display: grid;

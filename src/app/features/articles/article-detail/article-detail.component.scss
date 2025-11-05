@@ -1,7 +1,5 @@
 .preview-container {
   width: 100%;
-  height: calc(100vh - 70px);
-  min-height: calc(100vh - 70px);
   overflow-y: auto; // ✅ 内容自然撑开，不在容器上滚动
   display: flex;
   justify-content: center;
@@ -10,7 +8,7 @@
   background-color: #f9fafb; // 页面背景
 
   & .preview-card {
-    min-height: calc(100vh - 70px); // ✅ 至少一屏高，允许变高
+    min-height: 100%;
     width: 100%;
     max-width: 800px; // A4 纸接近宽度
     background-color: #fff;
@@ -18,7 +16,6 @@
     padding: 2rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     line-height: 1.75;
-    // overflow-y: visible;
 
     & .article-title {
       font-size: 2.3rem;
