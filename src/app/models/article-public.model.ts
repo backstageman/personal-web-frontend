@@ -20,6 +20,7 @@ export interface ArticlePublic {
   // author?: User; // 这个数据如何在前端的接口定义呢？
   // authorId?: number;
   author?: Author;
+  htmlContent?: string; // 仅在获取单篇文章时返回的 HTML 内容
 }
 
 export interface ArticlePublicResponse {

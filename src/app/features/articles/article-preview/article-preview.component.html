@@ -1,4 +1,4 @@
-<div class="post-contianer inner">
+<div class="post-container inner">
   <article>
     <header>
       <section>
@@ -11,31 +11,26 @@
         </time>
         <!-- 注意：后续做国际化，日期也要实现 -->
       </section>
-      <h1>Article Title</h1>
+      <h1 class="post-title">{{ article.title }}</h1>
     </header>
-    <div class="author-info">
-      <section class="author-card"></section>
-      <section class="author-card-content"></section>
+    <div class="author-info" *ngIf="article.author">
+      <section class="author-card">
+        <div class="author-avatar"></div>
+      </section>
+      <section class="author-card-content">
+        <p class="author-name">{{ article.author.email }}</p>
+      </section>
     </div>
-    <div class="img-contianer">
+    <div class="img-container" *ngIf="article.coverImage || defaultCover">
       <!-- TODO:  Replace with <picture> when WebP/AVIF versions are available(响应式图片)  -->
-      <!-- <img
-        [ngSrc]="article.coverImage || defaultCover"
-        alt="GraphQL"
-        priority
-        width="1000"
-        height="600"
-      /> -->
       <img
-        [src]="defaultCover"
-        alt="GraphQL"
+        [ngSrc]="article.coverImage || defaultCover"
+        alt="{{ article.title }}"
         priority
         width="1000"
         height="600"
       />
     </div>
-    <section class="post-main-body">
-      {{ article.content }}
-    </section>
+    <section class="post-main-body" [innerHTML]="safeHtmlContent"></section>
   </article>
 </div>
