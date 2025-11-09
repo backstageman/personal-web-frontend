@@ -1,0 +1,41 @@
+<div class="post-contianer inner">
+  <article>
+    <header>
+      <section>
+        <time
+          class="post-full-meta-date"
+          data-test-label="post-full-meta-date"
+          [attr.datetime]="article.createdAt | date : 'yyyy-MM-ddTHH:mm:ssXXX'"
+        >
+          {{ article.createdAt | date : "MMM d, y" }}
+        </time>
+        <!-- 注意：后续做国际化，日期也要实现 -->
+      </section>
+      <h1>Article Title</h1>
+    </header>
+    <div class="author-info">
+      <section class="author-card"></section>
+      <section class="author-card-content"></section>
+    </div>
+    <div class="img-contianer">
+      <!-- TODO:  Replace with <picture> when WebP/AVIF versions are available(响应式图片)  -->
+      <!-- <img
+        [ngSrc]="article.coverImage || defaultCover"
+        alt="GraphQL"
+        priority
+        width="1000"
+        height="600"
+      /> -->
+      <img
+        [src]="defaultCover"
+        alt="GraphQL"
+        priority
+        width="1000"
+        height="600"
+      />
+    </div>
+    <section class="post-main-body">
+      {{ article.content }}
+    </section>
+  </article>
+</div>

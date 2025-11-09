@@ -24,8 +24,9 @@ export const routes: Routes = [
         path: 'blog/:id',
         loadComponent: () =>
           import(
-            './features/articles/article-detail/article-detail.component'
-          ).then((m) => m.ArticleDetailComponent),
+            // './features/articles/article-detail/article-detail.component'
+            './features/articles/article-preview/article-preview.component'
+          ).then((m) => m.ArticlePreviewComponent),
       },
       {
         path: 'about',

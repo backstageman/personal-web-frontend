@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, Input } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { ArticlePublic } from '../../../models/article-public.model';
 
 @Component({
@@ -10,4 +10,13 @@ import { ArticlePublic } from '../../../models/article-public.model';
 })
 export class ArticleItemComponent {
   @Input() article!: ArticlePublic;
+  private router = inject(Router);
+
+  goPreview(id: number) {
+    this.router.navigate([`/blog`, id], {
+      state: {
+        article: this.article,
+      },
+    });
+  }
 }
