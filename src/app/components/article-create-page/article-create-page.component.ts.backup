@@ -11,6 +11,7 @@ import { ArticleForm2Component } from '../article-form2/article-form2.component'
     <app-article-form2
       mode="create"
       (submitForm)="onCreate($event)"
+      (cancel)="cancel()"
     ></app-article-form2>
   `,
   styleUrl: './article-create-page.component.scss',
@@ -22,7 +23,8 @@ export class ArticleCreatePageComponent {
   onCreate(article: Partial<Article>) {
     this.service.createArticle(article).subscribe({
       next: (res) => {
-        this.goBack();
+        console.log('Article created successfully:', res);
+        this.cancel();
       },
       error: (err) => {
         console.error('Error creating article:', err);
@@ -30,7 +32,8 @@ export class ArticleCreatePageComponent {
     });
   }
 
-  private goBack(): void {
+  cancel() {
+    console.log('ArticleCreatePage: goBack() called');
     this.router.navigate(['/admin/articles']);
   }
 }

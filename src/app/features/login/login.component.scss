@@ -79,6 +79,85 @@
           text-decoration: underline;
         }
       }
+
+      // 开发模式快速登录样式
+      .dev-quick-login {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+
+        .stored-user-info {
+          h4 {
+            margin: 0 0 12px 0;
+            color: #007bff;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            &::before {
+              content: '🛠️';
+              margin-right: 8px;
+            }
+          }
+
+          p {
+            margin: 0 0 8px 0;
+            color: #666;
+            font-size: 0.9rem;
+          }
+
+          .user-details {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #e9ecef;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+
+            mat-icon {
+              color: #495057;
+              font-size: 20px;
+            }
+
+            span {
+              font-weight: 500;
+              color: #212529;
+            }
+
+            .dev-badge {
+              background: #28a745;
+              color: white;
+              padding: 2px 6px;
+              border-radius: 12px;
+              font-size: 0.75rem;
+              font-weight: 500;
+              margin-left: 8px;
+            }
+          }
+
+          .quick-actions {
+            display: flex;
+            gap: 8px;
+
+            button {
+              flex: 1;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 6px;
+              font-size: 0.9rem;
+
+              mat-icon {
+                font-size: 18px;
+              }
+            }
+          }
+        }
+      }
     }
   }
 

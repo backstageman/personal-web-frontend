@@ -1,7 +1,12 @@
 <div class="aritcle-item-center">
   <article class="article-item" (click)="goPreview(article.id)">
     <a aria-label="" target="_blank">
-      <img src="assets/images/article-cover-image-default-middle.webp" alt="" />
+      <!-- 🚨 问题修复：使用文章的封面图，如果没有则使用默认图片 -->
+      <img
+        [src]="article.coverImage || 'assets/images/article-cover-image-default-middle.webp'"
+        [alt]="article.title || '文章封面图'"
+        (error)="onImageError($event)"
+      />
     </a>
     <div class="article-card-content">
       <!-- <header [routerLink]="{{`'blog/' + article.id`}}"> -->

@@ -6,6 +6,37 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative; // 为绝对定位的子元素提供参考
+
+  // 开发模式指示器样式 - 居中显示
+  .dev-mode-indicator {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+    animation: pulse 2s infinite;
+    z-index: 10;
+    flex-shrink: 0; // 防止缩小
+
+    .dev-icon {
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+    }
+
+    .dev-text {
+      white-space: nowrap;
+    }
+  }
 
   & .left {
     display: flex;
@@ -83,5 +114,18 @@
     & .sign-out {
       padding-right: 30px;
     }
+  }
+}
+
+// 脉冲动画
+@keyframes pulse {
+  0% {
+    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+  }
+  50% {
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.5);
+  }
+  100% {
+    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
   }
 }

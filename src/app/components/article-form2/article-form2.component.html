@@ -1,8 +1,7 @@
 <!-- article-form-page.component.html -->
 <div class="page">
-  <!-- 头部 -->
   <mat-toolbar class="toolbar" color="default">
-    <button mat-stroked-button class="back" (click)="onCancel()">
+    <button mat-stroked-button class="back" (click)="goList($event)">
       <mat-icon>arrow_back</mat-icon>
       返回
     </button>
@@ -30,10 +29,19 @@
       <mat-form-field appearance="outline" class="span-2">
         <mat-label>标题</mat-label>
         <input matInput formControlName="title" required />
-        <mat-error *ngIf="form.value.title.touched && form.value.title.invalid"
-          >请输入标题</mat-error
+        <mat-error
+          *ngIf="form.get('title')?.touched && form.get('title')?.invalid"
         >
+          请输入标题
+        </mat-error>
       </mat-form-field>
+
+      <div class="cover-row span-2">
+        <app-cover-image-upload
+          [coverImageKey]="form.value.coverImage"
+          (coverImageChange)="onCoverImageChange($event)"
+        ></app-cover-image-upload>
+      </div>
 
       <!-- slug -->
       <mat-form-field appearance="outline" class="span-2">
@@ -55,35 +63,13 @@
         <div class="markdown-editor">
           <h3>Markdown编辑区</h3>
           <textarea formControlName="content" class="edit-area"></textarea>
-          <!-- <app-easy-mde-wrapper formControlName="content"></app-easy-mde-wrapper> -->
         </div>
         <!-- 内容预览 -->
         <div class="markdown-preview">
           <h3>内容预览</h3>
           <div class="view-area">
             <div [innerHtml]="form.get('content')?.value || ''"></div>
-            <!-- <markdown [data]="form.get('content')?.value || ''"></markdown> -->
           </div>
-        </div>
-      </div>
-
-      <!-- 封面图 URL + 预览 -->
-      <div class="cover-row span-2">
-        <mat-form-field appearance="outline" class="cover-input">
-          <mat-label>封面图 URL</mat-label>
-          <input
-            matInput
-            formControlName="coverImage"
-            placeholder="http://..."
-          />
-        </mat-form-field>
-        <div class="cover-preview" *ngIf="form.value.coverImage as url">
-          <img
-            #imgRef
-            [src]="url"
-            alt="cover"
-            (error)="imgRef.style.display = 'none'"
-          />
         </div>
       </div>
 
@@ -91,26 +77,6 @@
       <div class="chips-row span-2">
         <mat-form-field appearance="outline" class="span">
           <mat-label>Tags (逗号分隔)</mat-label>
-
-          <!--   <mat-chip
-            *ngFor="let t of form.value.tags || []"
-            (removed)="removeTag(t)"
-          >
-            {{ t }}
-            <button matChipRemove *ngIf="mode !== 'view'">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip> -->
-          <!--   <input
-            *ngIf="mode !== 'view'"
-            placeholder="回车添加标签"
-            (keydown.enter)="$event.preventDefault(); addTagFromInput(tagInput)"
-            #tagInput
-            (blur)="addTagFromInput(tagInput)"
-          /> -->
-          <!--   <mat-chip-set>
-            <input matInput formControlName="tags" />
-          </mat-chip-set> -->
           <input matInput formControlName="tags" />
         </mat-form-field>
       </div>
@@ -146,7 +112,7 @@
 
   <!-- 底部操作 -->
   <div class="footer">
-    <button mat-stroked-button (click)="onCancel()">取消</button>
+    <button mat-stroked-button (click)="goList($event)">取消</button>
     <button
       *ngIf="mode !== 'view'"
       color="primary"

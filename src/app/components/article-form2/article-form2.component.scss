@@ -1,4 +1,4 @@
-/* article-form-page.component.scss */
+﻿/* article-form-page.component.scss */
 .page {
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -154,4 +154,19 @@
   justify-content: flex-end;
   gap: 12px;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+// 封面图片上传组件相关样式
+.form-grid {
+  .cover-row {
+    grid-column: 1 / -1; // 跨越所有列
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    app-cover-image-upload {
+      width: 100%;
+      max-width: 600px; // 限制最大宽度
+    }
+  }
 }

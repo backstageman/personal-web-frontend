@@ -16,6 +16,37 @@
       <h2>Welcome Back!</h2>
       <p>Sign in to manage your posts, projects, and everything.</p>
 
+      <!-- 开发模式快速登录区域 -->
+      <div *ngIf="isDevMode && hasStoredCredentials" class="dev-quick-login">
+        <div class="stored-user-info">
+          <h4>开发模式 - 快速登录</h4>
+          <p>已保存的用户信息：</p>
+          <div class="user-details">
+            <mat-icon>person</mat-icon>
+            <span>{{ storedUserInfo?.email }}</span>
+            <small *ngIf="storedUserInfo?.isDevMode" class="dev-badge">Dev Mode</small>
+          </div>
+          <div class="quick-actions">
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="quickLogin()"
+              [disabled]="loading">
+              <mat-icon>flash_on</mat-icon>
+              快速登录
+            </button>
+            <button
+              mat-stroked-button
+              color="warn"
+              (click)="clearStoredCredentials()"
+              [disabled]="loading">
+              <mat-icon>clear</mat-icon>
+              清除信息
+            </button>
+          </div>
+        </div>
+      </div>
+
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline" class="w-full">
           <mat-icon matPrefix>mail</mat-icon>
@@ -39,7 +70,7 @@
           type="submit"
           [disabled]="loginForm.invalid"
         >
-          {{ loading ? "Logging in..." : "Login" }}
+          {{ loading ? "Logging in..." : (isDevMode ? "Dev Mode Login" : "Login") }}
         </button>
 
         <!-- <a class="forgot-password" routerLink="/forgot-password"

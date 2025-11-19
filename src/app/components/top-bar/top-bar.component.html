@@ -11,6 +11,12 @@
     </div>
   </div>
 
+  <!-- 开发模式指示器 - 居中显示 -->
+  <div *ngIf="isDevMode" class="dev-mode-indicator">
+    <mat-icon class="dev-icon">developer_mode</mat-icon>
+    <span class="dev-text">开发模式</span>
+  </div>
+
   <div class="right">
     <!-- 消息通知区域 -->
     <div class="messages">

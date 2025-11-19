@@ -38,7 +38,24 @@ export class AuthService {
   // 🔒 全局请求锁
   private requestLock = new Map<string, any>();
 
-  constructor(private http: HttpClient) {}
+  private readonly TOKEN_KEY = 'auth_token';
+  private readonly USER_INFO_KEY = 'user_info';
+
+  constructor(private http: HttpClient) {
+    this.initializeDevAuthFromStorage();
+  }
+
+  private initializeDevAuthFromStorage() {
+    if (environment.enableDevMode) {
+      const storedToken = localStorage.getItem(this.TOKEN_KEY);
+      const storedUser = localStorage.getItem(this.USER_INFO_KEY);
+      if (storedToken) {
+        this.accessToken = storedToken;
+        this.userSubject.next(storedUser ? JSON.parse(storedUser) : this.userSubject.value);
+        this.authChecked.next(true);
+      }
+    }
+  }
 
   /** 设置内存中的 access token */
   setAccessToken(token: string | null) {
@@ -84,6 +101,11 @@ export class AuthService {
           tap((res: any) => {
             this.setAccessToken(res.accessToken);
             this.userSubject.next(res.user || { userId: res.userId });
+            if (environment.enableDevMode && res.accessToken) {
+              localStorage.setItem(this.TOKEN_KEY, res.accessToken);
+              const info = res.user || { userId: res.userId };
+              localStorage.setItem(this.USER_INFO_KEY, JSON.stringify(info));
+            }
             this.authChecked.next(true);
             // console.log('✅ login success:', res);
             // return res;
@@ -144,6 +166,11 @@ export class AuthService {
           this.userSubject.next(
             res?.user || (res?.userId ? { userId: res.userId } : null)
           );
+          if (environment.enableDevMode && res?.accessToken) {
+            localStorage.setItem(this.TOKEN_KEY, res.accessToken);
+            const info = res?.user || (res?.userId ? { userId: res.userId } : null);
+            if (info) localStorage.setItem(this.USER_INFO_KEY, JSON.stringify(info));
+          }
           // console.log('refresh res >>>', res);
         }),
         catchError((err) => {
@@ -182,17 +209,17 @@ export class AuthService {
             )
             .pipe(
               tap((res: any) => {
-                //   console.log('logout >>>', res);
-                this.clearSession();
-                return of(null);
-                // return res;
-              }),
-              catchError((err) => {
-                // console.warn('logout failed, force clear session', err);
-                this.clearSession();
-                return of(null);
-              })
-            );
+              //   console.log('logout >>>', res);
+              this.clearSession();
+              return of(null);
+              // return res;
+            }),
+            catchError((err) => {
+              // console.warn('logout failed, force clear session', err);
+              this.clearSession();
+              return of(null);
+            })
+          );
         })
       );
     });
@@ -237,5 +264,28 @@ export class AuthService {
     this.setAccessToken(null);
     this.userSubject.next(null);
     this.authChecked.next(true);
+    if (environment.enableDevMode) {
+      localStorage.removeItem(this.TOKEN_KEY);
+      localStorage.removeItem(this.USER_INFO_KEY);
+    }
+  }
+
+  hasStoredCredentials(): boolean {
+    if (!environment.enableDevMode) return false;
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    return !!token;
+  }
+
+  getUserInfo(): any {
+    if (!environment.enableDevMode) return null;
+    const info = localStorage.getItem(this.USER_INFO_KEY);
+    return info ? JSON.parse(info) : null;
+  }
+
+  devModeLogin(email: string, password: string): Observable<any> {
+    if (!environment.enableDevMode) {
+      return this.login(email, password);
+    }
+    return this.login(email, password);
   }
 }

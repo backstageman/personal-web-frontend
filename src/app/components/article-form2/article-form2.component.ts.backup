@@ -1,11 +1,4 @@
-﻿import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+﻿import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -50,7 +43,7 @@ export class ArticleForm2Component implements OnInit {
   @Input() mode: PageMode = 'create';
   @Input() article: Article | null = null;
   @Output() submitForm = new EventEmitter<Partial<Article>>();
-  @Output() cancel = new EventEmitter<Event>();
+  @Output() cancel = new EventEmitter<void>();
 
   loading = false;
   form!: FormGroup;
@@ -95,12 +88,7 @@ export class ArticleForm2Component implements OnInit {
   }
 
   onCoverImageChange(coverImageKey: string | null) {
-    console.log('ArticleForm2: onCoverImageChange called with:', coverImageKey);
     this.form.patchValue({ coverImage: coverImageKey });
-    console.log(
-      'ArticleForm2: form.value.coverImage after patch:',
-      this.form.value.coverImage
-    );
   }
 
   onSubmit() {
@@ -128,12 +116,8 @@ export class ArticleForm2Component implements OnInit {
     }
   }
 
-  goList(event?: Event) {
-    // 防止事件冒泡
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    this.router.navigate(['/admin/articles']);
+  onCancel() {
+    console.log('ArticleForm2: onCancel() called');
+    this.cancel.emit();
   }
 }

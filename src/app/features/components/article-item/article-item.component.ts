@@ -19,4 +19,19 @@ export class ArticleItemComponent {
       },
     });
   }
+
+  /**
+   * 🚨 问题修复：处理图片加载失败的情况
+   * 当上传的图片加载失败时，显示默认图片
+   */
+  onImageError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    console.warn(`Image failed to load: ${img.src}, falling back to default image`);
+
+    // 设置为默认图片
+    img.src = 'assets/images/article-cover-image-default-middle.webp';
+
+    // 移除错误监听器，避免无限循环
+    img.onerror = null;
+  }
 }

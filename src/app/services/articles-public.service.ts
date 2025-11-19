@@ -33,7 +33,6 @@ export class ArticlesPublicService {
       })
       .pipe(
         catchError((error) => {
-          console.log('Error fetching articles:', error);
           return throwError(() => new Error('Failed to fetch articles'));
         })
       );
@@ -42,7 +41,6 @@ export class ArticlesPublicService {
   getArticleById(id: string): Observable<ArticlePublic> {
     return this.http.get<ArticlePublic>(`${this.API}/${id}`).pipe(
       catchError((error) => {
-        console.log('Error fetching article by ID:', error);
         return throwError(() => new Error('Failed to fetch article by ID'));
       })
     );

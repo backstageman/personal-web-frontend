@@ -39,10 +39,10 @@ export const authInterceptor: HttpInterceptorFn = (
   if (token) {
     authReq = req.clone({
       setHeaders: { Authorization: `Bearer ${token}` },
-      withCredentials: true,
+      withCredentials: false,
     });
   } else {
-    authReq = req.clone({ withCredentials: true });
+    authReq = req.clone({ withCredentials: false });
   }
 
   return next(authReq).pipe(
@@ -52,7 +52,7 @@ export const authInterceptor: HttpInterceptorFn = (
           switchMap((res) => {
             const newReq = req.clone({
               setHeaders: { Authorization: `Bearer ${res.accessToken}` },
-              withCredentials: true,
+              withCredentials: false,
             });
             return next(newReq);
           }),

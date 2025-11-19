@@ -25,7 +25,6 @@ export class ArticleViewPageComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.service.getArticleById(id).subscribe({
       next: (article) => {
-        console.log(article, 'fetched article:');
         // this.article = article;
       },
       error: (err) => {

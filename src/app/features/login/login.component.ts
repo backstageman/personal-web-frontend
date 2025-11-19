@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,9 +10,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
 import { SnackBarService } from '../../services/snackbar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -23,11 +25,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonModule,
     MatIconModule,
     RouterLink,
+    NgIf,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   errorMessage = '';
@@ -36,6 +39,11 @@ export class LoginComponent {
   private snackBar: MatSnackBar = inject(MatSnackBar);
   countdown = 3;
   countdownTimer: any;
+
+  // 开发模式相关
+  isDevMode = environment.enableDevMode;
+  hasStoredCredentials = false;
+  storedUserInfo: any = null;
 
   constructor(
     private fb: FormBuilder,
@@ -48,6 +56,60 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit() {
+    // 开发模式下检查是否有存储的登录信息
+    if (this.isDevMode) {
+      this.checkStoredCredentials();
+    }
+  }
+
+  /**
+   * 检查存储的登录信息
+   */
+  private checkStoredCredentials(): void {
+    this.hasStoredCredentials = this.authService.hasStoredCredentials();
+    if (this.hasStoredCredentials) {
+      this.storedUserInfo = this.authService.getUserInfo();
+      console.log('LoginComponent: Found stored credentials:', this.storedUserInfo);
+    }
+  }
+
+  /**
+   * 快速登录（使用存储的凭证）
+   */
+  quickLogin(): void {
+    if (!this.hasStoredCredentials || !this.storedUserInfo) {
+      return;
+    }
+
+    console.log('LoginComponent: Quick login with stored credentials');
+    this.loading = true;
+
+    // 直接设置已登录状态
+    this.authService.setAccessToken(this.authService.getAccessToken());
+    this.startCountdown();
+  }
+
+  /**
+   * 清除存储的登录信息
+   */
+  clearStoredCredentials(): void {
+    if (!this.isDevMode) {
+      return;
+    }
+
+    this.authService.logOut().subscribe({
+      complete: () => {
+        this.hasStoredCredentials = false;
+        this.storedUserInfo = null;
+        this.snackBar.open('已清除本地登录信息', '关闭', {
+          duration: 2000,
+          panelClass: ['info-snackbar']
+        });
+      }
+    });
+  }
+
   onSubmit() {
     if (this.loginForm.invalid) return;
 
@@ -56,21 +118,18 @@ export class LoginComponent {
 
     const { email, password } = this.loginForm.value;
 
-    this.authService.login(email, password).subscribe({
+    // 开发模式下使用mock登录或真实登录
+    const loginMethod = this.isDevMode ? 'devModeLogin' : 'login';
+
+    this.authService[loginMethod](email, password).subscribe({
       next: (res) => {
         console.log('Login success:', res);
         if (res.accessToken) {
-          this.snackBar
-            .open('Login successful! Redirecting in 3 seconds...', 'close', {
-              duration: 1000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-              panelClass: ['snackbar-position'],
-            })
-            .afterDismissed()
-            .subscribe(() => {
-              this.router.navigate(['admin', 'articles']);
-            });
+          this.successMessage = this.isDevMode
+            ? 'Dev mode login successful! Redirecting...'
+            : 'Login successful! Redirecting...';
+
+          this.startCountdown();
         }
       },
       error: (err) => {

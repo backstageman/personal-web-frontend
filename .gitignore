@@ -63,3 +63,8 @@ dist/
 
 # document
 nest*.md
+
+# configs
+.claude
+CLAUDE.md
+DEV_MODE_GUIDE.md

@@ -1,0 +1,127 @@
+﻿.file-upload-container {
+  position: relative;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  min-height: 200px;
+  background-color: #fafafa;
+  
+  &:hover {
+    border-color: #1976d2;
+    background-color: #f5f5f5;
+  }
+  
+  &.dragging {
+    border-color: #1976d2;
+    background-color: #e3f2fd;
+    transform: scale(1.02);
+  }
+}
+
+.upload-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.upload-content {
+  text-align: center;
+  
+  .upload-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+  
+  .upload-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin: 8px 0;
+  }
+  
+  .upload-hint {
+    font-size: 14px;
+    color: #666;
+    margin: 4px 0;
+  }
+  
+  .upload-limit {
+    font-size: 12px;
+    color: #999;
+    margin-top: 8px;
+  }
+}
+
+.preview-area {
+  position: relative;
+  min-height: 200px;
+  
+  .preview-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    
+    .preview-image {
+      width: 100%;
+      height: 100%;
+      min-height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    
+    .preview-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 6px;
+      
+      .remove-btn,
+      .change-btn {
+        margin: 0 8px;
+        background: white;
+        
+        mat-icon {
+          color: #333;
+        }
+        
+        &:hover {
+          background: #f5f5f5;
+        }
+      }
+    }
+    
+    &:hover .preview-overlay {
+      opacity: 1;
+    }
+  }
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  z-index: 10;
+}

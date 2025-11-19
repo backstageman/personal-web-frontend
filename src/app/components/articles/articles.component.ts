@@ -21,10 +21,9 @@ import {
 import { Article } from '../../models/article.model';
 import { ArticlesService } from '../../services/articles.service';
 import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
-import { cleanQueryParams, convertDatesToISO } from '../../utils/util';
 import {
   MatDatepicker,
   MatDatepickerModule,
@@ -36,11 +35,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SnackBarService } from '../../services/snackbar.service';
 import { BatchUpdatePayload } from '../../shared/interfaces/api-response.interface';
+import { MatChip } from '@angular/material/chips';
 
 @Component({
   selector: 'app-articles',
+  standalone: true,
   imports: [
+    FormsModule,
     ReactiveFormsModule,
+    MatPaginator,
     FormsModule,
     MatInputModule,
     MatFormField,
@@ -57,6 +60,9 @@ import { BatchUpdatePayload } from '../../shared/interfaces/api-response.interfa
     MatNativeDateModule,
     MatDatepickerModule,
     MatLabel,
+    MatChip,
+    NgIf,
+    NgFor,
   ],
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.scss',
@@ -69,7 +75,6 @@ export class ArticlesComponent implements OnInit {
   private snackBarService = inject(SnackBarService);
 
   filterForm!: FormGroup;
-  checked = false;
   displayedColumns: string[] = [
     'select',
     'id',
@@ -82,28 +87,15 @@ export class ArticlesComponent implements OnInit {
     'isPublished',
     'createdAt',
     'updatedAt',
-    /* 
-    author: {id: 9, email: 'test@123.com'}
-  */
-    // 'author',
-    // 'authorId',
-    // 'author.email',
     'actions',
   ];
-  // dataSource = new MatTableDataSource<Article>([]);
-  dataSource: Article[] = [];
+  dataSource = new MatTableDataSource<Article>([]);
   totalArticles = 0;
   page = 1;
   limit = 10;
-  /*   dataSource 数据类型
-  new MatTableDataSource<any>([
-    { title: '这是一个表格，有分页1。3', name: '文章标题1' },
-    { title: '任务2', name: '文章标题2' },
-    { title: '任务3', name: '文章标题3' },
-  ]);*/
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  // SelectionModel 用于管理行的选择状态
+  // SelectionModel for managing row selection state
   selection = new SelectionModel<Article>(true, []);
 
   ngOnInit(): void {
@@ -124,36 +116,36 @@ export class ArticlesComponent implements OnInit {
     this.loadArticles();
   }
 
-  loadArticles() {
-    if (this.filterForm && this.filterForm.value) {
-      const searchParams = cleanQueryParams(this.filterForm.value);
-      const payload = convertDatesToISO(searchParams, [
-        'createdAtStart',
-        'createdAtEnd',
-        'updatedAtStart',
-        'updatedAtEnd',
-      ] as const);
-      console.log('搜索参数 》》', payload);
-      this.articleService
-        .getArticles(this.page, this.limit, payload)
-        .subscribe((response) => {
-          console.log('data from server', response);
-          this.dataSource = response.data;
-          this.totalArticles = response.total;
-        });
-    } else {
-      this.articleService
-        .getArticles(this.page, this.limit)
-        .subscribe((response) => {
-          console.log('data from server', response);
-          this.dataSource = response.data;
-          this.totalArticles = response.total;
-        });
-    }
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
-  onPageChange(event: PageEvent) {
-    this.page = event.pageIndex + 1; // MatPaginator 的 pageIndex 从 0 开始
+  loadArticles() {
+    this.articleService.getArticles(this.page, this.limit).subscribe({
+      next: (response) => {
+        // 获取文章数组数据，支持标准响应格式
+        let articlesData: Article[] = [];
+
+        if (response?.data && Array.isArray(response.data)) {
+          // 标准格式: { data: [...], total, page, limit }
+          articlesData = response.data;
+          this.totalArticles = response.total;
+        } else {
+          // 如果响应格式不符合预期，使用空数组
+          articlesData = [];
+          this.totalArticles = 0;
+        }
+
+        this.dataSource.data = articlesData;
+      },
+      error: (error) => {
+        console.error('Error loading articles:', error);
+      },
+    });
+  }
+
+  onPageChange(event: any) {
+    this.page = event.pageIndex + 1;
     this.limit = event.pageSize;
     this.loadArticles();
   }
@@ -177,13 +169,11 @@ export class ArticlesComponent implements OnInit {
   deleteArticle(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '250px',
-      enterAnimationDuration: '250ms',
-      exitAnimationDuration: '250ms',
       data: {
-        title: '删除文章',
-        content: `确定要删除ID为:${id}的这篇文章么？`,
-        confirmText: '删除',
-        cancelText: '取消',
+        title: 'Delete Article',
+        content: `Are you sure you want to delete article with ID: ${id}?`,
+        confirmText: 'Delete',
+        cancelText: 'Cancel',
       },
     });
 
@@ -191,15 +181,13 @@ export class ArticlesComponent implements OnInit {
       if (result) {
         this.articleService.deleteArticle(id).subscribe({
           next: () => {
-            console.log('Article deleted successfully');
-            this.loadArticles(); // 刷新文章列表
+            this.loadArticles();
           },
           error: (err) => {
             console.error('Error deleting article:', err);
-            this.snackBarService.showInfo('删除文章失败，请稍后重试。');
-          },
-          complete: () => {
-            console.log('Delete operation completed');
+            this.snackBarService.showInfo(
+              'Failed to delete article. Please try again later.'
+            );
           },
         });
       }
@@ -207,7 +195,6 @@ export class ArticlesComponent implements OnInit {
   }
 
   onSearch() {
-    console.log('搜索表单', this.filterForm.value);
     this.page = 1;
     this.loadArticles();
   }
@@ -217,24 +204,24 @@ export class ArticlesComponent implements OnInit {
     this.onSearch();
   }
 
-  /** 是否所有行都被选中 */
+  /** Whether all rows are selected */
   isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.length;
+    const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** 选择所有行。如果已全选则取消全选。 */
+  /** Toggle all rows. If all are selected, deselect all. */
   masterToggle(): void {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.forEach((row) => this.selection.select(row));
+      : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
-  /** 获取复选框的标签 */
+  /** Get the checkbox label for a row */
   checkboxLabel(row?: Article): string {
     if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.id
@@ -251,26 +238,23 @@ export class ArticlesComponent implements OnInit {
       };
       this.articleService.batchUpdateArticles(payload).subscribe({
         next: (response) => {
-          console.log('Batch update response:', response);
           this.snackBarService.showSuccess(
-            `成功发布 ${response.successfulCount} 篇文章，失败 ${response.failedCount} 篇文章。`
+            `Successfully published ${response.successfulCount} articles, failed ${response.failedCount} articles.`
           );
-          this.loadArticles(); // 刷新文章列表
-          this.selection.clear(); // 清空选择
+          this.loadArticles();
+          this.selection.clear();
         },
         error: (err) => {
           console.error('Error in batch update:', err);
           this.snackBarService.showError(
-            `批量发布文章失败，请稍后重试。
-            reason: ${err.error.message || ''}`
+            `Batch publish articles failed, please try again later. reason: ${
+              err.error?.message || ''
+            }`
           );
-        },
-        complete: () => {
-          console.log('Batch update operation completed');
         },
       });
     } else {
-      this.snackBarService.showInfo('请先选择要发布的文章');
+      this.snackBarService.showInfo('Please select articles to publish first.');
     }
   }
 
@@ -284,25 +268,25 @@ export class ArticlesComponent implements OnInit {
       };
       this.articleService.batchUpdateArticles(payload).subscribe({
         next: (response) => {
-          console.log('Batch update response:', response);
           this.snackBarService.showSuccess(
-            `成功下架 ${response.successfulCount} 篇文章，失败 ${response.failedCount} 篇文章。`
+            `Successfully unpublished ${response.successfulCount} articles, failed ${response.failedCount} articles.`
           );
-          this.loadArticles(); // 刷新文章列表
-          this.selection.clear(); // 清空选择
+          this.loadArticles();
+          this.selection.clear();
         },
         error: (err) => {
           console.error('Error in batch update:', err);
           this.snackBarService.showError(
-            `批量下架文章失败，请稍后重试。reason: ${err.error.message || ''}`
+            `Batch unpublish articles failed, please try again later. reason: ${
+              err.error?.message || ''
+            }`
           );
-        },
-        complete: () => {
-          console.log('Batch update operation completed');
         },
       });
     } else {
-      this.snackBarService.showInfo('请先选择要下架的文章');
+      this.snackBarService.showInfo(
+        'Please select articles to unpublish first.'
+      );
     }
   }
 
@@ -312,29 +296,27 @@ export class ArticlesComponent implements OnInit {
       const selectedIds = selectedArticles.map((article) => article.id);
       const payload: BatchUpdatePayload = {
         ids: selectedIds,
-        action: 'unpublish',
+        action: 'delete',
       };
       this.articleService.batchUpdateArticles(payload).subscribe({
         next: (response) => {
-          console.log('Batch update response:', response);
           this.snackBarService.showSuccess(
-            `成功删除 ${response.successfulCount} 篇文章，失败 ${response.failedCount} 篇文章。`
+            `Successfully deleted ${response.successfulCount} articles, failed ${response.failedCount} articles.`
           );
-          this.loadArticles(); // 刷新文章列表
-          this.selection.clear(); // 清空选择
+          this.loadArticles();
+          this.selection.clear();
         },
         error: (err) => {
           console.error('Error in batch update:', err);
           this.snackBarService.showError(
-            `批量删除文章失败，请稍后重试。reason: ${err.error.message || ''}`
+            `Batch delete articles failed, please try again later. reason: ${
+              err.error?.message || ''
+            }`
           );
-        },
-        complete: () => {
-          console.log('Batch update operation completed');
         },
       });
     } else {
-      this.snackBarService.showInfo('请先选择要删除的文章');
+      this.snackBarService.showInfo('Please select articles to delete first.');
     }
   }
 }

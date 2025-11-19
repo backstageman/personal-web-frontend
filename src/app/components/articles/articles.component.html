@@ -1,15 +1,15 @@
-<!-- 下面是组件的初始版本， 先不拆分 -->
+<!-- Articles Management Page -->
 <div class="table-search-container">
-  <!-- 筛选区域 -->
+  <!-- Search Filter Section -->
   <form class="filter-form" [formGroup]="filterForm" (ngSubmit)="onSearch()">
     <div class="grid grid-cols-4">
       <mat-form-field appearance="outline">
-        <mat-label>标题</mat-label>
+        <mat-label>Title</mat-label>
         <input matInput formControlName="title" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>内容</mat-label>
+        <mat-label>Content</mat-label>
         <input matInput formControlName="content" />
       </mat-form-field>
 
@@ -19,31 +19,31 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>标签</mat-label>
+        <mat-label>Tags</mat-label>
         <input matInput formControlName="tags" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>查看次数</mat-label>
+        <mat-label>View Count</mat-label>
         <input matInput type="number" formControlName="viewCount" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>是否发布</mat-label>
+        <mat-label>Is Published</mat-label>
         <mat-select formControlName="isPublished">
-          <mat-option [value]="">全部</mat-option>
-          <mat-option [value]="true">已发布</mat-option>
-          <mat-option [value]="false">未发布</mat-option>
+          <mat-option [value]="">All</mat-option>
+          <mat-option [value]="true">Published</mat-option>
+          <mat-option [value]="false">Unpublished</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>作者ID</mat-label>
+        <mat-label>Author ID</mat-label>
         <input matInput type="number" formControlName="authorId" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>创建时间-开始</mat-label>
+        <mat-label>Created Date - Start</mat-label>
         <input
           matInput
           [matDatepicker]="picker1"
@@ -57,7 +57,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>创建时间-结束</mat-label>
+        <mat-label>Created Date - End</mat-label>
         <input
           matInput
           [matDatepicker]="picker2"
@@ -71,7 +71,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>更新时间-开始</mat-label>
+        <mat-label>Updated Date - Start</mat-label>
         <input
           matInput
           [matDatepicker]="picker3"
@@ -85,7 +85,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>更新时间-结束</mat-label>
+        <mat-label>Updated Date - End</mat-label>
         <input
           matInput
           [matDatepicker]="picker4"
@@ -100,33 +100,33 @@
     </div>
 
     <div class="form-actions">
-      <button mat-flat-button color="primary" type="submit">搜索</button>
+      <button mat-flat-button color="primary" type="submit">Search</button>
       <button mat-stroked-button color="warn" type="button" (click)="onReset()">
-        重置
+        Reset
       </button>
     </div>
   </form>
 
-  <!-- 操作按钮区域 -->
+  <!-- Action Buttons Section -->
   <div class="action-buttons">
     <button mat-raised-button color="primary" (click)="newArticle()">
-      新建
+      New Article
     </button>
     <button mat-stroked-button color="accent" (click)="publishSelected()">
-      发布
+      Publish
     </button>
     <button mat-flat-button color="warn" (click)="unpublishSelected()">
-      下架
+      Unpublish
     </button>
     <button mat-flat-button color="warn" (click)="deleteSelected()">
-      删除
+      Delete
     </button>
   </div>
 
-  <!-- 数据展示区域 -->
+  <!-- Data Table Section -->
   <div class="data-table">
     <mat-table [dataSource]="dataSource" class="full-width-table">
-      <!-- 复选框列 -->
+      <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <mat-header-cell *matHeaderCellDef>
           <mat-checkbox
@@ -154,12 +154,12 @@
       </ng-container>
 
       <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef> 标题 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
         <mat-cell *matCellDef="let article"> {{ article.title }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="content">
-        <mat-header-cell *matHeaderCellDef> 正文 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Content </mat-header-cell>
         <mat-cell *matCellDef="let article">
           <div class="truncate-text">
             {{ article.content }}
@@ -168,54 +168,67 @@
       </ng-container>
 
       <ng-container matColumnDef="coverImage">
-        <mat-header-cell *matHeaderCellDef> 封面图 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Cover Image</mat-header-cell>
         <mat-cell *matCellDef="let article">
-          {{ article.coverImage }}
+          <img
+            *ngIf="article.coverImage"
+            [src]="article.coverImage"
+            [alt]="article.title"
+            class="cover-image-preview"
+          />
+          <span *ngIf="!article.coverImage" class="no-image">No Image</span>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="slug">
-        <mat-header-cell *matHeaderCellDef> slug </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Slug </mat-header-cell>
         <mat-cell *matCellDef="let article">
           {{ article.slug }}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="tags">
-        <mat-header-cell *matHeaderCellDef> tags </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Tags </mat-header-cell>
         <mat-cell *matCellDef="let article">
-          {{ article.tags }}
+          <span class="tags-container">
+            <mat-chip *ngFor="let tag of article.tags">{{ tag }}</mat-chip>
+            <span
+              *ngIf="!article.tags || article.tags.length === 0"
+              class="no-tags"
+              >No Tags</span
+            >
+          </span>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="viewCount">
-        <mat-header-cell *matHeaderCellDef> 观看次数 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Views </mat-header-cell>
         <mat-cell *matCellDef="let article">
           {{ article.viewCount }}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="isPublished">
-        <mat-header-cell *matHeaderCellDef> 是否发布 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Published </mat-header-cell>
         <mat-cell *matCellDef="let article">
           <span
             [class.text-green]="article.isPublished"
             [class.text-red]="!article.isPublished"
           >
-            {{ article.isPublished ? "已发布" : "未发布" }}
+            {{ article.isPublished ? "Published" : "Draft" }}
           </span>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
-        <mat-header-cell *matHeaderCellDef> 创建时间 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
         <mat-cell *matCellDef="let article">
           {{ article.createdAt | date : "yyyy-MM-dd HH:mm" }}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="updatedAt">
-        <mat-header-cell *matHeaderCellDef> 更新时间 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Updated At </mat-header-cell>
         <mat-cell *matCellDef="let article">
           {{ article.updatedAt | date : "yyyy-MM-dd HH:mm" }}
         </mat-cell>
@@ -223,23 +236,23 @@
 
       <!-- Actions -->
       <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <button mat-button color="accent" (click)="viewArticle(element.id)">
-            查看
+            View
           </button>
           <button
             mat-button
             color="accent"
             (click)="viewArticleDetail(element.id)"
           >
-            详情
+            Detail
           </button>
           <button mat-button color="accent" (click)="editArticle(element.id)">
-            编辑
+            Edit
           </button>
           <button mat-button color="warn" (click)="deleteArticle(element.id)">
-            删除
+            Delete
           </button>
         </mat-cell>
       </ng-container>
