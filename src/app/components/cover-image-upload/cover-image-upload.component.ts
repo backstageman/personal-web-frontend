@@ -17,9 +17,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { UploadService, UploadProgress, StreamUploadResponse } from '../../services/upload.service';
-import { AuthService } from '../../services/auth.service';
+import {
+  UploadService,
+  UploadProgress,
+  StreamUploadResponse,
+} from '../../services/upload.service';
+import { AuthService } from '../../core/auth/auth.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cover-image-upload',
@@ -63,8 +68,6 @@ export class CoverImageUploadComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['coverImageKey']) {
       this.imageError = false;
-      console.log('CoverImageUpload: coverImageKey changed to:', this.coverImageKey);
-      console.log('CoverImageUpload: coverImageUrl is now:', this.coverImageUrl);
     }
   }
 
@@ -86,7 +89,6 @@ export class CoverImageUploadComponent implements OnChanges {
    * 触发文件选择
    */
   selectFile(event: MouseEvent): void {
-    console.log('CoverImageUpload: selectFile() called');
     event.preventDefault();
     event.stopPropagation();
     this.isFileSelecting = true;
@@ -108,7 +110,6 @@ export class CoverImageUploadComponent implements OnChanges {
 
     if (!file) {
       // 用户没有选择文件（点击了取消），不做任何操作，留在当前页面
-      console.log('CoverImageUpload: No file selected, returning');
       // 重置文件输入值，确保下次change事件能正确触发
       target.value = '';
       this.isFileSelecting = false;
@@ -117,7 +118,6 @@ export class CoverImageUploadComponent implements OnChanges {
       return;
     }
 
-    console.log('CoverImageUpload: File selected, proceeding with upload');
     this.handleFile(file);
     // 重置文件输入值
     target.value = '';
@@ -133,9 +133,6 @@ export class CoverImageUploadComponent implements OnChanges {
 
     const fileName = this.uploadService.extractFileName(file);
 
-    console.log('CoverImageUpload: Starting stream upload for file:', file.name);
-    console.log('CoverImageUpload: Generated fileName:', fileName);
-
     // 恢复使用流式上传
     this.uploadService.streamUploadFile(fileName, file.type, file).subscribe({
       next: ({ response, progress }) => {
@@ -144,8 +141,6 @@ export class CoverImageUploadComponent implements OnChanges {
 
         // 如果收到响应，说明上传完成
         if (response) {
-          console.log('CoverImageUpload: Stream upload completed successfully');
-
           // 存储publicUrl用于显示
           this.currentPublicUrl = response.publicUrl;
 
@@ -158,15 +153,34 @@ export class CoverImageUploadComponent implements OnChanges {
             this.isUploading = false;
             this.uploadProgress = null;
             this.cdr.detectChanges();
-            console.log('CoverImageUpload: Final coverImageKey:', this.coverImageKey);
-            console.log('CoverImageUpload: Final coverImageUrl:', this.coverImageUrl);
-            console.log('CoverImageUpload: currentPublicUrl:', this.currentPublicUrl);
+            console.log(
+              'CoverImageUpload: Final coverImageKey:',
+              this.coverImageKey
+            );
+            console.log(
+              'CoverImageUpload: Final coverImageUrl:',
+              this.coverImageUrl
+            );
+            console.log(
+              'CoverImageUpload: currentPublicUrl:',
+              this.currentPublicUrl
+            );
             // 测试URL可访问性
             if (this.coverImageUrl) {
-              console.log('CoverImageUpload: Testing URL accessibility:', this.coverImageUrl);
+              console.log(
+                'CoverImageUpload: Testing URL accessibility:',
+                this.coverImageUrl
+              );
               fetch(this.coverImageUrl, { method: 'HEAD' })
-                .then(res => console.log('CoverImageUpload: URL response status:', res.status))
-                .catch(err => console.error('CoverImageUpload: URL access error:', err));
+                .then((res) =>
+                  console.log(
+                    'CoverImageUpload: URL response status:',
+                    res.status
+                  )
+                )
+                .catch((err) =>
+                  console.error('CoverImageUpload: URL access error:', err)
+                );
             }
           }, 0);
 
@@ -218,7 +232,6 @@ export class CoverImageUploadComponent implements OnChanges {
    * 处理图片成功加载
    */
   onImageLoad(event: Event): void {
-    console.log('CoverImageUpload: Image loaded successfully');
     this.imageError = false;
   }
 
@@ -296,22 +309,38 @@ export class CoverImageUploadComponent implements OnChanges {
    * 检查用户是否已登录
    */
   private checkUserLogin(): boolean {
-    if (!this.authService.isLoggedIn()) {
-      console.warn('CoverImageUpload: User is not logged in');
+    // 确保认证状态已初始化（如果需要的话）
+    if (!this.authService['authChecked']?.value) {
+      this.authService.initAuthState();
+    }
 
-      // 显示登录提示
-      this.snackBar.open('请先登录后再上传图片', '去登录', {
-        duration: 5000,
-        panelClass: ['warning-snackbar'],
-      }).onAction().subscribe(() => {
-        // 用户点击"去登录"按钮时跳转到登录页
-        this.router.navigate(['/login']);
-      });
+    // 检查登录状态（AuthService会自动处理开发模式的localStorage恢复）
+    const isLoggedIn = this.authService.isLoggedIn();
+    console.log('CoverImageUpload: Authentication check - isLoggedIn:', isLoggedIn, 'devMode:', environment.enableDevMode);
 
+    if (!isLoggedIn) {
+      console.log('CoverImageUpload: User not logged in, showing login prompt');
+      this.showLoginPrompt();
       return false;
     }
 
+    console.log('CoverImageUpload: User is logged in, proceeding with upload');
     return true;
+  }
+
+  /**
+   * 显示登录提示
+   */
+  private showLoginPrompt(): void {
+    this.snackBar
+      .open('请先登录后再上传图片', '去登录', {
+        duration: 5000,
+      })
+      .onAction()
+      .subscribe(() => {
+        // 用户点击"去登录"按钮时跳转到登录页
+        this.router.navigate(['/login']);
+      });
   }
 
   /**

@@ -51,7 +51,7 @@ export class CoverImageUploadComponent implements OnChanges {
   ) {}
 
   /**
-   * 当输入属性变化时重置错误状�?   */
+   * 当输入属性变化时重置错误状�?   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['coverImageKey']) {
       this.imageError = false;
@@ -71,13 +71,12 @@ export class CoverImageUploadComponent implements OnChanges {
    * 触发文件选择
    */
   selectFile(event: MouseEvent): void {
-    console.log('CoverImageUpload: selectFile() called');
     event.preventDefault();
     event.stopPropagation();
     this.isFileSelecting = true;
     setTimeout(() => {
       this.fileInput.nativeElement.click();
-      // 延迟重置标志，确保文件选择事件能正确处�?      setTimeout(() => {
+      // 延迟重置标志，确保文件选择事件能正确处�?      setTimeout(() => {
         this.isFileSelecting = false;
       }, 100);
     }, 0);
@@ -95,20 +94,18 @@ export class CoverImageUploadComponent implements OnChanges {
     const file = target.files?.[0];
 
     if (!file) {
-      // 用户没有选择文件（点击了取消），不做任何操作，留在当前页�?      console.log('CoverImageUpload: No file selected, returning');
-      // 重置文件输入值，确保下次change事件能正确触�?      target.value = '';
+      // 用户没有选择文件（点击了取消），不做任何操作，留在当前页�?      console.log('CoverImageUpload: No file selected, returning');
+      // 重置文件输入值，确保下次change事件能正确触�?      target.value = '';
       this.isFileSelecting = false;
       return;
     }
 
-    // 只有在主动选择文件时才处理上传（而不是在文件选择器取消时�?    if (!this.isFileSelecting) {
-      console.log('CoverImageUpload: File selected but not from file selector, ignoring');
+    // 只有在主动选择文件时才处理上传（而不是在文件选择器取消时�?    if (!this.isFileSelecting) {
       return;
     }
 
-    console.log('CoverImageUpload: File selected, proceeding with upload');
     this.handleFile(file);
-    // 重置文件输入�?    target.value = '';
+    // 重置文件输入�?    target.value = '';
     this.isFileSelecting = false;
   }
 
@@ -130,10 +127,10 @@ export class CoverImageUploadComponent implements OnChanges {
             this.uploadProgress = progress;
           },
           complete: () => {
-            // 3. 上传成功，通知父组�?            this.coverImageChange.emit(response.fileKey);
+            // 3. 上传成功，通知父组�?            this.coverImageChange.emit(response.fileKey);
             this.isUploading = false;
             this.uploadProgress = null;
-            this.snackBar.open('封面图上传成�?, '关闭', {
+            this.snackBar.open('封面图上传成�?, '关闭', {
               duration: 2000,
               panelClass: ['success-snackbar'],
             });
@@ -142,7 +139,7 @@ export class CoverImageUploadComponent implements OnChanges {
             console.error('Upload failed:', error);
             this.isUploading = false;
             this.uploadProgress = null;
-            this.snackBar.open('封面图上传失败，请重�?, '关闭', {
+            this.snackBar.open('封面图上传失败，请重�?, '关闭', {
               duration: 3000,
               panelClass: ['error-snackbar'],
             });
@@ -162,7 +159,7 @@ export class CoverImageUploadComponent implements OnChanges {
   }
 
   /**
-   * 删除封面�?   */
+   * 删除封面�?   */
   removeCoverImage(): void {
     this.coverImageChange.emit(null);
     this.snackBar.open('封面图已删除', '关闭', {
@@ -194,7 +191,7 @@ export class CoverImageUploadComponent implements OnChanges {
   }
 
   /**
-   * 拖拽开�?   */
+   * 拖拽开�?   */
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -225,7 +222,7 @@ export class CoverImageUploadComponent implements OnChanges {
   }
 
   /**
-   * 剪贴板粘贴事�?   */
+   * 剪贴板粘贴事�?   */
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent): void {
     const items = event.clipboardData?.items;
@@ -245,12 +242,12 @@ export class CoverImageUploadComponent implements OnChanges {
   }
 
   /**
-   * 统一的文件处理方�?   */
+   * 统一的文件处理方�?   */
   private handleFile(file: File): void {
     // 验证文件类型
     if (!this.isValidImageFile(file)) {
       this.snackBar.open(
-        '请选择有效的图片文件（JPG、PNG、GIF、WebP�?,
+        '请选择有效的图片文件（JPG、PNG、GIF、WebP�?,
         '关闭',
         {
           duration: 3000,
@@ -260,7 +257,7 @@ export class CoverImageUploadComponent implements OnChanges {
       return;
     }
 
-    // 验证文件大小（限制为10MB�?    if (file.size > 10 * 1024 * 1024) {
+    // 验证文件大小（限制为10MB�?    if (file.size > 10 * 1024 * 1024) {
       this.snackBar.open('图片文件大小不能超过10MB', '关闭', {
         duration: 3000,
         panelClass: ['error-snackbar'],
@@ -272,7 +269,7 @@ export class CoverImageUploadComponent implements OnChanges {
   }
 
   /**
-   * 格式化文件大�?   */
+   * 格式化文件大�?   */
   formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;

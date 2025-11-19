@@ -51,9 +51,16 @@ export class AuthService {
       const storedUser = localStorage.getItem(this.USER_INFO_KEY);
       if (storedToken) {
         this.accessToken = storedToken;
-        this.userSubject.next(storedUser ? JSON.parse(storedUser) : this.userSubject.value);
+        this.userSubject.next(
+          storedUser ? JSON.parse(storedUser) : this.userSubject.value
+        );
+        this.authChecked.next(true);
+      } else {
         this.authChecked.next(true);
       }
+    } else {
+      // 非开发模式，需要初始化认证状态
+      this.initAuthState();
     }
   }
 
@@ -168,8 +175,10 @@ export class AuthService {
           );
           if (environment.enableDevMode && res?.accessToken) {
             localStorage.setItem(this.TOKEN_KEY, res.accessToken);
-            const info = res?.user || (res?.userId ? { userId: res.userId } : null);
-            if (info) localStorage.setItem(this.USER_INFO_KEY, JSON.stringify(info));
+            const info =
+              res?.user || (res?.userId ? { userId: res.userId } : null);
+            if (info)
+              localStorage.setItem(this.USER_INFO_KEY, JSON.stringify(info));
           }
           // console.log('refresh res >>>', res);
         }),
@@ -209,17 +218,17 @@ export class AuthService {
             )
             .pipe(
               tap((res: any) => {
-              //   console.log('logout >>>', res);
-              this.clearSession();
-              return of(null);
-              // return res;
-            }),
-            catchError((err) => {
-              // console.warn('logout failed, force clear session', err);
-              this.clearSession();
-              return of(null);
-            })
-          );
+                //   console.log('logout >>>', res);
+                this.clearSession();
+                return of(null);
+                // return res;
+              }),
+              catchError((err) => {
+                // console.warn('logout failed, force clear session', err);
+                this.clearSession();
+                return of(null);
+              })
+            );
         })
       );
     });
@@ -227,6 +236,15 @@ export class AuthService {
 
   // 判断是否登录
   isLoggedIn(): boolean {
+    // 开发模式下，如果内存中没有token但localStorage中有，则恢复登录状态
+    if (environment.enableDevMode && !this.accessToken) {
+      const storedToken = localStorage.getItem(this.TOKEN_KEY);
+      const storedUser = localStorage.getItem(this.USER_INFO_KEY);
+      if (storedToken) {
+        this.accessToken = storedToken;
+        this.userSubject.next(storedUser ? JSON.parse(storedUser) : null);
+      }
+    }
     return !!this.accessToken && !!this.userSubject.value;
   }
 
