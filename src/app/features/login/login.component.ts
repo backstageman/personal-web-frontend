@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit {
     this.hasStoredCredentials = this.authService.hasStoredCredentials();
     if (this.hasStoredCredentials) {
       this.storedUserInfo = this.authService.getUserInfo();
-      console.log('LoginComponent: Found stored credentials:', this.storedUserInfo);
     }
   }
 
@@ -104,9 +103,8 @@ export class LoginComponent implements OnInit {
         this.storedUserInfo = null;
         this.snackBar.open('已清除本地登录信息', '关闭', {
           duration: 2000,
-          panelClass: ['info-snackbar']
         });
-      }
+      },
     });
   }
 

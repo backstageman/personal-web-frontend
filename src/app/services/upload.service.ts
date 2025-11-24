@@ -65,14 +65,21 @@ export class UploadService {
   streamUploadFile(
     fileName: string,
     contentType: string,
+    category: string,
     file: File
-  ): Observable<{ response: StreamUploadResponse | null; progress: UploadProgress }> {
-    return new Observable<{ response: StreamUploadResponse | null; progress: UploadProgress }>((observer) => {
-
+  ): Observable<{
+    response: StreamUploadResponse | null;
+    progress: UploadProgress;
+  }> {
+    return new Observable<{
+      response: StreamUploadResponse | null;
+      progress: UploadProgress;
+    }>((observer) => {
       // 构建查询参数
       const params = new URLSearchParams({
         filename: fileName,
-        contentType: contentType
+        contentType: contentType,
+        category,
       });
 
       const uploadUrl = `${this.apiUrl}/media-assets/upload?${params}`;
@@ -80,14 +87,14 @@ export class UploadService {
       // 创建FormData，但后端需要原始流，所以直接发送文件
       const headers = new HttpHeaders({
         'Content-Type': 'application/octet-stream',
-        'Authorization': `Bearer ${this.getUserToken()}`
+        Authorization: `Bearer ${this.getUserToken()}`,
         // 移除Content-Length header，让浏览器自动计算
       });
 
       const req = new HttpRequest('POST', uploadUrl, file, {
         headers,
         reportProgress: true,
-        responseType: 'json'
+        responseType: 'json',
       });
 
       this.http.request(req).subscribe({
@@ -103,7 +110,14 @@ export class UploadService {
             observer.next({ response: null, progress });
           } else if (event.type === HttpEventType.Response) {
             const response = event.body as StreamUploadResponse;
-            observer.next({ response, progress: { loaded: file.size, total: file.size, percentage: 100 } });
+            observer.next({
+              response,
+              progress: {
+                loaded: file.size,
+                total: file.size,
+                percentage: 100,
+              },
+            });
             observer.complete();
           }
         },
@@ -125,7 +139,6 @@ export class UploadService {
     fileName: string,
     contentType: string
   ): Observable<PresignedUploadResponse> {
-
     // 移除授权头部，因为后端使用 AuthType.None
     const request$ = this.http.post<PresignedUploadResponse>(
       `${this.apiUrl}/media/presign-upload`,

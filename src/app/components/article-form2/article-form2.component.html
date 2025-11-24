@@ -54,23 +54,12 @@
       </mat-form-field>
 
       <!-- 内容 -->
-      <!-- <mat-form-field appearance="outline" class="span-2">
-        <mat-label>内容</mat-label>
-        <textarea id="markdown-editor"></textarea>
-      </mat-form-field> -->
-      <div class="span-2 article-content-area">
-        <!-- 文章编辑 -->
-        <div class="markdown-editor">
-          <h3>Markdown编辑区</h3>
-          <textarea formControlName="content" class="edit-area"></textarea>
-        </div>
-        <!-- 内容预览 -->
-        <div class="markdown-preview">
-          <h3>内容预览</h3>
-          <div class="view-area">
-            <div [innerHtml]="form.get('content')?.value || ''"></div>
-          </div>
-        </div>
+      <div class="span-2 content-field">
+        <h3 class="field-label">文章内容</h3>
+        <app-markdown-editor
+          [value]="form.get('content')?.value || ''"
+          (valueChange)="form.get('content')?.setValue($event)"
+        ></app-markdown-editor>
       </div>
 
       <!-- 标签 chips -->

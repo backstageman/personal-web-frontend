@@ -132,74 +132,77 @@ export class CoverImageUploadComponent implements OnChanges {
     this.uploadProgress = { loaded: 0, total: file.size, percentage: 0 };
 
     const fileName = this.uploadService.extractFileName(file);
+    const category = 'cover';
 
     // 恢复使用流式上传
-    this.uploadService.streamUploadFile(fileName, file.type, file).subscribe({
-      next: ({ response, progress }) => {
-        // 更新上传进度
-        this.uploadProgress = progress;
+    this.uploadService
+      .streamUploadFile(fileName, file.type, category, file)
+      .subscribe({
+        next: ({ response, progress }) => {
+          // 更新上传进度
+          this.uploadProgress = progress;
 
-        // 如果收到响应，说明上传完成
-        if (response) {
-          // 存储publicUrl用于显示
-          this.currentPublicUrl = response.publicUrl;
+          // 如果收到响应，说明上传完成
+          if (response) {
+            // 存储publicUrl用于显示
+            this.currentPublicUrl = response.publicUrl;
 
-          // 上传完成，使用后端返回的fileKey
-          this.coverImageKey = response.fileKey; // 立即更新coverImageKey
-          this.coverImageChange.emit(response.fileKey);
+            // 上传完成，使用后端返回的fileKey
+            this.coverImageKey = response.fileKey; // 立即更新coverImageKey
+            this.coverImageChange.emit(response.fileKey);
 
-          // 强制触发变化检测以确保UI更新
-          setTimeout(() => {
-            this.isUploading = false;
-            this.uploadProgress = null;
-            this.cdr.detectChanges();
-            console.log(
-              'CoverImageUpload: Final coverImageKey:',
-              this.coverImageKey
-            );
-            console.log(
-              'CoverImageUpload: Final coverImageUrl:',
-              this.coverImageUrl
-            );
-            console.log(
-              'CoverImageUpload: currentPublicUrl:',
-              this.currentPublicUrl
-            );
-            // 测试URL可访问性
-            if (this.coverImageUrl) {
+            // 强制触发变化检测以确保UI更新
+            setTimeout(() => {
+              this.isUploading = false;
+              this.uploadProgress = null;
+              this.cdr.detectChanges();
               console.log(
-                'CoverImageUpload: Testing URL accessibility:',
+                'CoverImageUpload: Final coverImageKey:',
+                this.coverImageKey
+              );
+              console.log(
+                'CoverImageUpload: Final coverImageUrl:',
                 this.coverImageUrl
               );
-              fetch(this.coverImageUrl, { method: 'HEAD' })
-                .then((res) =>
-                  console.log(
-                    'CoverImageUpload: URL response status:',
-                    res.status
-                  )
-                )
-                .catch((err) =>
-                  console.error('CoverImageUpload: URL access error:', err)
+              console.log(
+                'CoverImageUpload: currentPublicUrl:',
+                this.currentPublicUrl
+              );
+              // 测试URL可访问性
+              if (this.coverImageUrl) {
+                console.log(
+                  'CoverImageUpload: Testing URL accessibility:',
+                  this.coverImageUrl
                 );
-            }
-          }, 0);
+                fetch(this.coverImageUrl, { method: 'HEAD' })
+                  .then((res) =>
+                    console.log(
+                      'CoverImageUpload: URL response status:',
+                      res.status
+                    )
+                  )
+                  .catch((err) =>
+                    console.error('CoverImageUpload: URL access error:', err)
+                  );
+              }
+            }, 0);
 
-          this.snackBar.open('图片上传成功', '关闭', {
-            duration: 2000,
-            panelClass: ['success-snackbar'],
+            this.snackBar.open('图片上传成功', '关闭', {
+              duration: 2000,
+              panelClass: ['success-snackbar'],
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Stream upload failed:', error);
+          this.isUploading = false;
+          this.uploadProgress = null;
+          this.snackBar.open('图片上传失败，请重试', '关闭', {
+            duration: 3000,
+            panelClass: ['error-snackbar'],
           });
-        }
-      },
-      error: (error) => {
-        console.error('Stream upload failed:', error);
-        this.isUploading = false;
-        this.uploadProgress = null;
-        this.snackBar.open('图片上传失败，请重试', '关闭', {
-          duration: 3000,
-          panelClass: ['error-snackbar'],
-        });
-      },
-    });
+        },
+      });
   }
 
   /**
@@ -316,7 +319,12 @@ export class CoverImageUploadComponent implements OnChanges {
 
     // 检查登录状态（AuthService会自动处理开发模式的localStorage恢复）
     const isLoggedIn = this.authService.isLoggedIn();
-    console.log('CoverImageUpload: Authentication check - isLoggedIn:', isLoggedIn, 'devMode:', environment.enableDevMode);
+    console.log(
+      'CoverImageUpload: Authentication check - isLoggedIn:',
+      isLoggedIn,
+      'devMode:',
+      environment.enableDevMode
+    );
 
     if (!isLoggedIn) {
       console.log('CoverImageUpload: User not logged in, showing login prompt');

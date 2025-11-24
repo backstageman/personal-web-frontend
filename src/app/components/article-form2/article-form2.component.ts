@@ -1,11 +1,4 @@
-﻿import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+﻿import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +16,8 @@ import { ArticlesService } from '../../services/articles.service';
 import { Article } from '../../models/article.model';
 import { Subscription } from 'rxjs';
 import { CoverImageUploadComponent } from '../cover-image-upload/cover-image-upload.component';
+import { MarkdownEditorComponent } from '../markdown-editor/markdown-editor.component';
+import { ViewChild } from '@angular/core';
 
 type PageMode = 'create' | 'edit' | 'view';
 
@@ -41,6 +36,7 @@ type PageMode = 'create' | 'edit' | 'view';
     MatChipsModule,
     ReactiveFormsModule,
     CoverImageUploadComponent,
+    MarkdownEditorComponent,
   ],
   standalone: true,
   templateUrl: './article-form2.component.html',
@@ -55,6 +51,7 @@ export class ArticleForm2Component implements OnInit {
   loading = false;
   form!: FormGroup;
   private sub = new Subscription();
+  @ViewChild(MarkdownEditorComponent) markdownEditor!: MarkdownEditorComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -66,6 +63,9 @@ export class ArticleForm2Component implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const pageLoadStartTime = performance.now();
+    console.log(`[ArticleForm2] 页面组件开始初始化...`);
+
     this.form = this.fb.group({
       id: [{ value: this.article?.id || 0, disabled: true }],
       title: [this.article?.title || '', Validators.required],
@@ -92,6 +92,22 @@ export class ArticleForm2Component implements OnInit {
       this.form.removeControl('updatedAt');
       this.form.removeControl('authorId');
     }
+
+    // 页面组件初始化完成
+    setTimeout(() => {
+      const pageInitTime = performance.now() - pageLoadStartTime;
+      console.log(`[ArticleForm2] 页面组件初始化完成，耗时: ${pageInitTime.toFixed(2)}ms`);
+
+      // 监控 Markdown 编辑器性能
+      setTimeout(() => {
+        if (this.markdownEditor) {
+          const perfInfo = this.markdownEditor.getPerformanceInfo();
+          const renderDuration = this.markdownEditor.getRenderDuration();
+          console.log(`[ArticleForm2] Markdown 编辑器性能信息:`, perfInfo);
+          console.log(`[ArticleForm2] Markdown 编辑器渲染耗时: ${renderDuration.toFixed(2)}ms`);
+        }
+      }, 2000); // 等待编辑器可能完成初始化
+    }, 0);
   }
 
   onCoverImageChange(coverImageKey: string | null) {

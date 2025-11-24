@@ -1,0 +1,176 @@
+.markdown-editor-container {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .vditor-content {
+    min-height: 400px;
+    width: 100%;
+
+    .vditor-editor {
+      min-height: 400px;
+      width: 100%;
+    }
+  }
+}
+
+// 确保 Vditor 实例化后的元素都占满宽度
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Material 主题在 angular.json 中全局配置
+
+// 自定义 Vditor 样式以适应项目主题
+:host {
+  ::ng-deep {
+    .vditor {
+      border: none;
+      box-shadow: none;
+      width: 100% !important;
+      max-width: 100% !important;
+
+      .vditor-toolbar {
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 8px 12px;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 10px !important;
+
+        .vditor-toolbar__item {
+          &:hover {
+            background-color: #e3f2fd;
+            color: white;
+          }
+
+          &--current {
+            background-color: #1976d2;
+            color: white;
+          }
+        }
+      }
+
+      .vditor-ir {
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        background-color: #ffffff;
+        padding: 16px;
+        width: 100% !important;
+        max-width: 100% !important;
+
+        .vditor-ir__node--preview {
+          background-color: #f8f9fa;
+          border-radius: 3px;
+          padding: 2px 4px;
+        }
+
+        .vditor-reset {
+          padding: 0 !important;
+        }
+        // .vditor-ir pre.vditor-reset:focus
+        pre.vditor-reset:focus {
+          background-color: #ffffff !important;
+        }
+      }
+
+      .vditor-content {
+        background-color: #ffffff;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .vditor-preview {
+        background-color: #ffffff;
+        color: #333;
+        width: 100% !important;
+        max-width: 100% !important;
+
+        // 确保预览区域的编辑器和预览内容都占满宽度
+        .vditor-preview__content,
+        .vditor-preview__action {
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: #333;
+          margin-top: 1.5em;
+          margin-bottom: 0.5em;
+        }
+
+        pre {
+          background-color: #f6f8fa;
+          border-radius: 4px;
+          padding: 16px;
+          overflow-x: auto;
+
+          code {
+            background-color: transparent;
+            padding: 0;
+            font-family: monospace;
+          }
+        }
+
+        code {
+          background-color: #f3f4f6;
+          padding: 0.2em 0.4em;
+          border-radius: 3px;
+          font-size: 0.9em;
+        }
+
+        blockquote {
+          border-left: 4px solid #1976d2;
+          padding-left: 16px;
+          margin: 1em 0;
+          color: #666;
+          font-style: italic;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          margin-top: 1em;
+          margin-bottom: 1em;
+
+          th,
+          td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            text-align: left;
+          }
+
+          th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+          }
+        }
+      }
+
+      // 确保其他可能的 Vditor 子元素也占满宽度
+      .vditor-wysiwyg,
+      .vditor-ir,
+      .vditor-outline,
+      .vditor-counter,
+      .vditor-resize,
+      .vditor-upload,
+      .vditor-hint {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      // 确保分割线占满宽度
+      .vditor-resize--vertical {
+        width: 100% !important;
+      }
+    }
+  }
+}

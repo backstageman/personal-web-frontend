@@ -33,12 +33,16 @@
               "node_modules/normalize.css/normalize.css",
               "@angular/material/prebuilt-themes/azure-blue.css",
               "node_modules/highlight.js/styles/github.css",
+              "node_modules/vditor/dist/index.css",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
             },
-            "scripts": ["src/assets/js/iconfont.js"]
+            "scripts": [
+              "src/assets/js/iconfont.js",
+              "node_modules/vditor/dist/index.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -63,6 +67,12 @@
               "outputHashing": "all"
             },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true

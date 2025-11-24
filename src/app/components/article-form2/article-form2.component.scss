@@ -55,6 +55,35 @@
     display: grid;
     gap: 8px;
   }
+  .content-field {
+    // 模拟 mat-form-field 的外观
+    position: relative;
+    padding-bottom: 0;
+
+    /* .field-label {
+      font-family: "Roboto", sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.6);
+      padding: 0 12px;
+      margin-bottom: 8px;
+      transform: translateY(-8px) scale(0.75);
+      background-color: white;
+      display: inline-block;
+      position: relative;
+    } */
+
+    app-markdown-editor {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+
+      &:focus-within {
+        border-color: #1976d2; // Material primary color
+        box-shadow: 0 0 0 1px #1976d2;
+      }
+    }
+  }
+
   & .article-content-area {
     display: grid;
     grid-template-columns: 1fr 1fr;
