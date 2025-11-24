@@ -25,6 +25,7 @@ import {
 import { AuthService } from '../../core/auth/auth.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { ArticleUploadType } from '../../shared/models/upload-type.model';
 
 @Component({
   selector: 'app-cover-image-upload',
@@ -132,11 +133,10 @@ export class CoverImageUploadComponent implements OnChanges {
     this.uploadProgress = { loaded: 0, total: file.size, percentage: 0 };
 
     const fileName = this.uploadService.extractFileName(file);
-    const category = 'cover';
 
     // 恢复使用流式上传
     this.uploadService
-      .streamUploadFile(fileName, file.type, category, file)
+      .streamUploadFile(fileName, file.type, ArticleUploadType.Cover, file)
       .subscribe({
         next: ({ response, progress }) => {
           // 更新上传进度

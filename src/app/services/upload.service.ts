@@ -8,6 +8,7 @@ import {
 import { Observable, catchError, throwError, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
+import { ArticleUploadType } from '../shared/models/upload-type.model';
 
 export interface StreamUploadResponse {
   fileKey: string; // UUID
@@ -65,7 +66,7 @@ export class UploadService {
   streamUploadFile(
     fileName: string,
     contentType: string,
-    category: string,
+    category: ArticleUploadType,
     file: File
   ): Observable<{
     response: StreamUploadResponse | null;
