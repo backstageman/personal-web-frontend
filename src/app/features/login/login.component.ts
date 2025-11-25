@@ -50,9 +50,13 @@ export class LoginComponent implements OnInit {
     private authService: AuthService, // ✅ 注入服务
     private router: Router
   ) {
+    /* 
+      测试用的账号：charlie@126.com
+      密码：   123456 
+    */
     this.loginForm = this.fb.group({
-      email: ['charlie@126.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 

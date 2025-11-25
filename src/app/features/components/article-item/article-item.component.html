@@ -3,7 +3,10 @@
     <a aria-label="" target="_blank">
       <!-- 🚨 问题修复：使用文章的封面图，如果没有则使用默认图片 -->
       <img
-        [src]="article.coverImage || 'assets/images/article-cover-image-default-middle.webp'"
+        [src]="
+          article.coverImage ||
+          '/assets/images/article-cover-image-default-middle.webp'
+        "
         [alt]="article.title || '文章封面图'"
         (error)="onImageError($event)"
       />
@@ -22,7 +25,7 @@
         <ul class="author-list">
           <li>
             <a href="">
-              <img src="assets/images/default-avatar.png" alt="" />
+              <img src="/assets/images/default-avatar.png" alt="" />
             </a>
             <span>
               <a class="meta-item" href="meta-item" routerLink="">Ajay Kalal</a>

@@ -23,7 +23,7 @@ export class ArticleDetailComponent implements OnInit, AfterViewInit {
   private service = inject(ArticlesService);
   private snackBarService = inject(SnackBarService);
   article$: Article | null = null;
-  defaultCover = 'assets/images/article-cover-image-default.jpg';
+  defaultCover = '/assets/images/article-cover-image-default.jpg';
   articleMarkdown = ``;
 
   constructor(private cdr: ChangeDetectorRef) {}

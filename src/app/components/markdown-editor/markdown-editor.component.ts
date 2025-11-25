@@ -127,7 +127,7 @@ export class MarkdownEditorComponent
                 .replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '')
                 .replace('/\\s/g', ''),
           },
-          cdn: 'https://cdn.jsdelivr.net/npm/vditor@3.11.2',
+          cdn: '/assets/vditor',
           counter: {
             enable: false,
           },

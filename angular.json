@@ -27,7 +27,12 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/vditor/dist",
+                "output": "/assets/vditor"
+              }
             ],
             "styles": [
               "node_modules/normalize.css/normalize.css",

@@ -21,7 +21,7 @@ export class ArticlePreviewComponent implements OnInit {
   private articleService = inject(ArticlesPublicService);
   private snackBarService = inject(SnackBarService);
   private sanitizer = inject(DomSanitizer);
-  defaultCover = 'assets/images/article-cover-image-default.jpg';
+  defaultCover = '/assets/images/article-cover-image-default.jpg';
 
   /**
    * 将 HTML 内容标记为安全，允许渲染
