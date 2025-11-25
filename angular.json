@@ -30,7 +30,7 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "node_modules/vditor/dist",
+                "input": "node_modules/vditor",
                 "output": "/assets/vditor"
               }
             ],
