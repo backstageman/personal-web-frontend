@@ -2,7 +2,7 @@
   <div class="card-image">
     <img
       [src]="
-        project.image ||
+        project.coverImage || project.image ||
         defaultProjectImage
       "
       [alt]="project.title || 'Project Cover Image'"
@@ -32,10 +32,10 @@
             />
           </div>
           <span class="author-name"
-            ><a href="#">{{ project.author | uppercase }}</a></span
+            ><a href="#">{{ project.author?.email || 'Unknown Author' | uppercase }}</a></span
           >
         </div>
-        <span class="date">{{ project.date | uppercase }}</span>
+        <span class="date">{{ project.createdAt | date: 'MMM dd, yyyy' | uppercase }}</span>
       </div>
     </div>
   </div>

@@ -1,6 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
+import {
+  ProjectPublic,
+  ProjectPublicResponse,
+} from '../../models/project-public.model';
+import { ProjectsPublicService } from '../../services/projects-public.service';
 
 @Component({
     selector: 'app-projects',
@@ -9,50 +14,24 @@ import { ProjectListItemComponent } from './components/project-list-item/project
     templateUrl: './projects.component.html',
     styleUrl: './projects.component.scss'
 })
-export class ProjectsComponent {
-    // Placeholder data for static design
-    projects = [
-        {
-            title: 'Learn CSS Grid by Building a Magazine Layout',
-            image: 'https://cdn.freecodecamp.org/platform/english/images/learn-css-grid-by-building-a-magazine-layout.png', // Placeholder image
-            author: 'Joy Shaheb',
-            date: 'May 25, 2022',
-            tags: ['#CSS']
-        },
-        {
-            title: 'How to Create a Responsive Navigation Bar',
-            image: 'https://cdn.freecodecamp.org/platform/english/images/how-to-create-a-responsive-navigation-bar.png',
-            author: 'John Doe',
-            date: 'June 10, 2022',
-            tags: ['#HTML', '#CSS']
-        },
-        {
-            title: 'JavaScript Array Methods Explained',
-            image: 'https://cdn.freecodecamp.org/platform/english/images/javascript-array-methods-explained.png',
-            author: 'Jane Smith',
-            date: 'July 15, 2022',
-            tags: ['#JavaScript']
-        },
-        {
-            title: 'Learn CSS Grid by Building a Magazine Layout',
-            image: 'https://cdn.freecodecamp.org/platform/english/images/learn-css-grid-by-building-a-magazine-layout.png', // Placeholder image
-            author: 'Joy Shaheb',
-            date: 'May 25, 2022',
-            tags: ['#CSS']
-        },
-        {
-            title: 'How to Create a Responsive Navigation Bar',
-            image: 'https://cdn.freecodecamp.org/platform/english/images/how-to-create-a-responsive-navigation-bar.png',
-            author: 'John Doe',
-            date: 'June 10, 2022',
-            tags: ['#HTML', '#CSS']
-        },
-        {
-            title: 'JavaScript Array Methods Explained',
-            image: 'https://cdn.freecodecamp.org/platform/english/images/javascript-array-methods-explained.png',
-            author: 'Jane Smith',
-            date: 'July 15, 2022',
-            tags: ['#JavaScript']
-        }
-    ];
+export class ProjectsComponent implements OnInit {
+    projects: ProjectPublic[] = [];
+
+    constructor(private projectService: ProjectsPublicService) {}
+
+    ngOnInit(): void {
+        this.fetchProjects();
+    }
+
+    fetchProjects(page: number = 1, limit: number = 10): void {
+        this.projectService.getAllProjects(page, limit).subscribe({
+            next: (result: ProjectPublicResponse) => {
+                this.projects = result.data;
+                console.log('Fetched projects:', this.projects);
+            },
+            error: (error) => {
+                console.error('Error fetching projects:', error);
+            },
+        });
+    }
 }
