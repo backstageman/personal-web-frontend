@@ -1,0 +1,18 @@
+.projects-container {
+    max-width: 1000px; // Slightly narrower for list view readability
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    background-color: #fff; // White background as per screenshot (or keep light gray if preferred, but screenshot looks white/clean)
+    min-height: 100vh;
+}
+
+.projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; // More spacing between rows
+}
+
+// Responsive adjustments
+@media (min-width: 768px) {
+    // No grid columns needed for list view
+}

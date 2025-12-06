@@ -38,8 +38,8 @@ export const routes: Routes = [
       {
         path: 'projects',
         loadComponent: () =>
-          import('./components/todos/todos.component').then(
-            (m) => m.TodosComponent
+          import('./features/projects/projects.component').then(
+            (m) => m.ProjectsComponent
           ),
       },
       {
