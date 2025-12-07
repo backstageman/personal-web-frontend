@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule, DatePipe, UpperCasePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { ProjectPublic } from '../../../../models/project-public.model';
 
 @Component({
@@ -11,9 +12,11 @@ import { ProjectPublic } from '../../../../models/project-public.model';
 })
 export class ProjectListItemComponent {
   @Input() project!: ProjectPublic;
+  private router = inject(Router);
 
   // 默认图片路径
-  readonly defaultProjectImage = '/assets/images/article-cover-image-default-middle.webp';
+  readonly defaultProjectImage =
+    '/assets/images/article-cover-image-default-middle.webp';
   readonly defaultAuthorAvatar = '/assets/images/default-avatar.png';
 
   /**
@@ -47,5 +50,15 @@ export class ProjectListItemComponent {
 
     // 移除错误监听器，避免无限循环
     img.onerror = null;
+  }
+
+  /**
+   * 导航到项目详情页
+   */
+  goToProjectDetail(event: Event): void {
+    event.preventDefault();
+    if (this.project && this.project.id) {
+      this.router.navigate(['/projects/article', this.project.id]);
+    }
   }
 }

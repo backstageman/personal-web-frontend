@@ -8,30 +8,30 @@ import {
 import { ProjectsPublicService } from '../../services/projects-public.service';
 
 @Component({
-    selector: 'app-projects',
-    standalone: true,
-    imports: [CommonModule, ProjectListItemComponent],
-    templateUrl: './projects.component.html',
-    styleUrl: './projects.component.scss'
+  selector: 'app-projects',
+  standalone: true,
+  imports: [CommonModule, ProjectListItemComponent],
+  templateUrl: './projects.component.html',
+  styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent implements OnInit {
-    projects: ProjectPublic[] = [];
+  projects: ProjectPublic[] = [];
 
-    constructor(private projectService: ProjectsPublicService) {}
+  constructor(private projectService: ProjectsPublicService) {}
 
-    ngOnInit(): void {
-        this.fetchProjects();
-    }
+  ngOnInit(): void {
+    this.fetchProjects();
+  }
 
-    fetchProjects(page: number = 1, limit: number = 10): void {
-        this.projectService.getAllProjects(page, limit).subscribe({
-            next: (result: ProjectPublicResponse) => {
-                this.projects = result.data;
-                console.log('Fetched projects:', this.projects);
-            },
-            error: (error) => {
-                console.error('Error fetching projects:', error);
-            },
-        });
-    }
+  fetchProjects(page: number = 1, limit: number = 10): void {
+    this.projectService.getAllProjects(page, limit).subscribe({
+      next: (result: ProjectPublicResponse) => {
+        this.projects = result.data;
+        // console.log('Fetched projects:', this.projects);
+      },
+      error: (error) => {
+        // console.error('Error fetching projects:', error);
+      },
+    });
+  }
 }

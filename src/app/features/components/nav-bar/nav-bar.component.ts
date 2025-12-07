@@ -14,8 +14,8 @@ export class NavBarComponent {
   menuItems = [
     { label: 'Home', path: '/', exact: true },
     { label: 'Blog', path: '/blog', exact: false },
+    { label: 'Projects', path: '/projects', exact: false },
     { label: 'About Me', path: '/about', exact: true },
-    { label: 'Projects', path: '/projects', exact: true },
     { label: 'Contact Me', path: '/contact', exact: true },
   ];
 }

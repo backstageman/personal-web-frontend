@@ -10,6 +10,7 @@
   border: none; // Remove border if not present in screenshot (it looks clean)
   // Or keep it if desired, but screenshot looks like clean rows.
   // Actually, let's keep it clean as per screenshot.
+  cursor: pointer; // Add pointer cursor to indicate clickable
 
   .card-image {
     // width: 35%; // Adjust width as needed

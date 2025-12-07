@@ -1,10 +1,7 @@
-<article class="project-card">
+<article class="project-card" (click)="goToProjectDetail($event)">
   <div class="card-image">
     <img
-      [src]="
-        project.coverImage || project.image ||
-        defaultProjectImage
-      "
+      [src]="project.coverImage || project.image || defaultProjectImage"
       [alt]="project.title || 'Project Cover Image'"
       (error)="onProjectImageError($event)"
     />
@@ -15,7 +12,7 @@
         <span *ngFor="let tag of project.tags">{{ tag }}</span>
       </div>
       <h2 class="card-title">
-        <a href="#">{{ project.title }}</a>
+        <a href="#" (click)="goToProjectDetail($event)">{{ project.title }}</a>
       </h2>
     </div>
     <div class="footer">
@@ -23,19 +20,20 @@
         <div class="author-info">
           <div class="author-avatar">
             <img
-              [src]="
-                project.authorAvatar ||
-                defaultAuthorAvatar
-              "
+              [src]="project.authorAvatar || defaultAuthorAvatar"
               alt="Author Avatar"
               (error)="onAuthorImageError($event)"
             />
           </div>
           <span class="author-name"
-            ><a href="#">{{ project.author?.email || 'Unknown Author' | uppercase }}</a></span
+            ><a href="#">{{
+              project.author?.email || "Unknown Author" | uppercase
+            }}</a></span
           >
         </div>
-        <span class="date">{{ project.createdAt | date: 'MMM dd, yyyy' | uppercase }}</span>
+        <span class="date">{{
+          project.createdAt | date : "MMM dd, yyyy" | uppercase
+        }}</span>
       </div>
     </div>
   </div>

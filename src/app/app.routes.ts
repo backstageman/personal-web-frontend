@@ -43,6 +43,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'projects/article/:id',
+        loadComponent: () =>
+          import(
+            './features/articles/article-detail-enhanced/article-detail-enhanced.component'
+          ).then((m) => m.ArticleDetailEnhancedComponent),
+      },
+      {
         path: 'contact',
         loadComponent: () =>
           import('./features/contact/contact.component').then(

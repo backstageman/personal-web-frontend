@@ -27,10 +27,10 @@ export class BlogComponent implements OnInit {
     this.articleService.getAllArticles(page, limit).subscribe({
       next: (result: ArticlePublicResponse) => {
         this.articles = result.data;
-        console.log('Fetched articles:', this.articles);
+        // console.log('Fetched articles:', this.articles);
       },
       error: (error) => {
-        console.error('Error fetching articles:', error);
+        // console.error('Error fetching articles:', error);
       },
     });
   }

@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    console.log('LoginComponent: Quick login with stored credentials');
+    // console.log('LoginComponent: Quick login with stored credentials');
     this.loading = true;
 
     // 直接设置已登录状态
@@ -125,7 +125,7 @@ export class LoginComponent implements OnInit {
 
     this.authService[loginMethod](email, password).subscribe({
       next: (res) => {
-        console.log('Login success:', res);
+        // console.log('Login success:', res);
         if (res.accessToken) {
           this.successMessage = this.isDevMode
             ? 'Dev mode login successful! Redirecting...'
