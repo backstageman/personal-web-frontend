@@ -2,95 +2,119 @@
 // 使用 :host 确保样式作用域正确
 :host {
   display: block;
+  background-color: #fff; // 确保背景色为白
 }
 
 .inner {
   margin: 0 auto;
-  max-width: 1060px;
+  max-width: 800px; // 收窄内容宽度以提高可读性，类似 Medium/FCC
   width: 100%;
   padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .post-container {
-  padding: 40px 0;
-  color: #1a1a1a;
-  line-height: 1.6;
+  padding: 40px 0 80px; // 底部增加留白
+  color: #1b1b32; // FCC 标志性的深色颜色
+  font-family: "Lato", "Roboto", "Helvetica Neue", Arial, sans-serif;
 }
 
 article {
   header {
-    margin-bottom: 24px;
+    margin-bottom: 30px;
 
     section {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .post-full-meta-date {
       display: block;
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 12px;
+      font-size: 16px; // 稍微调大
+      color: #3b3b3b;
+      margin-bottom: 20px;
+      text-transform: uppercase; // 大写日期
+      letter-spacing: 0.5px;
     }
 
     .post-title {
-      font-size: 42px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin: 0 0 24px 0;
-      color: #1a1a1a;
+      font-size: clamp(32px, 5vw, 48px); // 响应式字体大小
+      font-weight: 900; // 更加粗重
+      line-height: 1.1;
+      margin: 0 0 20px 0;
+      color: #1b1b32;
     }
   }
 
   .author-info {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid #e5e5e5;
+    gap: 15px;
+    margin-bottom: 40px;
 
     .author-card {
       .author-avatar {
-        width: 48px;
-        height: 48px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        background-color: #e5e5e5;
-        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>');
+        background-color: #f0f0f0;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="%23666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>');
         background-repeat: no-repeat;
         background-position: center;
-        background-size: 24px;
+        border: 2px solid #fff; // 添加白边
+        box-shadow: 0 0 0 1px #e5e5e5; // 细微边框
       }
     }
 
     .author-card-content {
       .author-name {
         margin: 0;
-        font-size: 16px;
-        font-weight: 500;
-        color: #1a1a1a;
+        font-size: 18px;
+        font-weight: 700;
+        color: #1b1b32;
+
+        a {
+          text-decoration: none;
+          color: inherit;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      // 可以添加 "Author" 标签或其他元数据
+      &::after {
+        content: "Author"; // 简单的标签
+        display: block;
+        font-size: 14px;
+        color: #666;
+        margin-top: 2px;
+        font-weight: normal;
       }
     }
   }
 
   .img-container {
-    margin-bottom: 40px;
-    border-radius: 8px;
-    overflow: hidden;
+    margin-bottom: 50px;
+    width: 100%;
 
     img {
       width: 100%;
       height: auto;
       display: block;
       object-fit: cover;
+      max-height: 600px;
+      aspect-ratio: 16/9;
     }
   }
 }
 
 // 文章内容样式 - 使用全局选择器，因为 ViewEncapsulation.None
 .post-main-body {
-  font-size: 18px;
-  line-height: 1.8;
-  color: #1a1a1a;
+  font-size: 20px; // 增加正文字体大小
+  line-height: 1.6;
+  color: #1b1b32;
+  font-family: "Lato", "Roboto", "Helvetica Neue", Arial, sans-serif;
 
   // Markdown 内容样式
   h1,
@@ -99,15 +123,17 @@ article {
   h4,
   h5,
   h6 {
-    margin-top: 32px;
-    margin-bottom: 16px;
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
     font-weight: 700;
     line-height: 1.3;
-    color: #1a1a1a;
+    color: #1b1b32;
   }
 
   h1 {
     font-size: 36px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.3em;
   }
 
   h2 {
@@ -119,240 +145,171 @@ article {
   }
 
   h4 {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   p {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
 
   a {
-    color: #0066cc;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
+    color: #1b1b32;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: all 0.2s;
 
     &:hover {
-      border-bottom-color: #0066cc;
+      background-color: #1b1b32;
+      color: #fff;
+      text-decoration: none;
     }
   }
 
   img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
-    margin: 24px 0;
+    display: block;
+    margin: 40px auto;
+    border-radius: 4px;
   }
 
   code {
-    background-color: #f4f4f4;
-    padding: 2px 6px;
-    border-radius: 4px;
+    background-color: #efefef;
+    padding: 2px 5px;
+    border-radius: 3px;
     font-size: 0.9em;
-    font-family: "Courier New", Courier, monospace;
-    color: #d63384;
+    font-family: "Roboto Mono", "Courier New", monospace;
+    color: #1b1b32;
   }
 
   pre {
-    background-color: #0d1117; // GitHub Dark 背景色，对比度更高
-    color: #e6edf3; // 更亮的文字颜色
-    padding: 20px;
-    border-radius: 8px;
+    background-color: #2a2a40; // 深色背景类似 FCC
+    color: #fff;
+    padding: 25px;
+    border-radius: 5px;
     overflow-x: auto;
-    margin: 24px 0;
-    line-height: 1.6;
-    border: 1px solid #30363d; // 添加边框增强视觉区分
+    margin: 30px 0;
+    line-height: 1.5;
+    font-size: 16px;
 
     code {
       background-color: transparent;
       padding: 0;
       color: inherit;
-      font-size: 14px;
+      font-size: inherit;
     }
   }
 
   blockquote {
-    border-left: 4px solid #0066cc;
-    padding-left: 20px;
-    margin: 24px 0;
-    color: #666;
-    font-style: italic;
+    border-left: 5px solid #1b1b32;
+    padding: 10px 25px;
+    margin: 30px 0;
+    background: #fdfdfd;
+
+    p {
+      font-size: 22px; // 引用稍微大一点
+      font-style: italic;
+      color: #3b3b3b;
+      margin: 0;
+    }
   }
 
   ul,
   ol {
-    margin: 20px 0;
-    padding-left: 30px;
+    margin: 24px 0;
+    padding-left: 40px;
 
     li {
-      margin-bottom: 8px;
-    }
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 24px 0;
-
-    th,
-    td {
-      padding: 12px;
-      border: 1px solid #e5e5e5;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f4f4f4;
-      font-weight: 600;
+      margin-bottom: 10px;
+      padding-left: 5px;
     }
   }
 
   hr {
-    border: none;
-    border-top: 1px solid #e5e5e5;
-    margin: 32px 0;
+    border: 0;
+    height: 1px;
+    background: #dedede;
+    margin: 50px 0;
   }
 
-  // Highlight.js 代码高亮样式 - 优化颜色对比度
+  // Highlight.js 代码高亮样式 - 适配深色主题
   .hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #0d1117; // GitHub Dark 背景，对比度更高
-    color: #e6edf3; // 更亮的默认文字颜色
+    background: transparent;
+    color: #f8f8f2;
   }
 
-  // 注释 - 使用更亮的绿色
   .hljs-comment,
   .hljs-quote {
-    color: #7ee787; // 更亮的绿色，对比度更高
+    color: #6272a4;
     font-style: italic;
   }
 
-  // 关键字 - 使用更亮的蓝色
   .hljs-keyword,
-  .hljs-selector-tag,
-  .hljs-subst {
-    color: #ff7b72; // 使用更亮的红色/橙色，对比度更高
+  .hljs-selector-tag {
+    color: #ff79c6;
   }
 
-  // 数字和字面量 - 使用更亮的颜色
-  .hljs-number,
-  .hljs-literal,
-  .hljs-variable,
-  .hljs-template-variable,
-  .hljs-tag .hljs-attr {
-    color: #79c0ff; // 更亮的蓝色
-  }
-
-  // 字符串 - 使用更亮的橙色
+  // Pink
   .hljs-string,
   .hljs-doctag {
-    color: #a5d6ff; // 更亮的蓝色，对比度更高
+    color: #f1fa8c;
   }
 
-  // 标题和选择器 - 使用更亮的黄色
+  // Yellow
   .hljs-title,
-  .hljs-section,
-  .hljs-selector-id {
-    color: #d2a8ff; // 更亮的紫色，对比度更高
-    font-weight: bold;
+  .hljs-section {
+    color: #8be9fd;
   }
 
-  // 类型和类 - 使用更亮的青色
+  // Cyan
+  .hljs-variable,
+  .hljs-template-variable {
+    color: #f8f8f2;
+  }
+
   .hljs-type,
   .hljs-class .hljs-title {
-    color: #79c0ff; // 更亮的蓝色
+    color: #8be9fd;
   }
 
-  // 标签和属性 - 使用更亮的蓝色
-  .hljs-tag,
-  .hljs-name,
-  .hljs-attribute {
-    color: #7ee787; // 使用绿色，更清晰
-    font-weight: normal;
-
+  .hljs-number,
+  .hljs-literal {
+    color: #bd93f9;
   }
 
-  // 正则表达式和链接 - 使用更亮的橙色
-  .hljs-regexp,
-  .hljs-link {
-    color: #a5d6ff; // 更亮的蓝色
-  }
-
-  // 符号和项目符号 - 使用更亮的黄色
+  // Purple
   .hljs-symbol,
   .hljs-bullet {
-    color: #ffa657; // 更亮的橙色，对比度更高
+    color: #ff79c6;
   }
 
-  // 内置函数 - 使用更亮的青色
-  .hljs-built_in,
-  .hljs-builtin-name {
-    color: #79c0ff; // 更亮的蓝色
+  .hljs-tag,
+  .hljs-name {
+    color: #ff79c6;
   }
 
-  // 元数据 - 使用更亮的灰色
-  .hljs-meta {
-    color: #8b949e; // 更亮的灰色，对比度更高
+  .hljs-attr {
+    color: #50fa7b;
   }
 
-  // 删除标记
-  .hljs-deletion {
-    background: #490202; // 深红色背景
-    color: #ff7b72; // 红色文字
-  }
-
-  // 添加标记
-  .hljs-addition {
-    background: #033a16; // 深绿色背景
-    color: #7ee787; // 绿色文字
-  }
-
-  // 强调
-  .hljs-emphasis {
-    font-style: italic;
-    color: #e6edf3; // 保持默认颜色
-  }
-
-  // 粗体
-  .hljs-strong {
-    font-weight: bold;
-    color: #e6edf3; // 保持默认颜色
-  }
+  // Green
 }
 
-// 响应式设计
 @media (max-width: 768px) {
   .inner {
     padding: 0 16px;
   }
 
-  .post-container {
-    padding: 20px 0;
-  }
-
   article {
     header {
       .post-title {
-        font-size: 28px;
+        font-size: 32px;
       }
     }
   }
 
   .post-main-body {
-    font-size: 16px;
-
-    h1 {
-      font-size: 28px;
-    }
-
-    h2 {
-      font-size: 24px;
-    }
-
-    h3 {
-      font-size: 20px;
-    }
+    font-size: 18px;
   }
 }
