@@ -10,6 +10,7 @@ export interface ProjectPublic {
   title: string;
   description?: string; // 项目描述
   content: string; // 项目详细内容
+  htmlContent?: string; // HTML 内容
   slug?: string; // SEO 友好的 URL
   coverImage?: string; // 项目封面图URL
   image?: string; // 兼容项目列表组件中使用的 image 字段

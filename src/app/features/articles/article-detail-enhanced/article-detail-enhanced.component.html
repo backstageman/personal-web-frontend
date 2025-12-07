@@ -1,159 +1,36 @@
-<!-- Loading State -->
-<div *ngIf="isLoading" class="article-container loading">
-  <div class="loading-spinner">
-    <div class="spinner"></div>
-    <p>Loading article...</p>
-  </div>
-</div>
-
-<!-- Error State -->
-<div *ngIf="error" class="article-container error">
-  <div class="error-message">
-    <h2>Oops! Something went wrong</h2>
-    <p>{{ error }}</p>
-    <button class="back-button" (click)="goBack()">← Back to Articles</button>
-  </div>
-</div>
-
-<!-- Article Content -->
-<article *ngIf="article && !isLoading" class="article-container">
-  <!-- Back Navigation -->
-  <nav class="article-navigation">
-    <button class="back-button" (click)="goBack()">
-      <span class="arrow">←</span>
-      <span>Back to Articles</span>
-    </button>
-  </nav>
-
-  <!-- Article Header -->
-  <header class="article-header">
-    <!-- Category Tags -->
-    <div class="article-tags" *ngIf="article.tags && article.tags.length > 0">
-      <span class="tag" *ngFor="let tag of article.tags">{{ tag }}</span>
-    </div>
-
-    <!-- Article Title -->
-    <h1 class="article-title">{{ article.title }}</h1>
-
-    <!-- Article Subtitle (if available) -->
-    <p class="article-subtitle" *ngIf="description">
-      {{ description }}
-    </p>
-
-    <!-- Article Meta Information -->
-    <div class="article-meta">
-      <div class="author-section">
-        <div class="author-avatar">
-          <img
-            [src]="authorAvatar"
-            alt="Author Avatar"
-            (error)="onImageError($event)"
-          />
-        </div>
-        <div class="author-info">
-          <div class="author-name">
-            <span *ngIf="article.author?.email">{{
-              article.author?.email
-            }}</span>
-            <span *ngIf="!article.author?.email">Anonymous Author</span>
-          </div>
-          <div class="article-date">
-            {{ formatReadDate(article.createdAt) }}
-          </div>
-        </div>
-      </div>
-
-      <div class="article-stats">
-        <div class="reading-time">
-          <span class="stat-icon">⏱</span>
-          <span>{{ readingTime }} min read</span>
-        </div>
-        <div class="view-count" *ngIf="article.viewCount">
-          <span class="stat-icon">👁</span>
-          <span>{{ article.viewCount }} views</span>
-        </div>
-        <!-- Project specific stats -->
-        <!--  <div class="project-status" *ngIf="isProject && (article as any).status">
-          <span class="stat-icon">📊</span>
-          <span>{{ (article as any).status | titlecase }}</span>
-        </div> -->
-      </div>
-    </div>
-  </header>
-
-  <!-- Cover Image -->
-  <div class="cover-image-container" *ngIf="article.coverImage || defaultCover">
-    <img
-      [ngSrc]="article.coverImage || defaultCover"
-      [alt]="article.title || 'Article Cover Image'"
-      class="cover-image"
-      priority
-      width="1200"
-      height="630"
-      (error)="onImageError($event)"
-    />
-  </div>
-
-  <!-- Project-specific Information -->
-  <section class="project-details" *ngIf="isProject">
-    <div class="project-tech">
-      <h3>Technologies Used</h3>
-      <div class="tech-list"></div>
-    </div>
-
-    <div class="project-links">
-      <h3>Project Links</h3>
-      <div class="links-container">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          class="project-link github-link"
+<div class="post-container inner" *ngIf="article">
+  <article>
+    <header>
+      <section>
+        <time
+          class="post-full-meta-date"
+          data-test-label="post-full-meta-date"
+          [attr.datetime]="article.createdAt | date : 'yyyy-MM-ddTHH:mm:ssXXX'"
         >
-          <span class="link-icon">🔗</span>
-          <span>View on GitHub</span>
-        </a>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          class="project-link demo-link"
-        >
-          <span class="link-icon">🚀</span>
-          <span>Live Demo</span>
-        </a>
-      </div>
+          {{ article.createdAt | date : "MMM d, y" }}
+        </time>
+        <!-- 注意：后续做国际化，日期也要实现 -->
+      </section>
+      <h1 class="post-title">{{ article.title }}</h1>
+    </header>
+    <div class="author-info" *ngIf="article.author">
+      <section class="author-card">
+        <div class="author-avatar"></div>
+      </section>
+      <section class="author-card-content">
+        <p class="author-name">{{ article.author.email }}</p>
+      </section>
     </div>
-  </section>
-
-  <!-- Article Content -->
-  <main class="article-content">
-    <div class="content-wrapper" [innerHTML]="safeHtmlContent"></div>
-  </main>
-
-  <!-- Article Footer -->
-  <footer class="article-footer">
-    <div class="footer-content">
-      <div
-        class="article-tags-footer"
-        *ngIf="article.tags && article.tags.length > 0"
-      >
-        <span class="tags-label">Tags:</span>
-        <span class="tag" *ngFor="let tag of article.tags">{{ tag }}</span>
-      </div>
-
-      <div class="article-actions">
-        <button class="action-button share-button" (click)="shareArticle()">
-          <span class="button-icon">🔗</span>
-          <span>Share</span>
-        </button>
-      </div>
+    <div class="img-container" *ngIf="article.coverImage || defaultCover">
+      <!-- TODO:  Replace with <picture> when WebP/AVIF versions are available(响应式图片)  -->
+      <img
+        [ngSrc]="article.coverImage || defaultCover"
+        alt="{{ article.title }}"
+        priority
+        width="1000"
+        height="600"
+      />
     </div>
-  </footer>
-
-  <!-- Related Articles Section (Placeholder for future implementation) -->
-  <section class="related-articles">
-    <h2 class="related-title">Related Articles</h2>
-    <div class="related-placeholder">
-      <p>Related articles will be shown here in future updates.</p>
-    </div>
-  </section>
-</article>
+    <section class="post-main-body" [innerHTML]="safeHtmlContent"></section>
+  </article>
+</div>
