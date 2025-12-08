@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Login failed:', err);
+        // console.error('Login failed:', err);
         this.errorMessage =
           err.error?.message || 'Login failed. Please try again.';
         this.snackBarService.showError(this.errorMessage, 2000);

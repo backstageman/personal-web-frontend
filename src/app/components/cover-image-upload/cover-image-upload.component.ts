@@ -61,7 +61,7 @@ export class CoverImageUploadComponent implements OnChanges {
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   /**
    * 当输入属性变化时重置错误状态
@@ -156,34 +156,34 @@ export class CoverImageUploadComponent implements OnChanges {
               this.isUploading = false;
               this.uploadProgress = null;
               this.cdr.detectChanges();
-              console.log(
-                'CoverImageUpload: Final coverImageKey:',
-                this.coverImageKey
-              );
-              console.log(
-                'CoverImageUpload: Final coverImageUrl:',
-                this.coverImageUrl
-              );
-              console.log(
-                'CoverImageUpload: currentPublicUrl:',
-                this.currentPublicUrl
-              );
+              // console.log(
+              //   'CoverImageUpload: Final coverImageKey:',
+              //   this.coverImageKey
+              // );
+              // console.log(
+              //   'CoverImageUpload: Final coverImageUrl:',
+              //   this.coverImageUrl
+              // );
+              // console.log(
+              //   'CoverImageUpload: currentPublicUrl:',
+              //   this.currentPublicUrl
+              // );
               // 测试URL可访问性
               if (this.coverImageUrl) {
-                console.log(
-                  'CoverImageUpload: Testing URL accessibility:',
-                  this.coverImageUrl
-                );
-                fetch(this.coverImageUrl, { method: 'HEAD' })
-                  .then((res) =>
-                    console.log(
-                      'CoverImageUpload: URL response status:',
-                      res.status
-                    )
-                  )
-                  .catch((err) =>
-                    console.error('CoverImageUpload: URL access error:', err)
-                  );
+                // console.log(
+                //   'CoverImageUpload: Testing URL accessibility:',
+                //   this.coverImageUrl
+                // );
+                // fetch(this.coverImageUrl, { method: 'HEAD' })
+                //   .then((res) =>
+                //     console.log(
+                //       'CoverImageUpload: URL response status:',
+                //       res.status
+                //     )
+                //   )
+                //   .catch((err) =>
+                //     console.error('CoverImageUpload: URL access error:', err)
+                //   );
               }
             }, 0);
 
@@ -194,7 +194,7 @@ export class CoverImageUploadComponent implements OnChanges {
           }
         },
         error: (error) => {
-          console.error('Stream upload failed:', error);
+          // console.error('Stream upload failed:', error);
           this.isUploading = false;
           this.uploadProgress = null;
           this.snackBar.open('图片上传失败，请重试', '关闭', {
@@ -243,10 +243,10 @@ export class CoverImageUploadComponent implements OnChanges {
    */
   onImageError(event: Event): void {
     this.imageError = true;
-    console.error('Image load error:', event);
-    console.error('Failed image URL:', this.coverImageUrl);
-    console.error('Current image key:', this.coverImageKey);
-    console.error('Stored public URL:', this.currentPublicUrl);
+    // console.error('Image load error:', event);
+    // console.error('Failed image URL:', this.coverImageUrl);
+    // console.error('Current image key:', this.coverImageKey);
+    // console.error('Stored public URL:', this.currentPublicUrl);
 
     // 延迟重置错误状态，允许用户重试
     setTimeout(() => {
@@ -319,20 +319,20 @@ export class CoverImageUploadComponent implements OnChanges {
 
     // 检查登录状态（AuthService会自动处理开发模式的localStorage恢复）
     const isLoggedIn = this.authService.isLoggedIn();
-    console.log(
-      'CoverImageUpload: Authentication check - isLoggedIn:',
-      isLoggedIn,
-      'devMode:',
-      environment.enableDevMode
-    );
+    // console.log(
+    //   'CoverImageUpload: Authentication check - isLoggedIn:',
+    //   isLoggedIn,
+    //   'devMode:',
+    //   environment.enableDevMode
+    // );
 
     if (!isLoggedIn) {
-      console.log('CoverImageUpload: User not logged in, showing login prompt');
+      // console.log('CoverImageUpload: User not logged in, showing login prompt');
       this.showLoginPrompt();
       return false;
     }
 
-    console.log('CoverImageUpload: User is logged in, proceeding with upload');
+    // console.log('CoverImageUpload: User is logged in, proceeding with upload');
     return true;
   }
 

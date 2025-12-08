@@ -59,16 +59,16 @@ export class SideNav2Component {
     item.active = true;
 
     // Here you would typically navigate to the corresponding route
-    console.log(`Navigating to ${item.label}`);
+    // console.log(`Navigating to ${item.label}`);
   }
 
   openSettings(): void {
-    console.log('Opening settings');
+    // console.log('Opening settings');
     // Navigate to settings page
   }
 
   logout(): void {
-    console.log('Logging out');
+    // console.log('Logging out');
     // Implement logout logic
   }
 }

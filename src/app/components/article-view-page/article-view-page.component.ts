@@ -28,7 +28,7 @@ export class ArticleViewPageComponent implements OnInit {
         // this.article = article;
       },
       error: (err) => {
-        console.error('Error fetching article:', err);
+        // console.error('Error fetching article:', err);
       },
     });
   }

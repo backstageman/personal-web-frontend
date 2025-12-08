@@ -25,7 +25,7 @@ export class ArticleCreatePageComponent {
         this.goBack();
       },
       error: (err) => {
-        console.error('Error creating article:', err);
+        // console.error('Error creating article:', err);
       },
     });
   }

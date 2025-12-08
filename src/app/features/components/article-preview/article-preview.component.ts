@@ -233,7 +233,7 @@ function fallbackCopyTextToClipboard(text: string) {
     document.body.removeChild(textArea);
     return successful;
   } catch (err) {
-    console.error('fallback 复制失败：', err);
+    // console.error('fallback 复制失败：', err);
     return false;
   }
 }

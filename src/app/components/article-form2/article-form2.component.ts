@@ -60,11 +60,11 @@ export class ArticleForm2Component implements OnInit {
     private loc: Location,
     private api: ArticlesService,
     private sb: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const pageLoadStartTime = performance.now();
-    console.log(`[ArticleForm2] 页面组件开始初始化...`);
+    // console.log(`[ArticleForm2] 页面组件开始初始化...`);
 
     this.form = this.fb.group({
       id: [{ value: this.article?.id || 0, disabled: true }],
@@ -96,27 +96,27 @@ export class ArticleForm2Component implements OnInit {
     // 页面组件初始化完成
     setTimeout(() => {
       const pageInitTime = performance.now() - pageLoadStartTime;
-      console.log(`[ArticleForm2] 页面组件初始化完成，耗时: ${pageInitTime.toFixed(2)}ms`);
+      // console.log(`[ArticleForm2] 页面组件初始化完成，耗时: ${pageInitTime.toFixed(2)}ms`);
 
       // 监控 Markdown 编辑器性能
       setTimeout(() => {
         if (this.markdownEditor) {
           const perfInfo = this.markdownEditor.getPerformanceInfo();
           const renderDuration = this.markdownEditor.getRenderDuration();
-          console.log(`[ArticleForm2] Markdown 编辑器性能信息:`, perfInfo);
-          console.log(`[ArticleForm2] Markdown 编辑器渲染耗时: ${renderDuration.toFixed(2)}ms`);
+          // console.log(`[ArticleForm2] Markdown 编辑器性能信息:`, perfInfo);
+          // console.log(`[ArticleForm2] Markdown 编辑器渲染耗时: ${renderDuration.toFixed(2)}ms`);
         }
       }, 2000); // 等待编辑器可能完成初始化
     }, 0);
   }
 
   onCoverImageChange(coverImageKey: string | null) {
-    console.log('ArticleForm2: onCoverImageChange called with:', coverImageKey);
+    // console.log('ArticleForm2: onCoverImageChange called with:', coverImageKey);
     this.form.patchValue({ coverImage: coverImageKey });
-    console.log(
-      'ArticleForm2: form.value.coverImage after patch:',
-      this.form.value.coverImage
-    );
+    // console.log(
+    //   'ArticleForm2: form.value.coverImage after patch:',
+    //   this.form.value.coverImage
+    // );
   }
 
   onSubmit() {

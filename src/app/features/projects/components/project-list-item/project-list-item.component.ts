@@ -25,9 +25,9 @@ export class ProjectListItemComponent {
    */
   onProjectImageError(event: Event) {
     const img = event.target as HTMLImageElement;
-    console.warn(
-      `Project image failed to load: ${img.src}, falling back to default image`
-    );
+    // console.warn(
+    //   `Project image failed to load: ${img.src}, falling back to default image`
+    // );
 
     // 设置为默认图片
     img.src = this.defaultProjectImage;
@@ -41,9 +41,9 @@ export class ProjectListItemComponent {
    */
   onAuthorImageError(event: Event) {
     const img = event.target as HTMLImageElement;
-    console.warn(
-      `Author avatar failed to load: ${img.src}, falling back to default avatar`
-    );
+    // console.warn(
+    //   `Author avatar failed to load: ${img.src}, falling back to default avatar`
+    // );
 
     // 设置为默认头像
     img.src = this.defaultAuthorAvatar;

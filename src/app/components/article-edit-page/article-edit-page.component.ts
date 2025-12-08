@@ -48,16 +48,16 @@ export class ArticleEditPageComponent implements OnInit {
 
   onUpdate(article: Partial<Article>) {
     if (!article.id) {
-      console.error('Article ID is required for update');
+      // console.error('Article ID is required for update');
       return;
     } else {
       this.service.updateArticle(article.id, article).subscribe({
         next: () => {
-          console.log('Article updated successfully');
+          // console.log('Article updated successfully');
           this.goBack();
         },
         error: (err) => {
-          console.error('Error updating article:', err);
+          // console.error('Error updating article:', err);
         },
       });
     }

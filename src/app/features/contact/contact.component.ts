@@ -85,7 +85,7 @@ export class ContactComponent {
         this.resetAllKeys();
       },
       error: (err) => {
-        console.error('Error submitting contact form', err);
+        // console.error('Error submitting contact form', err);
         this.snackBarService.showError(
           'Message not sent. Please check your internet connection or try again later.'
         );

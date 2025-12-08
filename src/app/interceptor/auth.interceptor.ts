@@ -57,7 +57,7 @@ export const authInterceptor: HttpInterceptorFn = (
             return next(newReq);
           }),
           catchError((refreshErr) => {
-            console.error('Refresh failed', refreshErr);
+            // console.error('Refresh failed', refreshErr);
             auth.logOut().subscribe();
             return throwError(() => refreshErr);
           })

@@ -26,7 +26,7 @@ export class ArticleDetailComponent implements OnInit, AfterViewInit {
   defaultCover = '/assets/images/article-cover-image-default.jpg';
   articleMarkdown = ``;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -52,13 +52,13 @@ export class ArticleDetailComponent implements OnInit, AfterViewInit {
 
     // 仅用于调试，不再做高亮
     const blocks = document.querySelectorAll('pre code');
-    console.log('onMdReady: code blocks in DOM:', blocks.length);
+    // console.log('onMdReady: code blocks in DOM:', blocks.length);
   }
 
   fetchArticle(id: number): void {
     this.service.getArticleById(id).subscribe({
       next: (article) => {
-        console.log(article, 'fetched article:');
+        // console.log(article, 'fetched article:');
         this.article$ = article;
         this.articleMarkdown = article.content;
       },

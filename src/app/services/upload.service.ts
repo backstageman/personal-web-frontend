@@ -34,7 +34,7 @@ export class UploadService {
   private readonly apiUrl = environment.apiUrl;
   private readonly cdnBaseUrl = 'https://cdn.charliesmp.com';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   /**
    * 检查用户是否已登录
@@ -43,7 +43,7 @@ export class UploadService {
   isUserLoggedIn(): boolean {
     const isLoggedIn = this.authService.isLoggedIn();
     if (!isLoggedIn) {
-      console.warn('UploadService: User is not logged in, upload may fail');
+      // console.warn('UploadService: User is not logged in, upload may fail');
     }
     return isLoggedIn;
   }
@@ -123,7 +123,7 @@ export class UploadService {
           }
         },
         error: (error) => {
-          console.error('Error in stream upload:', error);
+          // console.error('Error in stream upload:', error);
           observer.error(new Error('Stream upload failed'));
         },
       });
@@ -151,7 +151,7 @@ export class UploadService {
 
     return request$.pipe(
       catchError((error) => {
-        console.error('Error getting presigned upload URL:', error);
+        // console.error('Error getting presigned upload URL:', error);
         return throwError(
           () => new Error('Failed to get presigned upload URL')
         );
@@ -188,7 +188,7 @@ export class UploadService {
           }
         },
         error: (error) => {
-          console.error('Error uploading file to R2:', error);
+          // console.error('Error uploading file to R2:', error);
           observer.error(new Error('Failed to upload file'));
         },
       });

@@ -39,7 +39,7 @@ export class TableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -55,7 +55,7 @@ export class TableComponent implements OnInit {
   }
 
   onSearch() {
-    console.log('搜索表单', this.filterForm.value);
+    // console.log('搜索表单', this.filterForm.value);
   }
 
   onReset() {

@@ -65,7 +65,7 @@ export class RegisterComponent {
         this.router.navigate(['/login'], { state: { email: email } });
       },
       error: (err) => {
-        console.error('Register failed:', err);
+        // console.error('Register failed:', err);
         // Extract error message if available from backend response
         this.errorMessage =
           err.error?.message || 'Registration failed. Please try again.';

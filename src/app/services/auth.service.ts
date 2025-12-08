@@ -35,9 +35,9 @@ export class AuthService {
       // 生产环境：尝试使用refresh token刷新access token
       this.refresh().subscribe({
         next: (res) => {
-          console.log(
-            'AuthService: Successfully refreshed access token on startup'
-          );
+          // console.log(
+          //   'AuthService: Successfully refreshed access token on startup'
+          // );
           // auth$状态已经在setAccessToken中更新为true
         },
         error: (error) => {
@@ -162,10 +162,10 @@ export class AuthService {
       // 生产环境：尝试使用refresh token刷新access token
       this.refresh().subscribe({
         next: (res) => {
-          console.log('AuthService: Successfully refreshed access token');
+          // console.log('AuthService: Successfully refreshed access token');
         },
         error: (error) => {
-          console.log('AuthService: Refresh token failed, user not logged in');
+          // console.log('AuthService: Refresh token failed, user not logged in');
           this.auth$.next(false);
         },
       });

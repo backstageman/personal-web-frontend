@@ -57,11 +57,11 @@ export class ArticleFormComponent implements OnInit {
     if (this.articleId && Number(this.articleId) > 0) {
       this.articleService.getArticleById(this.articleId).subscribe({
         next: (article) => {
-          console.log('article >>>', article);
+          // console.log('article >>>', article);
           this.form.patchValue(article);
         },
         error: (error) => {
-          console.log('error >', error);
+          // console.log('error >', error);
         },
       });
     }
@@ -73,13 +73,13 @@ export class ArticleFormComponent implements OnInit {
     if (this.mode === 'new') {
       this.articleService.createArticle(this.form.value).subscribe({
         next: (data) => {
-          console.log('success data', data);
+          // console.log('success data', data);
           setTimeout(() => {
             this.router.navigate(['/admin/articles']);
           });
         },
         error: (error) => {
-          console.log('failed >>', error);
+          // console.log('failed >>', error);
         },
       });
     } else if (this.mode === 'edit') {
@@ -88,13 +88,13 @@ export class ArticleFormComponent implements OnInit {
           .updateArticle(this.articleId, this.form.value)
           .subscribe({
             next: (data) => {
-              console.log('success data', data);
+              // console.log('success data', data);
               setTimeout(() => {
                 this.router.navigate(['/admin/articles']);
               });
             },
             error: (error) => {
-              console.log('failed >>', error);
+              // console.log('failed >>', error);
             },
           });
     }

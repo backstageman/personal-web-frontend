@@ -26,8 +26,7 @@ import { ArticleUploadType } from '../../shared/models/upload-type.model';
   styleUrl: './markdown-editor.component.scss',
 })
 export class MarkdownEditorComponent
-  implements OnInit, AfterViewInit, OnDestroy, OnChanges
-{
+  implements OnInit, AfterViewInit, OnDestroy, OnChanges {
   @Input() value: string = '';
   @Output() valueChange = new EventEmitter<string>();
 
@@ -41,7 +40,7 @@ export class MarkdownEditorComponent
     private uploadService: UploadService,
     private authService: AuthService,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   @ViewChild('vditorContainer') vditorContainer!: ElementRef;
 
@@ -64,7 +63,7 @@ export class MarkdownEditorComponent
 
   private initVditor(): void {
     this.initStartTime = performance.now();
-    console.log(`[Markdown Editor] 开始初始化编辑器...`);
+    // console.log(`[Markdown Editor] 开始初始化编辑器...`);
 
     setTimeout(() => {
       try {
@@ -87,9 +86,9 @@ export class MarkdownEditorComponent
           after: () => {
             this.renderCompleteTime = performance.now();
             const initTime = this.renderCompleteTime - this.initStartTime;
-            console.log(
-              `[Markdown Editor] 编辑器渲染完成，耗时: ${initTime.toFixed(2)}ms`
-            );
+            // console.log(
+            //   `[Markdown Editor] 编辑器渲染完成，耗时: ${initTime.toFixed(2)}ms`
+            // );
 
             if (this.value) {
               this.vditor?.setValue(this.value);
@@ -137,7 +136,7 @@ export class MarkdownEditorComponent
           debugger: false,
         });
       } catch (error) {
-        console.error('Error initializing Vditor:', error);
+        // console.error('Error initializing Vditor:', error);
       }
     }, 100);
   }
@@ -229,7 +228,7 @@ export class MarkdownEditorComponent
           }
         },
         error: (err) => {
-          console.error('Upload failed', err);
+          // console.error('Upload failed', err);
           this.snackBar.open('上传失败，请重试', '关闭', {
             duration: 3000,
             panelClass: ['error-snackbar'],
