@@ -139,10 +139,10 @@ export class AuthService {
         )
         .pipe(
           tap((res: any) => {
-            // console.log('✅ register success:', res);
+            console.log('✅ register success:', res);
           }),
           catchError((err) => {
-            // console.error('❌ register failed:', err);
+            console.error('❌ register failed:', err);
             return of(null);
           })
         );

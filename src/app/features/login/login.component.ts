@@ -54,8 +54,14 @@ export class LoginComponent implements OnInit {
       测试用的账号：charlie@126.com
       密码：   123456 
     */
+
+    // Check for email passed from registration redirection
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as { email: string };
+    const initialEmail = state?.email || '';
+
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [initialEmail, [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -148,9 +154,8 @@ export class LoginComponent implements OnInit {
     this.countdown = 3;
     this.countdownTimer = setInterval(() => {
       this.countdown--;
-      this.successMessage = `Login successful! Redirecting in ${
-        this.countdown
-      } second${this.countdown !== 1 ? 's' : ''}...`;
+      this.successMessage = `Login successful! Redirecting in ${this.countdown
+        } second${this.countdown !== 1 ? 's' : ''}...`;
       this.countdown > 0 &&
         this.snackBarService.showInfo(this.successMessage, 500);
       if (this.countdown === 0) {

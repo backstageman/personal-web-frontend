@@ -1,6 +1,63 @@
-<p>register works!</p>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <input type="email" placeholder="Email" formControlName="email" />
-  <input type="password" placeholder="Password" formControlName="password" />
-  <button type="submit" [disabled]="form.invalid">Register</button>
-</form>
+<div class="login-container">
+  <!-- 左侧蓝色区域 -->
+  <div class="login-left">
+    <div class="login-left-content">
+      <h1>Join Charlie Media</h1>
+      <p>Start your journey with us today.</p>
+      <button mat-raised-button color="primary" routerLink="/">
+        Visit Website
+      </button>
+    </div>
+  </div>
+
+  <!-- 右侧表单区域 -->
+  <div class="login-right">
+    <div class="login-form">
+      <h2>Create Account</h2>
+      <p>Sign up to get started.</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-icon matPrefix>mail</mat-icon>
+            <input matInput placeholder="Email Address" formControlName="email" />
+            <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+              Please enter a valid email
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-icon matPrefix>lock</mat-icon>
+          <input
+            matInput
+            placeholder="Password"
+            type="password"
+            formControlName="password"
+          />
+           <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+              Password must be at least 6 characters
+            </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="login-btn"
+          type="submit"
+          [disabled]="registerForm.invalid || loading"
+        >
+          {{ loading ? "Registering..." : "Register" }}
+        </button>
+
+         <a class="forgot-password" routerLink="/login"
+          >Already have an account? Login</a
+        >
+      </form>
+    </div>
+  </div>
+</div>
