@@ -63,13 +63,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/login/login.component').then((m) => m.LoginComponent),
   },
-  {
+  /* {
     path: 'register',
     loadComponent: () =>
       import('./pages/register/register.component').then(
         (m) => m.RegisterComponent
       ),
-  },
+  }, */
   {
     // 后台管理系统的页面
     path: 'admin',
