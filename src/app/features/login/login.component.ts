@@ -144,7 +144,7 @@ export class LoginComponent implements OnInit {
         // console.error('Login failed:', err);
         this.errorMessage =
           err.error?.message || 'Login failed. Please try again.';
-        this.snackBarService.showError(this.errorMessage, 2000);
+        this.snackBarService.showError('Incorrect username or password', 2000);
       },
       complete: () => (this.loading = false),
     });
@@ -154,8 +154,9 @@ export class LoginComponent implements OnInit {
     this.countdown = 3;
     this.countdownTimer = setInterval(() => {
       this.countdown--;
-      this.successMessage = `Login successful! Redirecting in ${this.countdown
-        } second${this.countdown !== 1 ? 's' : ''}...`;
+      this.successMessage = `Login successful! Redirecting in ${
+        this.countdown
+      } second${this.countdown !== 1 ? 's' : ''}...`;
       this.countdown > 0 &&
         this.snackBarService.showInfo(this.successMessage, 500);
       if (this.countdown === 0) {

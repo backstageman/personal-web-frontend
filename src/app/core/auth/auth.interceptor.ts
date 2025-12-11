@@ -24,6 +24,11 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ) => {
+  // 登录接口不应该被拦截
+  if (req.url.includes('/sign-in')) {
+    return next(req);
+  }
+
   const auth = inject(AuthService);
   const token = auth.getAccessToken();
   const router = inject(Router);

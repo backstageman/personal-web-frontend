@@ -47,6 +47,11 @@ export const authInterceptor: HttpInterceptorFn = (
 
   return next(authReq).pipe(
     catchError((err: HttpErrorResponse) => {
+      // console.log('req >>', req.url, req.url.includes('/sign-in'));
+      if (req.url.includes('/sign-in')) {
+        return throwError(() => err);
+      }
+
       if (err.status === 401) {
         return auth.refresh().pipe(
           switchMap((res) => {
@@ -63,6 +68,7 @@ export const authInterceptor: HttpInterceptorFn = (
           })
         );
       }
+
       return throwError(() => err);
     })
   );

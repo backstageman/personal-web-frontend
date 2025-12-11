@@ -20,7 +20,6 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     provideLoadingBarInterceptor(),
-
     // for Router use:
     provideLoadingBarRouter(),
   ],

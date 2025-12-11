@@ -10,6 +10,7 @@ import {
   switchMap,
   take,
   tap,
+  throwError,
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { User } from './models/user.model';
@@ -120,7 +121,7 @@ export class AuthService {
           catchError((err) => {
             // console.error('❌ login failed:', err);
             this.clearSession();
-            return of(null);
+            return throwError(() => err);
           })
         )
     );
