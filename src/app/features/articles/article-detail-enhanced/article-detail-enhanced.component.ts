@@ -21,7 +21,8 @@ export class ArticleDetailEnhancedComponent implements OnInit {
   private projectService = inject(ProjectsPublicService);
   private snackBarService = inject(SnackBarService);
   private sanitizer = inject(DomSanitizer);
-  defaultCover = '/assets/images/article-cover-image-default.jpg';
+  readonly defaultCover = '/assets/images/article-cover-image-default.jpg';
+  readonly defaultAvatar = '/assets/images/default-avatar-2.png';
 
   get safeHtmlContent(): SafeHtml {
     if (this.article?.htmlContent) {
@@ -50,7 +51,10 @@ export class ArticleDetailEnhancedComponent implements OnInit {
         this.article = project;
       },
       error: (err) => {
-        this.snackBarService.showError('获取项目详情失败: ' + err?.message, 3000);
+        this.snackBarService.showError(
+          '获取项目详情失败: ' + err?.message,
+          3000
+        );
         setTimeout(() => {
           this.router.navigate(['/projects']);
         }, 3000);

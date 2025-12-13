@@ -7,4 +7,6 @@ import { RouterLink } from '@angular/router';
   templateUrl: './reco-article.component.html',
   styleUrl: './reco-article.component.scss',
 })
-export class RecoArticleComponent {}
+export class RecoArticleComponent {
+  readonly defaultAuthorAvatar = '/assets/images/default-avatar-2.png';
+}

@@ -18,7 +18,9 @@
         <div
           class="author-avatar"
           [style.background-image]="
-            article.authorAvatar ? 'url(' + article.authorAvatar + ')' : null
+            article.authorAvatar
+              ? 'url(' + article.authorAvatar + ')'
+              : 'url(' + defaultAvatar + ')'
           "
         ></div>
       </section>

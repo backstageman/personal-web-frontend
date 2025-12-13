@@ -15,7 +15,9 @@
     </header>
     <div class="author-info" *ngIf="article.author">
       <section class="author-card">
-        <div class="author-avatar"></div>
+        <div class="author-avatar">
+          <img [src]="defaultAvatar" alt="author avatar" />
+        </div>
       </section>
       <section class="author-card-content">
         <p class="author-name">{{ article.author.email }}</p>
