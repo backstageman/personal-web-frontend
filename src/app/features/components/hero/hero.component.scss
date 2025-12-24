@@ -1,6 +1,6 @@
 @use "variables" as v;
 
-.hero-contianer {
+.hero-container {
   height: 614px;
   max-height: 814px;
   background-color: #eff0f3;
@@ -22,12 +22,12 @@
     flex-direction: column;
     justify-content: space-around;
 
-    h2 {
+    h1 {
       line-height: 53px;
       font-size: 53px;
     }
 
-    h3 p {
+    p {
       font-size: 21px;
       line-height: 1.5em;
       color: v.$dark-gray;

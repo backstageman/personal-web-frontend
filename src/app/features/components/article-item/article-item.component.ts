@@ -11,7 +11,7 @@ import { ArticlePublic } from '../../../models/article-public.model';
 export class ArticleItemComponent {
   @Input() article!: ArticlePublic;
   private router = inject(Router);
-  readonly defaultAuthorAvatar = '/assets/images/default-avatar-2.png';
+  readonly defaultAuthorAvatar = '/assets/images/default-avatar.webp';
 
   goPreview(id: number) {
     this.router.navigate([`/blog`, id], {

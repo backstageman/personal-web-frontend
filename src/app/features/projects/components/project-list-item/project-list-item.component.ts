@@ -17,7 +17,7 @@ export class ProjectListItemComponent {
   // 默认图片路径
   readonly defaultProjectImage =
     '/assets/images/article-cover-image-default-middle.webp';
-  readonly defaultAuthorAvatar = '/assets/images/default-avatar-2.png';
+  readonly defaultAuthorAvatar = '/assets/images/default-avatar.webp';
 
   /**
    * 处理项目图片加载失败的情况

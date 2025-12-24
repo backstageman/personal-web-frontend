@@ -8,5 +8,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './reco-article.component.scss',
 })
 export class RecoArticleComponent {
-  readonly defaultAuthorAvatar = '/assets/images/default-avatar-2.png';
+  readonly defaultAuthorAvatar = '/assets/images/default-avatar.webp';
 }

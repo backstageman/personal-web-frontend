@@ -22,7 +22,7 @@ export class ArticlePreviewComponent implements OnInit {
   private snackBarService = inject(SnackBarService);
   private sanitizer = inject(DomSanitizer);
   readonly defaultCover = '/assets/images/article-cover-image-default.jpg';
-  readonly defaultAvatar = '/assets/images/default-avatar-2.png';
+  readonly defaultAvatar = '/assets/images/default-avatar.webp';
 
   /**
    * 将 HTML 内容标记为安全，允许渲染
