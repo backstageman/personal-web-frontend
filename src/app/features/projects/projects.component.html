@@ -1,8 +1,10 @@
 <div class="projects-container">
   <div class="projects-grid">
-    <app-project-list-item
-      *ngFor="let project of projects"
-      [project]="project"
-    ></app-project-list-item>
+    <ng-container *ngIf="isLoading; else projectList">
+      <app-project-list-item-skeleton *ngFor="let i of [1, 2, 3, 4, 5, 6]"></app-project-list-item-skeleton>
+    </ng-container>
+    <ng-template #projectList>
+      <app-project-list-item *ngFor="let project of projects" [project]="project"></app-project-list-item>
+    </ng-template>
   </div>
 </div>

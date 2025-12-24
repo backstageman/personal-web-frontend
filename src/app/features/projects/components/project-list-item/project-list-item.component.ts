@@ -6,7 +6,7 @@ import { ProjectPublic } from '../../../../models/project-public.model';
 @Component({
   selector: 'app-project-list-item',
   standalone: true,
-  imports: [CommonModule, DatePipe, UpperCasePipe],
+  imports: [CommonModule, DatePipe],
   templateUrl: './project-list-item.component.html',
   styleUrl: './project-list-item.component.scss',
 })
