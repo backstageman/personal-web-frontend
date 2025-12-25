@@ -89,10 +89,18 @@ export class CoverImageUploadComponent implements OnChanges {
     if (this.currentPublicUrl) {
       return this.currentPublicUrl;
     }
-    // 如果没有publicUrl，尝试从coverImageKey构建
-    return this.coverImageKey
-      ? this.uploadService.getCdnUrl(this.coverImageKey)
-      : null;
+
+    if (!this.coverImageKey) {
+      return null;
+    }
+
+    // 如果已经是完整URL（以http开头），直接返回
+    if (this.coverImageKey.startsWith('http')) {
+      return this.coverImageKey;
+    }
+
+    // 如果只是key，构建完整URL
+    return this.uploadService.getCdnUrl(this.coverImageKey);
   }
 
   /**

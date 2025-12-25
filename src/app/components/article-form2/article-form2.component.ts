@@ -111,12 +111,11 @@ export class ArticleForm2Component implements OnInit {
   }
 
   onCoverImageChange(coverImageKey: string | null) {
-    // console.log('ArticleForm2: onCoverImageChange called with:', coverImageKey);
-    this.form.patchValue({ coverImage: coverImageKey });
-    // console.log(
-    //   'ArticleForm2: form.value.coverImage after patch:',
-    //   this.form.value.coverImage
-    // );
+    // Normalizing the value: if it's an empty string, treat it as null
+    const finalValue = coverImageKey === '' ? null : coverImageKey;
+    // console.log('ArticleForm2: onCoverImageChange called with:', finalValue);
+    this.form.patchValue({ coverImage: finalValue });
+    this.form.markAsDirty(); // Ensure form is marked as dirty so user knows changes happened
   }
 
   onSubmit() {
