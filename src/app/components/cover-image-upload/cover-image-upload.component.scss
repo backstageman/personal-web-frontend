@@ -89,56 +89,91 @@
     }
   }
 
-  // 上传中样式
-  .uploading-container {
+  // 骨架屏和加载中样式
+  .skeleton-loader {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
     background-color: #fff;
+    height: 200px; // 固定高度，防止布局跳动
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    .upload-preview {
-      height: 200px;
+    .skeleton-content {
+      width: 100%;
+      height: 100%;
+    }
+
+    // 上传进度部分
+    .upload-progress-content {
+      height: 100%;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #f5f5f5;
+      flex-direction: column;
 
-      .preview-placeholder {
+      .upload-preview {
+        flex: 1;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        color: #666;
+        justify-content: center;
+        background-color: #f5f5f5;
 
-        .upload-icon {
-          font-size: 3rem;
-          margin-bottom: 1rem;
-          color: #1976d2;
+        .preview-placeholder {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          color: #666;
+
+          .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #1976d2;
+          }
+
+          .upload-text {
+            font-size: 1.125rem;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .progress-container {
+        padding: 1rem;
+        background-color: #fff;
+
+        .upload-progress {
+          margin-bottom: 0.5rem;
         }
 
-        .upload-text {
-          font-size: 1.125rem;
-          font-weight: 500;
+        .progress-text {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.875rem;
+          color: #666;
+
+          .file-size {
+            opacity: 0.8;
+          }
         }
       }
     }
 
-    .progress-container {
-      padding: 1rem;
+    // 纯加载动画部分
+    .loading-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      .upload-progress {
-        margin-bottom: 0.5rem;
-      }
-
-      .progress-text {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.875rem;
-        color: #666;
-
-        .file-size {
-          opacity: 0.8;
-        }
+      .loading-icon {
+        font-size: 3rem;
+        color: #bdbdbd;
+        animation: pulse 1.5s infinite ease-in-out;
       }
     }
   }
@@ -150,16 +185,27 @@
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
+    // 隐藏状态
+    &.hidden {
+      display: none !important;
+    }
+
     .image-wrapper {
       position: relative;
       width: 100%;
+      background-color: #fafafa; // 图片加载前的背景色
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px; // 保持最小高度一致
 
       .cover-image {
-        width: 100%;
-        height: auto;
+        width: auto; // 宽度自适应
+        max-width: 100%; // 不超过容器宽度
+        max-height: 200px; // 限制最大高度
+        height: auto; // 保持比例
         display: block;
-        border-radius: 8px;
-        object-fit: cover;
+        object-fit: contain; // 确保图片包含在区域内
       }
 
       .image-overlay {
@@ -195,6 +241,15 @@
             width: 48px;
             height: 48px;
 
+            &.view-btn {
+              background-color: rgba(255, 255, 255, 0.9) !important;
+              color: #333 !important;
+
+              &:hover {
+                background-color: #fff !important;
+              }
+            }
+
             &.change-btn {
               // background-color: #1976d2;
               background-color: #fff;
@@ -229,6 +284,8 @@
     border: 1px solid #f44336;
     border-radius: 8px;
     background-color: #ffebee;
+    height: 200px; // 保持一致高度
+    justify-content: center;
 
     .error-icon {
       font-size: 3rem;
@@ -248,8 +305,37 @@
   }
 }
 
+// 动画定义
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+}
+
 // 全局样式
 ::ng-deep {
+
   // Material Design 自定义样式
   .mat-mdc-progress-bar {
     .mdc-linear-progress__buffer {
@@ -332,6 +418,59 @@
           }
         }
       }
+    }
+  }
+}
+
+// 全屏弹窗样式
+::ng-deep .full-screen-dialog {
+  max-width: 100vw !important;
+  width: 100vw;
+  height: 100vh;
+
+  .mat-mdc-dialog-container {
+    padding: 0;
+
+    .mat-mdc-dialog-surface {
+      background-color: transparent;
+      box-shadow: none;
+      overflow: hidden;
+    }
+  }
+}
+
+::ng-deep .dark-backdrop {
+  background: rgba(0, 0, 0, 0.9) !important;
+}
+
+// 图片预览容器
+.image-preview-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: zoom-out;
+
+  .full-screen-image {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    user-select: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.8);
     }
   }
 }

@@ -1,24 +1,12 @@
 <div class="cover-image-upload">
   <!-- 隐藏的文件输入 -->
-  <input
-    #fileInput
-    type="file"
-    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
-    (change)="onFileSelected($event)"
-    style="display: none"
-  />
+  <input #fileInput type="file" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+    (change)="onFileSelected($event)" style="display: none" />
 
   <!-- 没有封面图时显示上传区域 -->
-  <div
-    *ngIf="!coverImageUrl && !isUploading"
-    class="upload-placeholder"
-    #dropZone
-    [class.dragging]="isDragging"
-    (dragover)="onDragOver($event)"
-    (dragleave)="onDragLeave($event)"
-    (drop)="onDrop($event)"
-    (mousedown)="selectFile($event)"
-  >
+  <div *ngIf="!coverImageUrl && !isUploading" class="upload-placeholder" #dropZone [class.dragging]="isDragging"
+    (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+    (mousedown)="selectFile($event)">
     <div class="upload-content">
       <mat-icon class="upload-icon">cloud_upload</mat-icon>
       <div class="upload-text">
@@ -32,59 +20,54 @@
     </div>
   </div>
 
-  <!-- 上传中显示进度条 -->
-  <div *ngIf="isUploading" class="uploading-container">
-    <div class="upload-preview">
-      <div class="preview-placeholder">
-        <mat-icon class="upload-icon">cloud_upload</mat-icon>
-        <span class="upload-text">正在上传...</span>
-      </div>
-    </div>
+  <!-- 上传中或加载中显示骨架屏 -->
+  <div *ngIf="isUploading || (coverImageUrl && !isImageLoaded)" class="skeleton-loader">
+    <div class="skeleton-content">
+      <div *ngIf="isUploading" class="upload-progress-content">
+        <div class="upload-preview">
+          <div class="preview-placeholder">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <span class="upload-text">正在上传...</span>
+          </div>
+        </div>
 
-    <div class="progress-container">
-      <mat-progress-bar
-        mode="determinate"
-        [value]="uploadProgress?.percentage || 0"
-        class="upload-progress"
-      ></mat-progress-bar>
-      <div class="progress-text">
-        <span>{{ uploadProgress?.percentage || 0 }}%</span>
-        <span *ngIf="uploadProgress" class="file-size">
-          ({{ formatFileSize(uploadProgress.loaded) }} /
-          {{ formatFileSize(uploadProgress.total) }})
-        </span>
+        <div class="progress-container">
+          <mat-progress-bar mode="determinate" [value]="uploadProgress?.percentage || 0"
+            class="upload-progress"></mat-progress-bar>
+          <div class="progress-text">
+            <span>{{ uploadProgress?.percentage || 0 }}%</span>
+            <span *ngIf="uploadProgress" class="file-size">
+              ({{ formatFileSize(uploadProgress.loaded) }} /
+              {{ formatFileSize(uploadProgress.total) }})
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 图片加载中的骨架动画 -->
+      <div *ngIf="!isUploading" class="loading-placeholder">
+        <mat-icon class="loading-icon">image</mat-icon>
       </div>
     </div>
   </div>
 
   <!-- 已有封面图时显示预览和操作按钮 -->
-  <div *ngIf="coverImageUrl && !isUploading && !imageError" class="cover-image-container">
+  <!-- 注意：即使在加载中也保留在DOM中以触发(load)事件，但通过样式隐藏 -->
+  <div *ngIf="coverImageUrl && !imageError" class="cover-image-container"
+    [class.hidden]="isUploading || !isImageLoaded">
     <div class="image-wrapper">
-      <img
-        [src]="coverImageUrl"
-        alt="封面图"
-        class="cover-image"
-        (error)="onImageError($event)"
-        (load)="onImageLoad($event)"
-      />
+      <img [src]="coverImageUrl" alt="封面图" class="cover-image" (error)="onImageError($event)"
+        (load)="onImageLoad($event)" />
       <div class="image-overlay">
         <div class="overlay-actions">
-          <button
-            mat-fab
-            color="primary"
-            (click)="selectFile($event)"
-            class="overlay-btn change-btn"
-            matTooltip="更换封面图"
-          >
+          <button mat-fab color="basic" class="overlay-btn view-btn" (click)="viewImage($event)" matTooltip="查看大图">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-fab color="primary" (click)="selectFile($event)" class="overlay-btn change-btn"
+            matTooltip="更换封面图">
             <mat-icon>edit</mat-icon>
           </button>
-          <button
-            mat-fab
-            color="warn"
-            (click)="removeCoverImage()"
-            class="overlay-btn delete-btn"
-            matTooltip="删除封面图"
-          >
+          <button mat-fab color="warn" (click)="removeCoverImage()" class="overlay-btn delete-btn" matTooltip="删除封面图">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
@@ -101,3 +84,13 @@
     </button>
   </div>
 </div>
+
+<!-- 图片预览弹窗模板 -->
+<ng-template #imagePreview>
+  <div class="image-preview-container" (click)="dialog.closeAll()">
+    <img [src]="coverImageUrl" alt="全屏预览" class="full-screen-image" />
+    <button mat-icon-button class="close-btn" (click)="dialog.closeAll()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</ng-template>

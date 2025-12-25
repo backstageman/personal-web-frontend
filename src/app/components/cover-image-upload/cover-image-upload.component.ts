@@ -9,6 +9,7 @@ import {
   SimpleChanges,
   HostListener,
   ChangeDetectorRef,
+  TemplateRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +17,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import {
   UploadService,
@@ -37,6 +39,7 @@ import { ArticleUploadType } from '../../shared/models/upload-type.model';
     MatIconModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatTooltipModule,
   ],
   templateUrl: './cover-image-upload.component.html',
   styleUrls: ['./cover-image-upload.component.scss'],
@@ -47,11 +50,13 @@ export class CoverImageUploadComponent implements OnChanges {
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('dropZone') dropZone!: ElementRef<HTMLElement>;
+  @ViewChild('imagePreview') imagePreviewTemplate!: TemplateRef<any>;
 
   isUploading = false;
   uploadProgress: UploadProgress | null = null;
   imageError = false;
   isDragging = false;
+  isImageLoaded = false;
   private isFileSelecting = false;
   private currentPublicUrl: string | null = null;
 
@@ -60,7 +65,8 @@ export class CoverImageUploadComponent implements OnChanges {
     private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) { }
 
   /**
@@ -69,6 +75,7 @@ export class CoverImageUploadComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['coverImageKey']) {
       this.imageError = false;
+      this.isImageLoaded = false;
     }
   }
 
@@ -130,6 +137,7 @@ export class CoverImageUploadComponent implements OnChanges {
    */
   private uploadImage(file: File): void {
     this.isUploading = true;
+    this.isImageLoaded = false;
     this.uploadProgress = { loaded: 0, total: file.size, percentage: 0 };
 
     const fileName = this.uploadService.extractFileName(file);
@@ -156,35 +164,6 @@ export class CoverImageUploadComponent implements OnChanges {
               this.isUploading = false;
               this.uploadProgress = null;
               this.cdr.detectChanges();
-              // console.log(
-              //   'CoverImageUpload: Final coverImageKey:',
-              //   this.coverImageKey
-              // );
-              // console.log(
-              //   'CoverImageUpload: Final coverImageUrl:',
-              //   this.coverImageUrl
-              // );
-              // console.log(
-              //   'CoverImageUpload: currentPublicUrl:',
-              //   this.currentPublicUrl
-              // );
-              // 测试URL可访问性
-              if (this.coverImageUrl) {
-                // console.log(
-                //   'CoverImageUpload: Testing URL accessibility:',
-                //   this.coverImageUrl
-                // );
-                // fetch(this.coverImageUrl, { method: 'HEAD' })
-                //   .then((res) =>
-                //     console.log(
-                //       'CoverImageUpload: URL response status:',
-                //       res.status
-                //     )
-                //   )
-                //   .catch((err) =>
-                //     console.error('CoverImageUpload: URL access error:', err)
-                //   );
-              }
             }, 0);
 
             this.snackBar.open('图片上传成功', '关闭', {
@@ -211,10 +190,29 @@ export class CoverImageUploadComponent implements OnChanges {
   removeCoverImage(): void {
     this.currentPublicUrl = null;
     this.coverImageChange.emit(null);
+    this.isImageLoaded = false;
     this.snackBar.open('封面图已删除', '关闭', {
       duration: 2000,
       panelClass: ['info-snackbar'],
     });
+  }
+
+  /**
+   * 查看大图
+   */
+  viewImage(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.coverImageUrl) {
+      this.dialog.open(this.imagePreviewTemplate, {
+        panelClass: 'full-screen-dialog',
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        hasBackdrop: true,
+        backdropClass: 'dark-backdrop',
+        data: { url: this.coverImageUrl }
+      });
+    }
   }
 
   /**
@@ -236,6 +234,7 @@ export class CoverImageUploadComponent implements OnChanges {
    */
   onImageLoad(event: Event): void {
     this.imageError = false;
+    this.isImageLoaded = true;
   }
 
   /**
@@ -243,10 +242,7 @@ export class CoverImageUploadComponent implements OnChanges {
    */
   onImageError(event: Event): void {
     this.imageError = true;
-    // console.error('Image load error:', event);
-    // console.error('Failed image URL:', this.coverImageUrl);
-    // console.error('Current image key:', this.coverImageKey);
-    // console.error('Stored public URL:', this.currentPublicUrl);
+    this.isImageLoaded = false;
 
     // 延迟重置错误状态，允许用户重试
     setTimeout(() => {
