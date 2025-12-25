@@ -79,7 +79,6 @@ export class ArticlesComponent implements OnInit {
     'select',
     'id',
     'title',
-    'content',
     'coverImage',
     'slug',
     'tags',
@@ -223,8 +222,9 @@ export class ArticlesComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id
-      }`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.id
+    }`;
   }
 
   publishSelected(): void {
@@ -246,7 +246,8 @@ export class ArticlesComponent implements OnInit {
         error: (err) => {
           // console.error('Error in batch update:', err);
           this.snackBarService.showError(
-            `Batch publish articles failed, please try again later. reason: ${err.error?.message || ''
+            `Batch publish articles failed, please try again later. reason: ${
+              err.error?.message || ''
             }`
           );
         },
@@ -275,7 +276,8 @@ export class ArticlesComponent implements OnInit {
         error: (err) => {
           // console.error('Error in batch update:', err);
           this.snackBarService.showError(
-            `Batch unpublish articles failed, please try again later. reason: ${err.error?.message || ''
+            `Batch unpublish articles failed, please try again later. reason: ${
+              err.error?.message || ''
             }`
           );
         },
@@ -306,7 +308,8 @@ export class ArticlesComponent implements OnInit {
         error: (err) => {
           // console.error('Error in batch update:', err);
           this.snackBarService.showError(
-            `Batch delete articles failed, please try again later. reason: ${err.error?.message || ''
+            `Batch delete articles failed, please try again later. reason: ${
+              err.error?.message || ''
             }`
           );
         },
