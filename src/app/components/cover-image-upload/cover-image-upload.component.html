@@ -21,35 +21,10 @@
   </div>
 
   <!-- 上传中或加载中显示骨架屏 -->
-  <div *ngIf="isUploading || (coverImageUrl && !isImageLoaded)" class="skeleton-loader">
-    <div class="skeleton-content">
-      <div *ngIf="isUploading" class="upload-progress-content">
-        <div class="upload-preview">
-          <div class="preview-placeholder">
-            <mat-icon class="upload-icon">cloud_upload</mat-icon>
-            <span class="upload-text">正在上传...</span>
-          </div>
-        </div>
-
-        <div class="progress-container">
-          <mat-progress-bar mode="determinate" [value]="uploadProgress?.percentage || 0"
-            class="upload-progress"></mat-progress-bar>
-          <div class="progress-text">
-            <span>{{ uploadProgress?.percentage || 0 }}%</span>
-            <span *ngIf="uploadProgress" class="file-size">
-              ({{ formatFileSize(uploadProgress.loaded) }} /
-              {{ formatFileSize(uploadProgress.total) }})
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 图片加载中的骨架动画 -->
-      <div *ngIf="!isUploading" class="loading-placeholder">
-        <mat-icon class="loading-icon">image</mat-icon>
-      </div>
-    </div>
-  </div>
+  <!-- 上传中或加载中显示骨架屏 -->
+  <app-cover-image-skeleton *ngIf="isUploading || (coverImageUrl && !isImageLoaded)" [isUploading]="isUploading"
+    [uploadProgress]="uploadProgress">
+  </app-cover-image-skeleton>
 
   <!-- 已有封面图时显示预览和操作按钮 -->
   <!-- 注意：即使在加载中也保留在DOM中以触发(load)事件，但通过样式隐藏 -->

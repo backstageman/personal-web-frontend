@@ -1,0 +1,29 @@
+<div class="skeleton-loader">
+    <div class="skeleton-content">
+        <div *ngIf="isUploading" class="upload-progress-content">
+            <div class="upload-preview">
+                <div class="preview-placeholder">
+                    <mat-icon class="upload-icon">cloud_upload</mat-icon>
+                    <span class="upload-text">正在上传...</span>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <mat-progress-bar mode="determinate" [value]="uploadProgress?.percentage || 0"
+                    class="upload-progress"></mat-progress-bar>
+                <div class="progress-text">
+                    <span>{{ uploadProgress?.percentage || 0 }}%</span>
+                    <span *ngIf="uploadProgress" class="file-size">
+                        ({{ formatFileSize(uploadProgress.loaded) }} /
+                        {{ formatFileSize(uploadProgress.total) }})
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图片加载中的骨架动画 -->
+        <div *ngIf="!isUploading" class="loading-placeholder">
+            <mat-icon class="loading-icon">image</mat-icon>
+        </div>
+    </div>
+</div>

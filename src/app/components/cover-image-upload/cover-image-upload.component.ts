@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CoverImageSkeletonComponent } from '../cover-image-skeleton/cover-image-skeleton.component';
 
 import {
   UploadService,
@@ -40,6 +41,7 @@ import { ArticleUploadType } from '../../shared/models/upload-type.model';
     MatDialogModule,
     MatSnackBarModule,
     MatTooltipModule,
+    CoverImageSkeletonComponent,
   ],
   templateUrl: './cover-image-upload.component.html',
   styleUrls: ['./cover-image-upload.component.scss'],
