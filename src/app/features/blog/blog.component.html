@@ -1,6 +1,11 @@
-<div class="center">
-  <app-article-item
-    *ngFor="let article of articles"
-    [article]="article"
-  ></app-article-item>
+<div class="blog-container">
+  <div class="blog-grid">
+    <ng-container *ngIf="isLoading; else articleList">
+      <app-project-list-item-skeleton *ngFor="let i of [1, 2, 3, 4, 5, 6]"></app-project-list-item-skeleton>
+    </ng-container>
+    <ng-template #articleList>
+      <app-project-list-item *ngFor="let article of articles" [project]="$any(article)"
+        [baseRoute]="'/blog'"></app-project-list-item>
+    </ng-template>
+  </div>
 </div>

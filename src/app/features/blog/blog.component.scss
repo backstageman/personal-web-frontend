@@ -1,9 +1,13 @@
-.center {
-  max-width: 1440px;
+.blog-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+.blog-grid {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 40px;
-  margin: 0 auto;
+  gap: 40px;
 }

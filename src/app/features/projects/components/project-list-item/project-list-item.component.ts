@@ -12,6 +12,7 @@ import { ProjectPublic } from '../../../../models/project-public.model';
 })
 export class ProjectListItemComponent {
   @Input() project!: ProjectPublic;
+  @Input() baseRoute: string = '/projects/article';
   private router = inject(Router);
 
   // 默认图片路径
@@ -58,7 +59,7 @@ export class ProjectListItemComponent {
   goToProjectDetail(event: Event): void {
     event.preventDefault();
     if (this.project && this.project.id) {
-      this.router.navigate(['/projects/article', this.project.id]);
+      this.router.navigate([this.baseRoute, this.project.id]);
     }
   }
 }
