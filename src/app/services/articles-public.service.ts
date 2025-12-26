@@ -6,27 +6,26 @@ import {
   ArticlePublicResponse,
 } from '../models/article-public.model';
 import { environment } from '../../environments/environment';
+import { ArticleQuery } from '../shared/interfaces/article-query';
+import { O } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticlesPublicService {
-  private API = `${environment.apiUrl}/public/articles`;
+  private readonly API = `${environment.apiUrl}/public/articles`;
 
   constructor(private http: HttpClient) {}
 
-  getAllArticles(
-    page = 1,
-    limit = 10,
-    search = ''
-  ): Observable<ArticlePublicResponse> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('limit', limit.toString());
+  getAllArticles(query: ArticleQuery = {}): Observable<ArticlePublicResponse> {
+    let params = new HttpParams();
 
-    /*if (search) {
-      params = params.set('search', search);
-    } */
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        params = params.set(key, value.toString());
+      }
+    });
+
     return this.http
       .get<ArticlePublicResponse>(this.API, {
         params,

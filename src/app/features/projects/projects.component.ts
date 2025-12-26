@@ -6,7 +6,8 @@ import {
   ProjectPublic,
   ProjectPublicResponse,
 } from '../../models/project-public.model';
-import { ProjectsPublicService } from '../../services/projects-public.service';
+import { ArticlesPublicService } from '../../services/articles-public.service';
+import { ArticleType } from '../../core/auth/models/article-type.enum';
 
 @Component({
   selector: 'app-projects',
@@ -23,7 +24,7 @@ export class ProjectsComponent implements OnInit {
   projects: ProjectPublic[] = [];
   isLoading = true;
 
-  constructor(private projectService: ProjectsPublicService) {}
+  constructor(private articleService: ArticlesPublicService) {}
 
   ngOnInit(): void {
     this.fetchProjects();
@@ -31,17 +32,19 @@ export class ProjectsComponent implements OnInit {
 
   fetchProjects(page: number = 1, limit: number = 10): void {
     this.isLoading = true;
-    this.projectService.getAllProjects(page, limit).subscribe({
-      next: (result: ProjectPublicResponse) => {
-        this.projects = result.data;
-        // console.log('Fetched projects:', this.projects);
-      },
-      error: (error) => {
-        // console.error('Error fetching projects:', error);
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
+    this.articleService
+      .getAllArticles({ page, limit, type: ArticleType.TECH })
+      .subscribe({
+        next: (result: ProjectPublicResponse) => {
+          this.projects = result.data;
+          // console.log('Fetched projects:', this.projects);
+        },
+        error: (error) => {
+          // console.error('Error fetching projects:', error);
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+      });
   }
 }

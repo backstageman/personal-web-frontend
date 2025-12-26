@@ -7,6 +7,7 @@ import {
   ArticlePublicResponse,
 } from '../../models/article-public.model';
 import { ArticlesPublicService } from '../../services/articles-public.service';
+import { ArticleType } from '../../core/auth/models/article-type.enum';
 
 @Component({
   selector: 'app-blog',
@@ -24,7 +25,7 @@ export class BlogComponent implements OnInit {
   isLoading = true;
 
   // private articleService = ArticlesPublicService;
-  constructor(private articleService: ArticlesPublicService) { }
+  constructor(private articleService: ArticlesPublicService) {}
 
   ngOnInit(): void {
     this.fetchArticles();
@@ -32,17 +33,19 @@ export class BlogComponent implements OnInit {
 
   fetchArticles(page: number = 1, limit: number = 10): void {
     this.isLoading = true;
-    this.articleService.getAllArticles(page, limit).subscribe({
-      next: (result: ArticlePublicResponse) => {
-        this.articles = result.data;
-        // console.log('Fetched articles:', this.articles);
-      },
-      error: (error) => {
-        // console.error('Error fetching articles:', error);
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
+    this.articleService
+      .getAllArticles({ page, limit, type: ArticleType.NON_TECH })
+      .subscribe({
+        next: (result: ArticlePublicResponse) => {
+          this.articles = result.data;
+          // console.log('Fetched articles:', this.articles);
+        },
+        error: (error) => {
+          // console.error('Error fetching articles:', error);
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+      });
   }
 }
