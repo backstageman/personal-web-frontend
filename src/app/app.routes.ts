@@ -29,17 +29,17 @@ export const routes: Routes = [
           ).then((m) => m.ArticlePreviewComponent),
       },
       {
-        path: 'about',
-        loadComponent: () =>
-          import('./features/resume/resume.component').then(
-            (m) => m.ResumeComponent
-          ),
-      },
-      {
         path: 'projects',
         loadComponent: () =>
           import('./features/projects/projects.component').then(
             (m) => m.ProjectsComponent
+          ),
+      },
+      {
+        path: 'about',
+        loadComponent: () =>
+          import('./features/resume/resume.component').then(
+            (m) => m.ResumeComponent
           ),
       },
       {
