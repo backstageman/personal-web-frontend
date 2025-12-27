@@ -1,3 +1,4 @@
+import { ArticleType } from '../core/auth/models/article-type.enum';
 import { User } from './user.model';
 
 export interface Author {
@@ -14,6 +15,7 @@ export interface Article {
   viewCount?: number; //阅读次数
   tags?: string[]; //标签
   isPublished: boolean; //是否发布, 默认不发布
+  type: ArticleType; //文章类型
   isDeleted: boolean; // 逻辑删除
   createdAt: Date;
   updatedAt: Date;

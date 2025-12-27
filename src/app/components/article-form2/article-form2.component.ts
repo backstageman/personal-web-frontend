@@ -18,6 +18,9 @@ import { Subscription } from 'rxjs';
 import { CoverImageUploadComponent } from '../cover-image-upload/cover-image-upload.component';
 import { MarkdownEditorComponent } from '../markdown-editor/markdown-editor.component';
 import { ViewChild } from '@angular/core';
+import { ArticleType } from '../../core/auth/models/article-type.enum';
+import { ARTICLE_TYPE_OPTIONS } from '../../core/auth/models/article-type.label';
+import { MatSelectModule } from '@angular/material/select';
 
 type PageMode = 'create' | 'edit' | 'view';
 
@@ -34,6 +37,7 @@ type PageMode = 'create' | 'edit' | 'view';
     MatSnackBarModule,
     MatSlideToggleModule,
     MatChipsModule,
+    MatSelectModule,
     ReactiveFormsModule,
     CoverImageUploadComponent,
     MarkdownEditorComponent,
@@ -47,6 +51,7 @@ export class ArticleForm2Component implements OnInit {
   @Input() article: Article | null = null;
   @Output() submitForm = new EventEmitter<Partial<Article>>();
   @Output() cancel = new EventEmitter<Event>();
+  public articleTypeOptions = ARTICLE_TYPE_OPTIONS;
 
   loading = false;
   form!: FormGroup;
@@ -60,7 +65,7 @@ export class ArticleForm2Component implements OnInit {
     private loc: Location,
     private api: ArticlesService,
     private sb: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const pageLoadStartTime = performance.now();
@@ -74,6 +79,7 @@ export class ArticleForm2Component implements OnInit {
       coverImage: [this.article?.coverImage || null],
       tags: [this.article?.tags?.join(', ') || []],
       isPublished: [this.article?.isPublished ?? false],
+      type: [this.article?.type ?? ArticleType.NON_TECH],
       isDeleted: [this.article?.isDeleted ?? false],
       viewCount: [this.article?.viewCount ?? 0],
       createdAt: [this.article?.createdAt ?? null],

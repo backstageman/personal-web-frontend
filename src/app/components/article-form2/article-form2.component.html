@@ -20,7 +20,11 @@
   <div class="content" [class.readonly]="mode === 'view'">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
       <!-- id（只读显示） -->
-      <mat-form-field appearance="outline" *ngIf="mode !== 'create'">
+      <mat-form-field
+        appearance="outline"
+        *ngIf="mode !== 'create'"
+        class="span-2"
+      >
         <mat-label>ID</mat-label>
         <input matInput formControlName="id" readonly />
       </mat-form-field>
@@ -74,6 +78,20 @@
       <mat-slide-toggle color="primary" formControlName="isPublished">
         是否发布
       </mat-slide-toggle>
+
+      <!-- 文章类型 -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Article Type: </mat-label>
+        <mat-select formControlName="type">
+          @for (option of articleTypeOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+
+        <mat-error *ngIf="form.get('type')?.hasError('required')">
+          Select the article type
+        </mat-error>
+      </mat-form-field>
 
       <!-- 只读信息 -->
       <mat-form-field appearance="outline" *ngIf="mode !== 'create'">
